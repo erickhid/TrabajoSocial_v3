@@ -5935,7 +5935,7 @@ Public Class BusinessLogicDB
 
         Try
 
-            Using cnn1 As New SqlConnection(ConfigurationManager.ConnectionStrings("conStringTS").ConnectionString)
+            Using cnn1 As New SqlConnection(_cn1)
                 'Dim cmd As SqlCommand = New SqlCommand
                 Dim cmd As SqlCommand = cnn1.CreateCommand()
                 cmd.CommandText = "SP_GuardaDireccion"

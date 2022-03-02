@@ -447,6 +447,14 @@ Partial Class calendario
         div_Adultos.Visible = True
         div_Pediatria.Visible = False
         llenahorarios1()
+
+        '******DIVs y Botones de guardar cancelar de la direccion y telefonos*********
+        divdir.Visible = False
+        divtels.Visible = False
+        BtnsGuardarTodo.Visible = False
+        BtnsGuardaDir.Visible = False
+        BtnsGuardarTels.Visible = False
+
     End Sub
 
     Protected Sub btn_buscar_Click(sender As Object, e As ImageClickEventArgs) Handles btn_buscar.Click
@@ -1357,36 +1365,37 @@ Partial Class calendario
     End Function
 
     Protected Sub Btn_DirGuardar_Click(sender As Object, e As EventArgs) Handles Btn_DirGuardar.Click
+        db.Cn1 = cn1
         'Guarda la direccion
         db.GuardaDireccion(AsignaDatosPacientesTS("DIR"), "DIR")
 
         Dim resultadoD As String = db.ResultadoG
 
-        ltl_error2.Text = "<span class='error'>" & resultadoD & "</span>"
+        MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
 
         LimpiaDatosPacientesTS("DIR")
 
     End Sub
 
     Protected Sub Btn_GuardarTel_Click(sender As Object, e As EventArgs) Handles Btn_GuardarTel.Click
+        db.Cn1 = cn1
         'Guarda los telefonos
         db.GuardaDireccion(AsignaDatosPacientesTS("TEL"), "TEL")
 
         Dim resultadoD As String = db.ResultadoG
 
-        ltl_error2.Text = "<span class='error'>" & resultadoD & "</span>"
+        MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
 
         LimpiaDatosPacientesTS("TEL")
     End Sub
     Protected Sub Btn_GuardarTodo_Click(sender As Object, e As EventArgs) Handles Btn_GuardarTodo.Click
+        db.Cn1 = cn1
         'Guarda los telefonos
         db.GuardaDireccion(AsignaDatosPacientesTS("TOD"), "TOD")
 
         Dim resultadoD As String = db.ResultadoG
 
-        ltl_error2.Text = "<span class='error'>" & resultadoD & "</span>"
-
-        ErrorMessage(Me, resultadoD, "Resultado")
+        MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
 
         LimpiaDatosPacientesTS("TOD")
     End Sub
@@ -1413,11 +1422,5 @@ Partial Class calendario
         BtnsGuardarTels.Visible = False
     End Sub
 
-    Public Sub ErrorMessage(ByVal Control As UI.Control, ByVal Message As String, Optional ByVal Title As String = "Alert", Optional ByVal callback As String = "")
-        Try
-            ScriptManager.RegisterStartupScript(Control, Control.GetType, "Script", "swal('" + Title + "','" + Message + "','message');", True)
-        Catch ex As Exception
-        End Try
-    End Sub
 End Class
 
