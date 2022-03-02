@@ -1,0 +1,114 @@
+﻿ 
+@import "TS.css";
+ul.dropdown li a {
+    display: block;
+    padding: 4px 8px 4px 8px;
+}
+/* ------------- Override default */
+ul.dropdown li
+{
+    padding: 0;
+}
+/* ------------- Reinitiate default: post-override activities  */
+ul.dropdown li.dir
+{
+    padding: 7px 10px 7px 10px;
+}
+ul.dropdown ul li.dir
+{
+    padding-right: 10px;
+}
+/* ------------- Custom */
+ul.dropdown li {}
+ul.dropdown ul a
+{
+    padding: 3px 6px 3px 13px;
+    width: 151px; /* Especially for IE */
+    background: url('../images/bullet.png') left center no-repeat;
+}
+ul.dropdown ul a:hover
+{
+    /*background-color: #aba392;*/
+    color: #FFFFFF;
+    background: url('../images/bullet_ov.png') left center no-repeat #aba392;
+}
+ul.dropdown a.open
+{
+    /*background-color: #2e2e2e;*/
+    background-color:#000000;
+    color: #FFFFFF;
+}
+ul.dropdown ul a.open
+{
+    background-color: #544e41;
+    color: #FFFFFF;
+}
+/* CSS 2.1 */
+ul.dropdown li:hover > a.dir
+{
+    background-color: #544e41;
+    /*background-color: #313131;*/
+    color: #FFFFFF;
+    /*background-image: url('../images/bckmenu.png');
+    background-repeat: repeat-x;*/
+}
+ul.dropdown ul li:hover > a.dir
+{
+    background-color: #544e41;
+    color: #FFFFFF;
+}
+/******************************/
+/***Menu Desconectar***********/
+/******************************/
+ul.dropdown1 li a {
+    display: block;
+    padding: 0px 0px 0px 0px;
+}
+/* ------------- Override default */
+ul.dropdown1 li
+{
+    padding: 0;
+}
+/* ------------- Reinitiate default: post-override activities  */
+ul.dropdown1 li.dir
+{
+    padding: 4px 4px 4px 4px;
+}
+ul.dropdown1 ul li.dir
+{
+    padding-right: 0px;
+}
+/* ------------- Custom */
+ul.dropdown1 li {}
+ul.dropdown1 ul a
+{
+    border-bottom:solid 1px #333333;
+    padding: 2px 4px 2px 4px;
+    display:block;
+    /*width: 95%; /* Especially for IE */
+}
+ul.dropdown1 ul a:hover
+{
+    background-color: #333333;
+    color: #FFFFFF;
+}
+ul.dropdown1 a.open
+{
+    background-color:#000000;
+    /*color: #FDC10B;*/
+}
+ul.dropdown1 ul a.open
+{
+    background-color: #333333;
+    color: #FFFFFF;
+}
+/* CSS 2.1 */
+ul.dropdown1 li:hover > a.dir
+{
+    background-color: #FFFFFF;
+}
+ul.dropdown1 ul li:hover > a.dir
+{
+    background-color: #333333;
+    color: #FFFFFF;
+}
