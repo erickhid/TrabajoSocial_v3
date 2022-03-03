@@ -337,6 +337,12 @@
                                                 <asp:Button ID="BtnActTodo" runat="server" Text="Ambos" CssClass="button" />
                                             </td>
                                         </tr>
+                                        <div id="DivResGD_DirTel_exito" runat="server" visible="false" CssClass="divgd_dirtelexito">
+                                            <asp:Label ID="lblResGD_DirTel" runat="server" Text=""></asp:Label>
+                                        </div>
+                                        <div id="DivResGD_DirTel_error" runat="server" visible="false" CssClass="divgd_dirtelerror">
+                                            <asp:Label ID="lblResGD_DirTel_Error" runat="server" Text=""></asp:Label>
+                                        </div>
                                         <div id="divdir" runat="server" visible="false">
                                         <%-- *********************Inicia Campos de Direcciones************************** --%>
                                             <tr>

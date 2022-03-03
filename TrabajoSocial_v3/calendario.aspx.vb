@@ -454,6 +454,10 @@ Partial Class calendario
         BtnsGuardarTodo.Visible = False
         BtnsGuardaDir.Visible = False
         BtnsGuardarTels.Visible = False
+        DivResGD_DirTel_error.Visible = False
+        DivResGD_DirTel_exito.Visible = False
+        lblResGD_DirTel.Text = String.Empty
+        lblResGD_DirTel_Error.Text = String.Empty
 
     End Sub
 
@@ -1370,8 +1374,20 @@ Partial Class calendario
         db.GuardaDireccion(AsignaDatosPacientesTS("DIR"), "DIR")
 
         Dim resultadoD As String = db.ResultadoG
+        Dim resultadoM As String = db.ResultadoG2
 
-        MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+        'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+
+        If resultadoM = "EXITO" Then
+            lblResGD_DirTel.Text = resultadoD
+            DivResGD_DirTel_exito.Visible = True
+        ElseIf resultadoM = "ERROR" Then
+            lblResGD_DirTel.Text = "No fue posible guardar el registro"
+            DivResGD_DirTel_error.Visible = True
+        Else
+            lblResGD_DirTel.Text = "Error inesperado"
+            DivResGD_DirTel_error.Visible = True
+        End If
 
         LimpiaDatosPacientesTS("DIR")
 
@@ -1383,8 +1399,20 @@ Partial Class calendario
         db.GuardaDireccion(AsignaDatosPacientesTS("TEL"), "TEL")
 
         Dim resultadoD As String = db.ResultadoG
+        Dim resultadoM As String = db.ResultadoG2
 
-        MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+        'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+
+        If resultadoM = "EXITO" Then
+            lblResGD_DirTel.Text = resultadoD
+            DivResGD_DirTel_exito.Visible = True
+        ElseIf resultadoM = "ERROR" Then
+            lblResGD_DirTel.Text = "No fue posible guardar el registro"
+            DivResGD_DirTel_error.Visible = True
+        Else
+            lblResGD_DirTel.Text = "Error inesperado"
+            DivResGD_DirTel_error.Visible = True
+        End If
 
         LimpiaDatosPacientesTS("TEL")
     End Sub
@@ -1394,8 +1422,20 @@ Partial Class calendario
         db.GuardaDireccion(AsignaDatosPacientesTS("TOD"), "TOD")
 
         Dim resultadoD As String = db.ResultadoG
+        Dim resultadoM As String = db.ResultadoG2
 
-        MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+        'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+
+        If resultadoM = "EXITO" Then
+            lblResGD_DirTel.Text = resultadoD
+            DivResGD_DirTel_exito.Visible = True
+        ElseIf resultadoM = "ERROR" Then
+            lblResGD_DirTel.Text = "No fue posible guardar el registro"
+            DivResGD_DirTel_error.Visible = True
+        Else
+            lblResGD_DirTel.Text = "Error inesperado"
+            DivResGD_DirTel_error.Visible = True
+        End If
 
         LimpiaDatosPacientesTS("TOD")
     End Sub

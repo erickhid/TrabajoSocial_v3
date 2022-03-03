@@ -14,6 +14,7 @@ Public Class BusinessLogicDB
     Private _pageO As String = ""
     Private Const TimeoutDB As Integer = 600
     Public ResultadoG As String
+    Public ResultadoG2 As String
 
     Public Property PageName() As String
         Get
@@ -5971,9 +5972,11 @@ Public Class BusinessLogicDB
                 cmd.ExecuteScalar()
 
                 ResultadoG = cmd.Parameters("@resultado").Value
+                ResultadoG2 = "EXITO"
 
             End Using
         Catch ex As SqlException
+            ResultadoG2 = "ERROR"
             _error = ex.Message
             _pageO = _page
             GrabarErrores(param.Usua & "|" & _page & "|" & ex.Number & "|" & ex.Message)

@@ -7,3 +7,19 @@
     border: solid 1px #b5b8ba;
     text-transform: uppercase;
 }
+.divgd_dirtelexito {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 15pt;
+    font-weight: bold;
+    color: #29B457;
+    text-align: left;
+    text-transform: uppercase;
+}
+.divgd_dirtelerror {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 15pt;
+    font-weight: bold;
+    color: #FF221F;
+    text-align: left;
+    text-transform: uppercase;
+}
