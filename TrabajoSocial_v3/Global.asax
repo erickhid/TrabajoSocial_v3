@@ -5,11 +5,11 @@
     Sub Application_Start(ByVal sender As Object, ByVal e As EventArgs)
         ' Code that runs on application startup
     End Sub
-    
+
     Sub Application_End(ByVal sender As Object, ByVal e As EventArgs)
         ' Code that runs on application shutdown
     End Sub
-        
+
     Sub Application_Error(ByVal sender As Object, ByVal e As EventArgs)
         ' Code that runs when an unhandled error occurs
     End Sub
@@ -68,8 +68,8 @@
             Session("datosGF") = ""
             Session("diareporte") = ""
             Session("feriados") = ""
-            Response.Redirect("~/inicio.aspx", False)
+            'Response.Redirect("~/inicio.aspx", False)
         End If
     End Sub
-       
+
 </script>

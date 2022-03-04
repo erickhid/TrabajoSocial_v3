@@ -1378,15 +1378,12 @@ Partial Class calendario
 
         'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
 
-        If resultadoM = "EXITO" Then
-            lblResGD_DirTel.Text = resultadoD
-            DivResGD_DirTel_exito.Visible = True
-        ElseIf resultadoM = "ERROR" Then
+        If resultadoD = "ERROR" Then
             lblResGD_DirTel.Text = "No fue posible guardar el registro"
             DivResGD_DirTel_error.Visible = True
         Else
-            lblResGD_DirTel.Text = "Error inesperado"
-            DivResGD_DirTel_error.Visible = True
+            lblResGD_DirTel.Text = resultadoD
+            DivResGD_DirTel_exito.Visible = True
         End If
 
         LimpiaDatosPacientesTS("DIR")
@@ -1403,15 +1400,12 @@ Partial Class calendario
 
         'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
 
-        If resultadoM = "EXITO" Then
-            lblResGD_DirTel.Text = resultadoD
-            DivResGD_DirTel_exito.Visible = True
-        ElseIf resultadoM = "ERROR" Then
+        If resultadoD = "ERROR" Then
             lblResGD_DirTel.Text = "No fue posible guardar el registro"
             DivResGD_DirTel_error.Visible = True
         Else
-            lblResGD_DirTel.Text = "Error inesperado"
-            DivResGD_DirTel_error.Visible = True
+            lblResGD_DirTel.Text = resultadoD
+            DivResGD_DirTel_exito.Visible = True
         End If
 
         LimpiaDatosPacientesTS("TEL")
@@ -1426,15 +1420,12 @@ Partial Class calendario
 
         'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
 
-        If resultadoM = "EXITO" Then
-            lblResGD_DirTel.Text = resultadoD
-            DivResGD_DirTel_exito.Visible = True
-        ElseIf resultadoM = "ERROR" Then
+        If resultadoD = "ERROR" Then
             lblResGD_DirTel.Text = "No fue posible guardar el registro"
             DivResGD_DirTel_error.Visible = True
         Else
-            lblResGD_DirTel.Text = "Error inesperado"
-            DivResGD_DirTel_error.Visible = True
+            lblResGD_DirTel.Text = resultadoD
+            DivResGD_DirTel_exito.Visible = True
         End If
 
         LimpiaDatosPacientesTS("TOD")

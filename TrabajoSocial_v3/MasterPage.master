@@ -33,8 +33,10 @@
 <body>
     <form id="form1" runat="server">
         <center>
-            <div style="width:792px; border:solid 5px #e8e4db;display:block; position:relative; left:auto; right:auto; background-color:#e8e4db;">
-                <div style="padding:0px; width:780px; height:24px; background-color:#aba392; text-align:left;">
+            <%-- ***********Contenedor Principal*************** --%>
+            <div class="contenedorprincipal">
+                <%-- ***************Contenedor de menu prinicipal************** --%>
+                <div class="contenedormenuprincipal" >
                     <table id="cabecera" border="0" cellpadding="0" cellspacing="0" style="width:780px;">
                         <tr>
                             <td style="padding:0px;">
@@ -118,7 +120,8 @@
                         </tr>
                     </table>
                 </div>
-                <div style="padding:5px; width:780px; border:solid 1px #aba392; background-color:#FFFFFF; display:block;">
+                <%-- ************Contenedor de paginas*************** --%>
+                <div class="contenedordepaginas" >
                     <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
                 
                     </asp:ContentPlaceHolder>

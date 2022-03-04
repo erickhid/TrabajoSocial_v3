@@ -17,11 +17,11 @@
                 </Scripts>
     </asp:ScriptManager>
 	
-    <div style="width: 780px; border: solid 1px #5d7b9d; text-align: left;">
+    <div class="contenedorprincipalcalendario" >
 
 
         <center>
-            <table id="tblbasal" border="0" cellpadding="2" cellspacing="1" style="width: 760px; text-align: left;">
+            <table id="tblbasal" border="0" cellpadding="2" cellspacing="1" class="tablaprincipalcalendario" >
                 <tr>
                     <th colspan="2" class="theader">CITAS POR CALENDARIO</th>
                     <asp:TextBox   ID="controlID" style="display:none" runat="server" ></asp:TextBox>                   
@@ -36,7 +36,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 380px; vertical-align: top;">
+                    <td class="columnaunocalendario" >
                         <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
                             <ContentTemplate>
                                 <asp:Panel ID="pnl_calendar" runat="server" CssClass="calendar">
@@ -57,179 +57,179 @@
                                     <!-- This is needed to force the container (inc. background) around all the days if Days are floated with CSS -->
 
                                     <div id="div_no_citas" runat="server" visible="false">
-                                        <table style="width: 365px; vertical-align: top;">
+                                        <table class="tablahorariocitascalendario" >
                                             <tr>
                                                 <td colspan="6" class="calendarMonthSelector" style="height: 24px; color: #ffffff; font-size: 10pt; text-align: center;">HORARIOS CITAS
                                                     <asp:Label ID="lbl_dia_horario" runat="server" Text=""></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="width: 90px; background-color: #5d7b9d; color: #ffffff; height: 20px; font-size: 18px">
+                                                <td class="columnahorariolistacitas" >
                                                     <asp:Label ID="lbl_BH_header" runat="server" Text="Horario"></asp:Label>
                                                 </td>
-                                                <td style="background-color: #5d7b9d; color: #ffffff; height: 20px; font-size: 18px; width: 32px;">
+                                                <td class="columnaclinica2alistacitas" >
                                                     <asp:Label ID="lbl_BH_header2" runat="server" Text="2. AVE"></asp:Label>
                                                 </td>
-                                                <td style="background-color: #5d7b9d; color: #ffffff; height: 20px; font-size: 18px; width: 62px;">
+                                                <td class="columnadispoclinica2alistacitas" >
                                                     <asp:Label ID="lbl_BH_header3" runat="server" Text="Status Horario"></asp:Label>
                                                 </td>
-                                                <td style="background-color: #5d7b9d; color: #ffffff; height: 20px; font-size: 18px">
+                                                <td class="columnaclinica1alistacitas" >
                                                     <asp:Label ID="lbl_BH_header4" runat="server" Text="1. AVE"></asp:Label>
                                                 </td>
-                                                <td style="background-color: #5d7b9d; color: #ffffff; height: 20px; font-size: 18px">
+                                                <td class="columnadispoclinica1alistacitas" >
                                                     <asp:Label ID="lbl_BH_header5" runat="server" Text="Status Horario"></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-size: 18px; font-weight: bold">
+                                                <td class="coldatoshoralistacitas">
                                                     <asp:Label ID="lbl_B_1" runat="server" Text="07:00 - 08:00"></asp:Label>
                                                 </td>
-                                                <td style="font-size: 22px; font-weight: bold; width: 32px;">
+                                                <td class="coldatoscantidadpaclistacitas">
                                                     <asp:Label ID="lbl_B_1_citas" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_1_citas_status" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 22px; font-weight: bold; width: 32px;">
+                                                <td class="colstatushorarioclinica1alistacitas">
                                                     <asp:Label ID="lbl_B_1_citas_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_1_citas_status_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-size: 15px; font-weight: bold">
+                                                <td class="coldatoshoralistacitas">
                                                     <asp:Label ID="lbl_B_2" runat="server" Text="08:00 - 09:00"></asp:Label>
                                                 </td>
-                                                <td style="font-size: 15px; font-weight: bold; width: 32px;">
+                                                <td class="coldatoscantidadpaclistacitas">
                                                     <asp:Label ID="lbl_B_2_citas" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_2_citas_status" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 22px; font-weight: bold; width: 32px;">
+                                                <td class="colstatushorarioclinica1alistacitas"
                                                     <asp:Label ID="lbl_B_2_citas_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_2_citas_status_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-size: 15px; font-weight: bold">
+                                                <td class="coldatoshoralistacitas">
                                                     <asp:Label ID="lbl_B_3" runat="server" Text="09:00 - 10:00"></asp:Label>
                                                 </td>
-                                                <td style="font-size: 15px; font-weight: bold; width: 32px;">
+                                                <td class="coldatoscantidadpaclistacitas">
                                                     <asp:Label ID="lbl_B_3_citas" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_3_citas_status" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 22px; font-weight: bold; width: 32px;">
+                                                <td class="colstatushorarioclinica1alistacitas">
                                                     <asp:Label ID="lbl_B_3_citas_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_3_citas_status_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-size: 15px; font-weight: bold">
+                                                <td class="coldatoshoralistacitas" >
                                                     <asp:Label ID="lbl_B_4" runat="server" Text="10:00 - 11:00"></asp:Label>
                                                 </td>
-                                                <td style="font-size: 15px; font-weight: bold; width: 32px;">
+                                                <td class="coldatoscantidadpaclistacitas" >
                                                     <asp:Label ID="lbl_B_4_citas" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas" >
                                                     <asp:Label ID="lbl_B_4_citas_status" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 22px; font-weight: bold; width: 32px;">
+                                                <td class="colstatushorarioclinica1alistacitas" >
                                                     <asp:Label ID="lbl_B_4_citas_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas" >
                                                     <asp:Label ID="lbl_B_4_citas_status_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-size: 15px; font-weight: bold">
+                                                <td class="coldatoshoralistacitas">
                                                     <asp:Label ID="lbl_B_5" runat="server" Text="11:00 - 12:00"></asp:Label>
                                                 </td>
-                                                <td style="font-size: 15px; font-weight: bold; width: 32px;">
+                                                <td class="coldatoscantidadpaclistacitas">
                                                     <asp:Label ID="lbl_B_5_citas" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_5_citas_status" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 22px; font-weight: bold; width: 32px;">
+                                                <td class="colstatushorarioclinica1alistacitas">
                                                     <asp:Label ID="lbl_B_5_citas_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_5_citas_status_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-size: 15px; font-weight: bold">
+                                                <td class="coldatoshoralistacitas">
                                                     <asp:Label ID="lbl_B_6" runat="server" Text="12:00 - 13:00"></asp:Label>
                                                 </td>
-                                                <td style="font-size: 15px; font-weight: bold; width: 32px;">
+                                                <td class="coldatoscantidadpaclistacitas">
                                                     <asp:Label ID="lbl_B_6_citas" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_6_citas_status" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 22px; font-weight: bold; width: 32px;">
+                                                <td class="colstatushorarioclinica1alistacitas";">
                                                     <asp:Label ID="lbl_B_6_citas_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_6_citas_status_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-size: 15px; font-weight: bold">
+                                                <td class="coldatoshoralistacitas">
                                                     <asp:Label ID="lbl_B_7" runat="server" Text="13:00 - 14:00"></asp:Label>
                                                 </td>
-                                                <td style="font-size: 15px; font-weight: bold; width: 32px;">
+                                                <td class="coldatoscantidadpaclistacitas">
                                                     <asp:Label ID="lbl_B_7_citas" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_7_citas_status" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 22px; font-weight: bold; width: 32px;">
+                                                <td class="colstatushorarioclinica1alistacitas">
                                                     <asp:Label ID="lbl_B_7_citas_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_7_citas_status_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-size: 15px; font-weight: bold">
+                                                <td class="coldatoshoralistacitas">
                                                     <asp:Label ID="lbl_B_8" runat="server" Text="14:00 - 15:00"></asp:Label>
                                                 </td>
-                                                <td style="font-size: 15px; font-weight: bold; width: 32px;">
+                                                <td class="coldatoscantidadpaclistacitas">
                                                     <asp:Label ID="lbl_B_8_citas" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_8_citas_status" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 22px; font-weight: bold; width: 32px;">
+                                                <td class="colstatushorarioclinica1alistacitas">
                                                     <asp:Label ID="lbl_B_8_citas_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_8_citas_status_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-size: 15px; font-weight: bold">
+                                                <td class="coldatoshoralistacitas">
                                                     <asp:Label ID="lbl_B_9" runat="server" Text="15:00 - 16:00"></asp:Label>
                                                 </td>
-                                                <td style="font-size: 15px; font-weight: bold; width: 32px;">
+                                                <td class="coldatoscantidadpaclistacitas">
                                                     <asp:Label ID="lbl_B_9_citas" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_9_citas_status" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 22px; font-weight: bold; width: 32px;">
+                                                <td class="colstatushorarioclinica1alistacitas">
                                                     <asp:Label ID="lbl_B_9_citas_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td style="font-size: 11px; width: 62px;">
+                                                <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_9_citas_status_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
                                             </tr>
@@ -255,18 +255,18 @@
 
 
                
-                    <td style="width: 380px; vertical-align: top;">
+                    <td class="columnadoscalendario" >
                         <div id="div_Adultos" runat="server" visible="false">
                             <asp:UpdatePanel ID="UpdatePanel3" runat="server">
                                 <ContentTemplate>
                                     <table border="0" cellpadding="2" cellspacing="1" class="cita">
 
                                         <tr>
-                                            <td colspan="4" class="calendarMonthSelector" style="height: 24px; color: #ffffff; font-size: 10pt; text-align: center;">INGRESO PROXIMA CITA ADULTOS
+                                            <td colspan="5" class="calendarMonthSelector" style="height: 24px; color: #ffffff; font-size: 10pt; text-align: center;">INGRESO PROXIMA CITA ADULTOS
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 90px; background-color: #5d7b9d; color: #ffffff;">Número ASI:
+                                            <td class="columnacodigoasititulo" >Número ASI:
                                             </td>
                                             <td colspan="3" style="background-color: #e9ecf1; padding: 0px; text-align: left;">
                                                 <table id="tblNHC" border="0" cellpadding="0" cellspacing="0">
@@ -287,9 +287,9 @@
                                             </td>
                                         </tr>
                                         <tr style="height: 24px;">
-                                            <td style="width: 90px; background-color: #5d7b9d; color: #ffffff;">Nombre:
+                                            <td class="columnacodigoasititulo" >Nombre:
                                             </td>
-                                            <td colspan="3" style="background-color: #e9ecf1;">
+                                            <td colspan="4" style="background-color: #e9ecf1;">
                                                 <input id="hd_idpaciente" type="hidden" runat="server" />
                                                 <input id="hd_idsignosvitales" type="hidden" runat="server" />
                                                 <input id="hd_idcitas" type="hidden" runat="server" />
@@ -297,51 +297,59 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 90px; background-color: #5d7b9d; color: #ffffff;">Género:
+                                            <td class="columnacodigoasititulo" >Género:
                                             </td>
-                                            <td style="width: 70px; background-color: #e9ecf1;">
+                                            <td class="colgenerodatospaciente" >
                                                 <asp:Label ID="lbl_genero" runat="server"></asp:Label>
                                             </td>
-                                            <td style="width: 60px; background-color: #5d7b9d; color: #ffffff;">Edad:
+                                            <td class="coledaddatospaciente" >Edad:
                                             </td>
-                                            <td style="width: 180px; background-color: #e9ecf1;">
+                                            <td class="coledadtxtdatospaciente" colspan="2">
                                                 <asp:Label ID="lbl_edad" runat="server"></asp:Label>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 90px; background-color: #5d7b9d; color: #ffffff;">Telefono(s):
+                                            <td class="columnacodigoasititulo">Telefono(s):
                                             </td>
-                                            <td colspan="3" style="background-color: #e9ecf1;">
+                                            <td colspan="4" style="background-color: #e9ecf1;">
                                                 <asp:Label ID="lbl_telefono" runat="server"></asp:Label>
                                             </td>
                                         </tr>
                                         <tr style="height: 46px;">
-                                            <td style="width: 90px; background-color: #5d7b9d; color: #ffffff;">Dirección:
+                                            <td class="columnacodigoasititulo">Dirección:
                                             </td>
-                                            <td colspan="3" style="background-color: #e9ecf1;">
+                                            <td colspan="4" style="background-color: #e9ecf1;">
                                                 <asp:Label ID="lbl_direccion" runat="server"></asp:Label>
                                             </td>
                                         </tr>
                                         <tr style="height: 25px;">
-                                            <td style="width: 90px; background-color: #5d7b9d; color: #ffffff;">TyT:
+                                            <td class="columnacodigoasititulo">TyT:
                                             </td>
-                                            <td colspan="2" style="background-color: #e9ecf1;">
+                                            <td colspan="3" style="background-color: #e9ecf1;">
                                                 <asp:Label ID="lbl_tyt_pac" runat="server"></asp:Label>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="4" style="padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
+                                            <td colspan="5" style="padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
                                                 <%-- colcoar aqui el boton --%>
                                                 <asp:Button ID="BtnActDir" runat="server" Text="Dirección" CssClass="button" /> 
                                                 <asp:Button ID="BtnActTel" runat="server" Text="Teléfonos" CssClass="button" />
                                                 <asp:Button ID="BtnActTodo" runat="server" Text="Ambos" CssClass="button" />
                                             </td>
                                         </tr>
-                                        <div id="DivResGD_DirTel_exito" runat="server" visible="false" CssClass="divgd_dirtelexito">
-                                            <asp:Label ID="lblResGD_DirTel" runat="server" Text=""></asp:Label>
+                                        <div id="DivResGD_DirTel_exito" runat="server" visible="false" >
+                                        <tr>
+                                            <td colspan="5">
+                                            <asp:Label ID="lblResGD_DirTel" runat="server" Text="" CssClass="divgd_dirtelexito"></asp:Label>
+                                            </td>
+                                        </tr>
                                         </div>
-                                        <div id="DivResGD_DirTel_error" runat="server" visible="false" CssClass="divgd_dirtelerror">
-                                            <asp:Label ID="lblResGD_DirTel_Error" runat="server" Text=""></asp:Label>
+                                        <div id="DivResGD_DirTel_error" runat="server" visible="false" >
+                                        <tr>
+                                            <td colspan="5">
+                                            <asp:Label ID="lblResGD_DirTel_Error" runat="server" Text="" CssClass="divgd_dirtelerror"></asp:Label>
+                                            </td>
+                                        </tr>
                                         </div>
                                         <div id="divdir" runat="server" visible="false">
                                         <%-- *********************Inicia Campos de Direcciones************************** --%>
@@ -356,7 +364,7 @@
                                                 <td>
                                                     <asp:Label ID="lbldepartamento" runat="server" Text="Departamento"></asp:Label>
                                                 </td>
-                                                <td>
+                                                <td colspan="2">
                                                     <asp:DropDownList ID="ddl_ListaDepartamentos" runat="server" AutoPostBack="true"></asp:DropDownList>
                                                 </td>
                                             </tr>
@@ -370,7 +378,7 @@
                                                 <td>
                                                     <asp:Label ID="lblzona" runat="server" Text="Zonas"></asp:Label>
                                                 </td>
-                                                <td>
+                                                <td  colspan="2">
                                                     <asp:DropDownList ID="ddl_ListaZonas" runat="server"></asp:DropDownList>
                                                 </td>
                                             </tr>
@@ -378,14 +386,14 @@
                                                <td>
                                                    <asp:Label ID="lbldirecciontxt" runat="server" Text="Direccion"></asp:Label>
                                                </td>
-                                                <td colspan="3">
+                                                <td colspan="4">
                                                     <asp:TextBox ID="txtdireccion" runat="server"></asp:TextBox>
                                                 </td>
                                             </tr>
                                             <div id="BtnsGuardaDir" runat="server" visible="false">
                                             <%-- ******************Botones para Guardar solo Direcciones******************** --%>
                                                 <tr>
-                                                    <td colspan="4" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
+                                                    <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
                                                         <asp:Button ID="Btn_DirGuardar" runat="server" Text="Guardar" CssClass="button" />
                                                         <asp:Button ID="Btn_DirCancelar" runat="server" Text="Cancelar" CssClass="button" />
                                                     </td>
@@ -400,13 +408,13 @@
                                                         <asp:Label ID="lbltelefono1" runat="server" Text="Telefono 1"></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:TextBox ID="txttelefono1" runat="server" CssClass="TELTS" MaxLength="8" Width="65px"></asp:TextBox>
+                                                        <asp:TextBox ID="txttelefono1" runat="server" CssClass="coltelefonosdatospaciente" MaxLength="8"></asp:TextBox>
                                                     </td>
                                                     <td>
                                                         <asp:Label ID="lblpertenecetel1" runat="server" Text="Pertenece"></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="ddl_pertenecetel1" runat="server"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddl_pertenecetel1" runat="server" ></asp:DropDownList>
                                                     </td>
                                                     <td>
                                                         <asp:CheckBox ID="chbconocetx1" runat="server" Text="Conoce DX:" TextAlign="Left" />
@@ -417,7 +425,7 @@
                                                         <asp:Label ID="lbltelefono2" runat="server" Text="Telefono 2"></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:TextBox ID="txttelefono2" runat="server" CssClass="TELTS" MaxLength="8" Width="65px"></asp:TextBox>
+                                                        <asp:TextBox ID="txttelefono2" runat="server" CssClass="coltelefonosdatospaciente" MaxLength="8"></asp:TextBox>
                                                     </td>
                                                     <td>
                                                         <asp:Label ID="lblpertenecetel2" runat="server" Text="Pertenece"></asp:Label>
@@ -434,7 +442,7 @@
                                                         <asp:Label ID="lbltelefono3" runat="server" Text="Telefono 3"></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:TextBox ID="txttelefono3" runat="server" CssClass="TELTS" MaxLength="8" Width="65px"></asp:TextBox>
+                                                        <asp:TextBox ID="txttelefono3" runat="server" CssClass="coltelefonosdatospaciente" MaxLength="8"></asp:TextBox>
                                                     </td>
                                                     <td>
                                                         <asp:Label ID="lblpertenecetel3" runat="server" Text="Pertenece"></asp:Label>
@@ -451,7 +459,7 @@
                                                         <asp:Label ID="lbltelefono4" runat="server" Text="Telefono 4"></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:TextBox ID="txttelefono4" runat="server" CssClass="TELTS" MaxLength="8" Width="65px"></asp:TextBox>
+                                                        <asp:TextBox ID="txttelefono4" runat="server" CssClass="coltelefonosdatospaciente" MaxLength="8"></asp:TextBox>
                                                     </td>
                                                     <td>
                                                         <asp:Label ID="lblpertenecetel4" runat="server" Text="Pertenece"></asp:Label>
@@ -466,7 +474,7 @@
                                                 <div id="BtnsGuardarTels" runat="server" visible="false">
                                                 <%-- ******************Botones para Guardar solo Telefonos*************** --%>
                                                 <tr>
-                                                    <td colspan="4" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
+                                                    <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
                                                         <asp:Button ID="Btn_GuardarTel" runat="server" Text="Guardar" CssClass="button" />
                                                         <asp:Button ID="Btn_CancelarTel" runat="server" Text="Cancelar" CssClass="button" />
                                                     </td>
@@ -475,7 +483,7 @@
                                                 <div id="BtnsGuardarTodo" runat="server" visible="false">
                                                 <%-- ******************Botones para Guardar Direcciones y Telefonos*************** --%>
                                                 <tr>
-                                                    <td colspan="4" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
+                                                    <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
                                                         <asp:Button ID="Btn_GuardarTodo" runat="server" Text="Guardar" CssClass="button" />
                                                         <asp:Button ID="Btn_CancelarTodo" runat="server" Text="Cancelar" CssClass="button" />
                                                     </td>
@@ -483,19 +491,19 @@
                                                 </div>
                                         <%-- *********************Finaliza Campos de Telefonos*********************** --%>    
                                         </div>
-                                        <tr>
-                                            <td style="width: 90px; background-color: #f18103; color: #ffffff; border-top: solid 1px #f18103;">Ultima:</td>
+                                        <tr> 
+                                            <td class="coltitulosdatoscitas" >Ultima:</td>
                                             <td style="border-top: solid 1px #f18103;">
                                                 <asp:Label ID="lbl_visita" runat="server" CssClass="fechavisita"></asp:Label>
                                             </td>
-                                            <td style="width: 60px; background-color: #f18103; color: #ffffff; border-top: solid 1px #f18103;">*&nbsp;Próxima:</td>
+                                            <td class="coltitulosdatoscitas" >*&nbsp;Próxima:</td>
                                             <td style="border-top: solid 1px #f18103; text-align: left;">
                                                 <%--    <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                                                                     <ContentTemplate>--%>
                                                 <table border="0" cellpadding="0" cellspacing="0">
                                                     <tr>
                                                         <td style="background-color: #e9ecf1; text-align: center;">
-                                                            <asp:TextBox ID="txt_fecha" runat="server" Style="width: 60px" AutoPostBack="True"></asp:TextBox>
+                                                            <asp:TextBox ID="txt_fecha" runat="server" Style="width: 7.5em" AutoPostBack="True"></asp:TextBox>
                                                         </td>
                                                         <td style="background-color: #e9ecf1; text-align: left;">
                                                             <cc1:CalendarExtender ID="CalendarExtender1" runat="server" PopupButtonID="ibtn_calendario" TargetControlID="txt_fecha" Format="dd/MM/yyyy" CssClass="ajax__calendar"></cc1:CalendarExtender>
@@ -519,10 +527,10 @@
                                         </tr>
 
                                         <tr>
-                                            <td style="width: 90px; background-color: #f18103; color: #ffffff;">*&nbsp;Día:</td>
-                                            <td style="width: 100px; padding-left: 5px;" colspan="1">
+                                            <td class="coltitulosdatoscitas" >*&nbsp;Día:</td>
+                                            <td style="padding-left: 5px;" colspan="1">
                                                 <asp:Label ID="lbl_dia_cita" runat="server" Text="" AutoPostBack="True"></asp:Label></td>
-                                            <td style="width: 90px; background-color: #f18103; color: #ffffff;">*&nbsp;Horario:</td>
+                                            <td class="coltitulosdatoscitas" >*&nbsp;Horario:</td>
                                             <td>
                                                 <asp:DropDownList ID="ddl_horario_cita" runat="server" AppendDataBoundItems="True" AutoPostBack="True">
                                                 </asp:DropDownList>
@@ -533,33 +541,33 @@
                                         </tr>
 
                                         <tr>
-                                            <td style="width: 90px; background-color: #f18103; color: #ffffff;">*&nbsp;Jornada:</td>
+                                            <td class="coltitulosdatoscitas" >*&nbsp;Jornada:</td>
                                             <td>
                                                 <asp:DropDownList ID="ddl_jornada" runat="server" AppendDataBoundItems="True">
                                                 </asp:DropDownList>
                                             </td>
-                                            <td style="width: 60px; background-color: #f18103; color: #ffffff;">*&nbsp;Clínica:</td>
+                                            <td class="coltitulosdatoscitas" >*&nbsp;Clínica:</td>
                                             <td>
                                                 <asp:DropDownList ID="ddl_clinica" runat="server" AppendDataBoundItems="True">
                                                 </asp:DropDownList>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 90px; background-color: #f18103; color: #ffffff;">&nbsp;Circuito G:</td>
-                                            <td style="width: 100px; padding-left: 5px; font-weight: bold;" colspan="3">
+                                            <td class="coltitulosdatoscitas" >&nbsp;Circuito G:</td>
+                                            <td style="padding-left: 5px; font-weight: bold;" colspan="3">
                                                 <asp:Label ID="lbl_circuito_est" runat="server" Text=""></asp:Label></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 90px; background-color: #f18103; color: #ffffff;">&nbsp;Grupo:</td>
-                                            <td style="width: 100px; padding-left: 5px; font-weight: bold;" colspan="1">
+                                            <td class="coltitulosdatoscitas">&nbsp;Grupo:</td>
+                                            <td style="padding-left: 5px; font-weight: bold;" colspan="1">
                                                 <asp:Label ID="lbl_circ_grupo" runat="server" Text=""></asp:Label></td>
 
-                                            <td style="width: 90px; background-color: #f18103; color: #ffffff;">&nbsp;Periodo:</td>
-                                            <td style="width: 100px; padding-left: 5px; font-weight: bold;" colspan="3">
+                                            <td class="coltitulosdatoscitas">&nbsp;Periodo:</td>
+                                            <td style="padding-left: 5px; font-weight: bold;" colspan="3">
                                                 <asp:Label ID="lbl_circ_periodo" runat="server" Text=""></asp:Label></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 100px; padding-left: 5px; font-weight: bold;" colspan="4">
+                                            <td style="padding-left: 5px; font-weight: bold;" colspan="5">
                                                 <asp:Label ID="lbl_horario_asignado" runat="server" Text="" Visible="False"></asp:Label>
                                             </td>
                                         </tr>
@@ -568,7 +576,7 @@
 
                                         <tr>
 
-                                            <td colspan="4" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
+                                            <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
                                                 <asp:Button ID="btn_agregar" runat="server"
                                                     Text="Agregar" CssClass="button" />
                                               
@@ -596,7 +604,7 @@
 
                 </tr>
                 <tr>
-                    <td style="width: 380px; vertical-align: top;"></td>
+                    <td class="tdareapediatrica" ></td>
                 </tr>
             </table>
 
@@ -616,7 +624,7 @@
                     <asp:Panel ID="PnlPopup" runat="server" CssClass="modalPopup" Style="display: block;">
                         <asp:UpdatePanel ID="UpdPnlDetalle" runat="server">
                             <ContentTemplate>
-                                <div style="background-color: #e9ecf1; width: 250px; border: solid 1px #888888; padding: 5px; font-family: 'trebuchet MS'; font-size: 8pt; font-weight: normal; border: solid 2px #aba392; -webkit-border-radius: 10px 10px 10px 10px;">
+                                <div class="tddosareapediatricaprueba" >
                                     <table>
                                         <tr>
                                             <td style="text-align: center; font-size: 16px;">

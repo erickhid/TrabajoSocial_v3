@@ -5972,11 +5972,11 @@ Public Class BusinessLogicDB
                 cmd.ExecuteScalar()
 
                 ResultadoG = cmd.Parameters("@resultado").Value
-                ResultadoG2 = "EXITO"
+                'ResultadoG = "EXITO"
 
             End Using
         Catch ex As SqlException
-            ResultadoG2 = "ERROR"
+            ResultadoG = "ERROR"
             _error = ex.Message
             _pageO = _page
             GrabarErrores(param.Usua & "|" & _page & "|" & ex.Number & "|" & ex.Message)

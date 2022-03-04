@@ -12,8 +12,9 @@
 <body>
     <form id="form1" runat="server">
         <center>
-            <div style="width:762px; border:solid 5px #e8e4db;display:block; position:relative; left:auto; right:auto; background-color:#e8e4db;">
-                <div style="padding:8px 5px 8px 5px; width:750px; border:solid 1px #aba392; background-color:#FFFFFF; display:block;">
+            <%-- ***********Contenedor Principal Inicio********************* --%>
+            <div class="contenedorprincipalinicio" >
+                <div class="contenedorsecundarioinicio" >
                     <br />
                     <br />
                     <br />
