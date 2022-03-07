@@ -1,9 +1,4 @@
-﻿
-
-
-
-
-.outer-container {
+﻿.outer-container {
     background: lightblue;
     width: 100%;
   
@@ -372,7 +367,7 @@
     border: 1px solid #ccc;
 }
 
-/*
+
 select {
     display: block;
     margin: 0 auto;
@@ -382,11 +377,8 @@ select {
     text-align: left;
     margin: 0;
     padding: 0;
-    font-size: 9px;
+    font-size: 12px;
 }
-*/
-
-
 
 .bootbox .modal-header h4 {
     order: 0;

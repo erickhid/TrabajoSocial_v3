@@ -268,7 +268,7 @@
                                         <tr>
                                             <td class="columnacodigoasititulo" >Número ASI:
                                             </td>
-                                            <td colspan="3" style="background-color: #e9ecf1; padding: 0px; text-align: left;">
+                                            <td colspan="4" style="background-color: #e9ecf1; padding: 0px; text-align: left;">
                                                 <table id="tblNHC" border="0" cellpadding="0" cellspacing="0">
                                                     <tr>
                                                         <td>
@@ -325,7 +325,7 @@
                                         <tr style="height: 25px;">
                                             <td class="columnacodigoasititulo">TyT:
                                             </td>
-                                            <td colspan="3" style="background-color: #e9ecf1;">
+                                            <td colspan="4" style="background-color: #e9ecf1;">
                                                 <asp:Label ID="lbl_tyt_pac" runat="server"></asp:Label>
                                             </td>
                                         </tr>
@@ -355,17 +355,17 @@
                                         <%-- *********************Inicia Campos de Direcciones************************** --%>
                                             <tr>
                                                 <td>
-                                                    <asp:Label ID="lblpais" runat="server" Text="Pais"></asp:Label>
+                                                    <asp:Label ID="lblpais" runat="server" Text="Pais" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                 </td>
                                                 <td>
-                                                    <asp:DropDownList ID="ListaPaises" runat="server" AutoPostBack="true" ></asp:DropDownList>
+                                                    <asp:DropDownList ID="ListaPaises" runat="server" AutoPostBack="true" CssClass="ddl_direccioncascadapaciete" ></asp:DropDownList>
 
                                                 </td>
                                                 <td>
                                                     <asp:Label ID="lbldepartamento" runat="server" Text="Departamento"></asp:Label>
                                                 </td>
                                                 <td colspan="2">
-                                                    <asp:DropDownList ID="ddl_ListaDepartamentos" runat="server" AutoPostBack="true" ></asp:DropDownList>
+                                                    <asp:DropDownList ID="ddl_ListaDepartamentos" runat="server" AutoPostBack="true" CssClass="ddl_direccioncascadapaciete"></asp:DropDownList>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -373,7 +373,7 @@
                                                     <asp:Label ID="lblmunicipio" runat="server" Text="Municipio"></asp:Label>
                                                 </td>
                                                 <td>
-                                                    <asp:DropDownList ID="ddl_ListaMunicipios" runat="server" AutoPostBack="true" ></asp:DropDownList>
+                                                    <asp:DropDownList ID="ddl_ListaMunicipios" runat="server" AutoPostBack="true" CssClass="ddl_direccioncascadapaciete"></asp:DropDownList>
                                                 </td>
                                                 <td>
                                                     <asp:Label ID="lblzona" runat="server" Text="Zonas"></asp:Label>
@@ -386,8 +386,8 @@
                                                <td>
                                                    <asp:Label ID="lbldirecciontxt" runat="server" Text="Direccion" ></asp:Label>
                                                </td>
-                                                <td colspan="4">
-                                                    <asp:TextBox ID="txtdireccion" runat="server" MaxLength="200"></asp:TextBox>
+                                                <td colspan="4" >
+                                                    <asp:TextBox ID="txtdireccion" runat="server" CssClass="txtdireccionclass"></asp:TextBox>
                                                 </td>
                                             </tr>
                                             <div id="BtnsGuardaDir" runat="server" visible="false">
@@ -405,13 +405,13 @@
                                         <%-- *********************Inicia Campos de Telefonos**************************** --%>    
                                                 <tr>
                                                     <td>
-                                                        <asp:Label ID="lbltelefono1" runat="server" Text="Telefono 1"></asp:Label>
+                                                        <asp:Label ID="lbltelefono1" runat="server" Text="Telefono 1" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="txttelefono1" runat="server" CssClass="coltelefonosdatospaciente" MaxLength="8"></asp:TextBox>
                                                     </td>
                                                     <td>
-                                                        <asp:Label ID="lblpertenecetel1" runat="server" Text="Pertenece"></asp:Label>
+                                                        <asp:Label ID="lblpertenecetel1" runat="server" Text="Pertenece" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                     </td>
                                                     <td>
                                                         <asp:DropDownList ID="ddl_pertenecetel1" runat="server" CssClass="ddl_pertenecedir" ></asp:DropDownList>
@@ -422,13 +422,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <asp:Label ID="lbltelefono2" runat="server" Text="Telefono 2"></asp:Label>
+                                                        <asp:Label ID="lbltelefono2" runat="server" Text="Telefono 2" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="txttelefono2" runat="server" CssClass="coltelefonosdatospaciente" MaxLength="8"></asp:TextBox>
                                                     </td>
                                                     <td>
-                                                        <asp:Label ID="lblpertenecetel2" runat="server" Text="Pertenece"></asp:Label>
+                                                        <asp:Label ID="lblpertenecetel2" runat="server" Text="Pertenece" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                     </td>
                                                     <td>
                                                         <asp:DropDownList ID="ddl_pertenecetel2" runat="server" CssClass="ddl_pertenecedir"></asp:DropDownList>
@@ -439,13 +439,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <asp:Label ID="lbltelefono3" runat="server" Text="Telefono 3"></asp:Label>
+                                                        <asp:Label ID="lbltelefono3" runat="server" Text="Telefono 3" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="txttelefono3" runat="server" CssClass="coltelefonosdatospaciente" MaxLength="8"></asp:TextBox>
                                                     </td>
                                                     <td>
-                                                        <asp:Label ID="lblpertenecetel3" runat="server" Text="Pertenece"></asp:Label>
+                                                        <asp:Label ID="lblpertenecetel3" runat="server" Text="Pertenece" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                     </td>
                                                     <td>
                                                         <asp:DropDownList ID="ddl_pertenecetel3" runat="server" CssClass="ddl_pertenecedir"></asp:DropDownList>
@@ -456,13 +456,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <asp:Label ID="lbltelefono4" runat="server" Text="Telefono 4"></asp:Label>
+                                                        <asp:Label ID="lbltelefono4" runat="server" Text="Telefono 4" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="txttelefono4" runat="server" CssClass="coltelefonosdatospaciente" MaxLength="8"></asp:TextBox>
                                                     </td>
                                                     <td>
-                                                        <asp:Label ID="lblpertenecetel4" runat="server" Text="Pertenece"></asp:Label>
+                                                        <asp:Label ID="lblpertenecetel4" runat="server" Text="Pertenece" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                     </td>
                                                     <td>
                                                         <asp:DropDownList ID="ddl_pertenecetel4" runat="server" CssClass="ddl_pertenecedir"></asp:DropDownList>
@@ -497,7 +497,7 @@
                                                 <asp:Label ID="lbl_visita" runat="server" CssClass="fechavisita"></asp:Label>
                                             </td>
                                             <td class="coltitulosdatoscitas" >*&nbsp;Próxima:</td>
-                                            <td style="border-top: solid 1px #f18103; text-align: left;">
+                                            <td style="border-top: solid 1px #f18103; text-align: left;" colspan="2">
                                                 <%--    <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                                                                     <ContentTemplate>--%>
                                                 <table border="0" cellpadding="0" cellspacing="0">
@@ -531,7 +531,7 @@
                                             <td style="padding-left: 5px;" colspan="1">
                                                 <asp:Label ID="lbl_dia_cita" runat="server" Text="" AutoPostBack="True"></asp:Label></td>
                                             <td class="coltitulosdatoscitas" >*&nbsp;Horario:</td>
-                                            <td>
+                                            <td colspan="2">
                                                 <asp:DropDownList ID="ddl_horario_cita" runat="server" AppendDataBoundItems="True" AutoPostBack="True">
                                                 </asp:DropDownList>
 
@@ -547,14 +547,14 @@
                                                 </asp:DropDownList>
                                             </td>
                                             <td class="coltitulosdatoscitas" >*&nbsp;Clínica:</td>
-                                            <td>
+                                            <td colspan="2">
                                                 <asp:DropDownList ID="ddl_clinica" runat="server" AppendDataBoundItems="True">
                                                 </asp:DropDownList>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="coltitulosdatoscitas" >&nbsp;Circuito G:</td>
-                                            <td style="padding-left: 5px; font-weight: bold;" colspan="3">
+                                            <td style="padding-left: 5px; font-weight: bold;" colspan="4">
                                                 <asp:Label ID="lbl_circuito_est" runat="server" Text=""></asp:Label></td>
                                         </tr>
                                         <tr>
