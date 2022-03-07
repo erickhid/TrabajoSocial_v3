@@ -351,21 +351,21 @@
                                             </td>
                                         </tr>
                                         </div>
-                                        <div id="divdir" runat="server" visible="false">
+                                        <div id="divdir" runat="server" visible="false" class="divdirclass" >
                                         <%-- *********************Inicia Campos de Direcciones************************** --%>
                                             <tr>
                                                 <td>
                                                     <asp:Label ID="lblpais" runat="server" Text="Pais"></asp:Label>
                                                 </td>
                                                 <td>
-                                                    <asp:DropDownList ID="ListaPaises" runat="server" AutoPostBack="true"></asp:DropDownList>
+                                                    <asp:DropDownList ID="ListaPaises" runat="server" AutoPostBack="true" ></asp:DropDownList>
 
                                                 </td>
                                                 <td>
                                                     <asp:Label ID="lbldepartamento" runat="server" Text="Departamento"></asp:Label>
                                                 </td>
                                                 <td colspan="2">
-                                                    <asp:DropDownList ID="ddl_ListaDepartamentos" runat="server" AutoPostBack="true"></asp:DropDownList>
+                                                    <asp:DropDownList ID="ddl_ListaDepartamentos" runat="server" AutoPostBack="true" ></asp:DropDownList>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -373,21 +373,21 @@
                                                     <asp:Label ID="lblmunicipio" runat="server" Text="Municipio"></asp:Label>
                                                 </td>
                                                 <td>
-                                                    <asp:DropDownList ID="ddl_ListaMunicipios" runat="server" AutoPostBack="true"></asp:DropDownList>
+                                                    <asp:DropDownList ID="ddl_ListaMunicipios" runat="server" AutoPostBack="true" ></asp:DropDownList>
                                                 </td>
                                                 <td>
                                                     <asp:Label ID="lblzona" runat="server" Text="Zonas"></asp:Label>
                                                 </td>
                                                 <td  colspan="2">
-                                                    <asp:DropDownList ID="ddl_ListaZonas" runat="server"></asp:DropDownList>
+                                                    <asp:DropDownList ID="ddl_ListaZonas" runat="server" CssClass="ddl_direccioncascadapaciete"></asp:DropDownList>
                                                 </td>
                                             </tr>
                                             <tr>
                                                <td>
-                                                   <asp:Label ID="lbldirecciontxt" runat="server" Text="Direccion"></asp:Label>
+                                                   <asp:Label ID="lbldirecciontxt" runat="server" Text="Direccion" ></asp:Label>
                                                </td>
                                                 <td colspan="4">
-                                                    <asp:TextBox ID="txtdireccion" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtdireccion" runat="server" MaxLength="200"></asp:TextBox>
                                                 </td>
                                             </tr>
                                             <div id="BtnsGuardaDir" runat="server" visible="false">
@@ -401,7 +401,7 @@
                                             </div>
                                         <%-- *********************Finaliza Campos de Direcciones************************ --%>
                                         </div>
-                                        <div id="divtels" runat="server" visible="false">
+                                        <div id="divtels" runat="server" visible="false" class="divdirclass">
                                         <%-- *********************Inicia Campos de Telefonos**************************** --%>    
                                                 <tr>
                                                     <td>
@@ -414,10 +414,10 @@
                                                         <asp:Label ID="lblpertenecetel1" runat="server" Text="Pertenece"></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="ddl_pertenecetel1" runat="server" ></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddl_pertenecetel1" runat="server" CssClass="ddl_pertenecedir" ></asp:DropDownList>
                                                     </td>
                                                     <td>
-                                                        <asp:CheckBox ID="chbconocetx1" runat="server" Text="Conoce DX:" TextAlign="Left" />
+                                                        <asp:CheckBox ID="chbconocetx1" runat="server" Text="Conoce DX:" TextAlign="Left" CssClass="chkb_conocedx" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -431,10 +431,10 @@
                                                         <asp:Label ID="lblpertenecetel2" runat="server" Text="Pertenece"></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="ddl_pertenecetel2" runat="server"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddl_pertenecetel2" runat="server" CssClass="ddl_pertenecedir"></asp:DropDownList>
                                                     </td>
                                                     <td>
-                                                        <asp:CheckBox ID="chbconocetx2" runat="server" Text="Conoce DX:" TextAlign="Left" />
+                                                        <asp:CheckBox ID="chbconocetx2" runat="server" Text="Conoce DX:" TextAlign="Left" CssClass="chkb_conocedx" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -448,10 +448,10 @@
                                                         <asp:Label ID="lblpertenecetel3" runat="server" Text="Pertenece"></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="ddl_pertenecetel3" runat="server"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddl_pertenecetel3" runat="server" CssClass="ddl_pertenecedir"></asp:DropDownList>
                                                     </td>
                                                     <td>
-                                                        <asp:CheckBox ID="chbconocetx3" runat="server" Text="Conoce DX:" TextAlign="Left" />
+                                                        <asp:CheckBox ID="chbconocetx3" runat="server" Text="Conoce DX:" TextAlign="Left" CssClass="chkb_conocedx" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -465,10 +465,10 @@
                                                         <asp:Label ID="lblpertenecetel4" runat="server" Text="Pertenece"></asp:Label>
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="ddl_pertenecetel4" runat="server"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddl_pertenecetel4" runat="server" CssClass="ddl_pertenecedir"></asp:DropDownList>
                                                     </td>
                                                     <td>
-                                                        <asp:CheckBox ID="chbconocetx4" runat="server" Text="Conoce DX:" TextAlign="Left" />
+                                                        <asp:CheckBox ID="chbconocetx4" runat="server" Text="Conoce DX:" TextAlign="Left" CssClass="chkb_conocedx" />
                                                     </td>
                                                 </tr>
                                                 <div id="BtnsGuardarTels" runat="server" visible="false">

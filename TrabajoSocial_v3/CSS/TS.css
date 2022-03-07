@@ -144,8 +144,9 @@
     font-weight: bold; 
     width: 3.2em;
 }
+/*inicia segundo bloque datos pacientes*/
 .columnacodigoasititulo {
-    width: 11.25em; 
+    width: 8em; 
     background-color: #5d7b9d; 
     color: #ffffff;
 }
@@ -178,7 +179,28 @@
     border: solid 1px #b5b8ba;
     text-transform: uppercase;
 }
-
+.ddl_pertenecedir {
+    width: 12em;
+}
+.chkb_conocedx {
+    width: 20em;
+}
+.divdirclass {
+    width: 47.5em;
+}
+.ddl_direccioncascadapaciete {
+    display: block;
+    margin: 0 auto;
+    height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
+    /*font-family: 'Times New Roman', Times, serif;*/
+    text-align: right;
+}
 .wm {  
     font-family: 'trebuchet MS';
     font-size: 8pt;
