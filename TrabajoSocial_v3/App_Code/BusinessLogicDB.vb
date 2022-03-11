@@ -5985,5 +5985,39 @@ Public Class BusinessLogicDB
 
     End Sub
 
+    Public Function Carga_Datos_DirTel_Pac(ByVal nhc As String, ByVal usuario As String) As String
+        _page = "db.Carga_Datos_DirTel_Pac"
+        Dim Query As String = String.Empty
+        Dim Str As String = ""
+
+
+        'seleccion horario 1 
+        Query = "select IdPais,IdDepartamento,IdMunicipio,IdZona,Direccion,Telefono1,Telefono2,Telefono3,Telefono4, PerteneceTelefono1,PerteneceTelefono2,PerteneceTelefono3,PerteneceTelefono4,ConoceTXTelefono1,ConoceTXTelefono2,ConoceTXTelefono3,ConoceTXTelefono4 from dbo.PAC_PacientesTS where NHC = '" & nhc & "'"
+
+        Dim Ds As New DataSet()
+        Try
+            Using connection As New SqlConnection(_cn1)
+                connection.Open()
+                Dim command As New SqlCommand(Query, connection)
+                command.CommandTimeout = TimeoutDB
+                Dim reader As SqlDataReader = command.ExecuteReader()
+                If reader IsNot Nothing Then
+                    reader.Read()
+                    Str = "True|" & reader("IdPais").ToString() & "|" & reader("IdDepartamento").ToString() & "|" & reader("IdMunicipio").ToString() & "|" & reader("IdZona").ToString() & "|" & reader("Direccion").ToString() & "|" & reader("Telefono1").ToString() & "|" & reader("Telefono2").ToString() & "|" & reader("Telefono3").ToString() & "|" & reader("Telefono4").ToString() & "|" & reader("PerteneceTelefono1").ToString() & "|" & reader("PerteneceTelefono2").ToString() & "|" & reader("PerteneceTelefono3").ToString() & "|" & reader("PerteneceTelefono4").ToString() & "|" & reader("ConoceTXTelefono1").ToString() & "|" & reader("ConoceTXTelefono2").ToString() & "|" & reader("ConoceTXTelefono3").ToString() & "|" & reader("ConoceTXTelefono4").ToString()
+                End If
+                reader.Dispose()
+                reader.Close()
+                command.Dispose()
+                connection.Dispose()
+                connection.Close()
+            End Using
+        Catch ex As SqlException
+            _error = ex.Message
+            _pageO = _page & "_"
+            GrabarErrores(usuario & "|" & _pageO & "|" & ex.Number & "|" & ex.Message)
+            Str = "False|" + ex.Message
+        End Try
+        Return Str
+    End Function
 
 End Class

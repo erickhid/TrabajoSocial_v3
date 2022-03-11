@@ -256,7 +256,7 @@
 
                
                     <td class="columnadoscalendario" >
-                        <div id="div_Adultos" runat="server" visible="false">
+                        <div id="div_Adultos" runat="server" visible="false" class="cita">
                             <asp:UpdatePanel ID="UpdatePanel3" runat="server">
                                 <ContentTemplate>
                                     <table border="0" cellpadding="2" cellspacing="1" class="cita">
@@ -331,7 +331,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="5" style="padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
-                                                <%-- colcoar aqui el boton --%>
+                                                <%-- *****************Botones de actualizacion de datos***************** --%>
                                                 <asp:Button ID="BtnActDir" runat="server" Text="Dirección" CssClass="button" /> 
                                                 <asp:Button ID="BtnActTel" runat="server" Text="Teléfonos" CssClass="button" />
                                                 <asp:Button ID="BtnActTodo" runat="server" Text="Ambos" CssClass="button" />
@@ -394,6 +394,7 @@
                                             <%-- ******************Botones para Guardar solo Direcciones******************** --%>
                                                 <tr>
                                                     <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
+                                                        <asp:Button ID="Btn_DirCargaDatosActuales_Dir" runat="server" Text="Cargar Datos" CssClass="button" />
                                                         <asp:Button ID="Btn_DirGuardar" runat="server" Text="Guardar" CssClass="button" />
                                                         <asp:Button ID="Btn_DirCancelar" runat="server" Text="Cancelar" CssClass="button" />
                                                     </td>
@@ -475,6 +476,7 @@
                                                 <%-- ******************Botones para Guardar solo Telefonos*************** --%>
                                                 <tr>
                                                     <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
+                                                        <asp:Button ID="Btn_CargaDatosAct_Tel" runat="server" Text="Carga Datos" CssClass="button" />
                                                         <asp:Button ID="Btn_GuardarTel" runat="server" Text="Guardar" CssClass="button" />
                                                         <asp:Button ID="Btn_CancelarTel" runat="server" Text="Cancelar" CssClass="button" />
                                                     </td>
@@ -484,6 +486,7 @@
                                                 <%-- ******************Botones para Guardar Direcciones y Telefonos*************** --%>
                                                 <tr>
                                                     <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
+                                                        <asp:Button ID="Btn_CargaDatosAct_Tod" runat="server" Text="Carga Datos" CssClass="button" />
                                                         <asp:Button ID="Btn_GuardarTodo" runat="server" Text="Guardar" CssClass="button" />
                                                         <asp:Button ID="Btn_CancelarTodo" runat="server" Text="Cancelar" CssClass="button" />
                                                     </td>

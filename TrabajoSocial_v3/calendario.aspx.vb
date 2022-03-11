@@ -1368,67 +1368,225 @@ Partial Class calendario
 
     End Function
 
-    Protected Sub Btn_DirGuardar_Click(sender As Object, e As EventArgs) Handles Btn_DirGuardar.Click
-        db.Cn1 = cn1
-        'Guarda la direccion
-        db.GuardaDireccion(AsignaDatosPacientesTS("DIR"), "DIR")
+    Private Function validadatospac(ByVal Tipo As String) As String
+        Dim devolucionDir As String = String.Empty
+        Dim validaerror As Integer = 0
 
-        Dim resultadoD As String = db.ResultadoG
-        Dim resultadoM As String = db.ResultadoG2
+        If Tipo = "TOD" Then
+            If String.IsNullOrEmpty(ListaPaises.SelectedValue) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(ddl_ListaDepartamentos.SelectedValue) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(ddl_ListaMunicipios.SelectedValue) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(ddl_ListaZonas.SelectedValue) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(txtdireccion.Text) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
 
-        'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+            If String.IsNullOrEmpty(txttelefono1.Text) Then
+                devolucionDir = devolucionDir & ", y por lo menos 2 telefonos"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(txttelefono2.Text) Then
+                devolucionDir = devolucionDir & ", y por lo menos 2 telefonos"
+                validaerror = validaerror + 1
+            End If
 
-        If resultadoD = "ERROR" Then
-            lblResGD_DirTel.Text = "No fue posible guardar el registro"
-            DivResGD_DirTel_error.Visible = True
-        Else
-            lblResGD_DirTel.Text = resultadoD
-            DivResGD_DirTel_exito.Visible = True
+            If String.IsNullOrEmpty(ddl_pertenecetel1.SelectedValue) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(ddl_pertenecetel2.SelectedValue) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+
+            If validaerror > 0 Then
+                devolucionDir = devolucionDir & ", para poder guardar los datos"
+            End If
+
         End If
 
-        LimpiaDatosPacientesTS("DIR")
+        If Tipo = "DIR" Then
+            If String.IsNullOrEmpty(ListaPaises.SelectedValue) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(ddl_ListaDepartamentos.SelectedValue) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(ddl_ListaMunicipios.SelectedValue) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(ddl_ListaZonas.SelectedValue) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(txtdireccion.Text) Then
+                devolucionDir = "Debe agregar la direccion completa"
+                validaerror = validaerror + 1
+            End If
+
+            If validaerror > 0 Then
+                devolucionDir = devolucionDir & ", para poder guardar los datos"
+            End If
+
+        End If
+            If Tipo = "TEL" Then
+            If String.IsNullOrEmpty(txttelefono1.Text) Then
+                devolucionDir = "Debe agregar telefono 1"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(txttelefono2.Text) Then
+                devolucionDir = devolucionDir & " Debe agregar telefono 2"
+                validaerror = validaerror + 1
+            End If
+
+            If String.IsNullOrEmpty(ddl_pertenecetel1.SelectedValue) Then
+                devolucionDir = "Debe seleccionar a quien pertenece Telefono 1"
+                validaerror = validaerror + 1
+            End If
+            If String.IsNullOrEmpty(ddl_pertenecetel2.SelectedValue) Then
+                devolucionDir = "Debe seleccionar a quien pertenece Telefono 2"
+                validaerror = validaerror + 1
+            End If
+
+            If validaerror > 0 Then
+                devolucionDir = devolucionDir & ", para poder guardar los datos"
+            End If
+
+        End If
+
+        Return devolucionDir
+    End Function
+
+    Protected Sub Btn_DirGuardar_Click(sender As Object, e As EventArgs) Handles Btn_DirGuardar.Click
+
+        Dim ValidaDatos As String = String.Empty
+
+        ValidaDatos = validadatospac("DIR")
+
+        If String.IsNullOrEmpty(ValidaDatos) Then
+
+            db.Cn1 = cn1
+            'Guarda la direccion
+            db.GuardaDireccion(AsignaDatosPacientesTS("DIR"), "DIR")
+
+            Dim resultadoD As String = db.ResultadoG
+            Dim resultadoM As String = db.ResultadoG2
+
+            'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+
+            If resultadoD = "ERROR" Then
+                lblResGD_DirTel_Error.Text = "No fue posible guardar el registro"
+                DivResGD_DirTel_error.Visible = True
+            Else
+                lblResGD_DirTel.Text = resultadoD
+                DivResGD_DirTel_exito.Visible = True
+            End If
+
+            LimpiaDatosPacientesTS("DIR")
+
+            buscaNHC()
+            Obtienediacita()
+            LlenaCircuito()
+        Else
+
+            lblResGD_DirTel_Error.Text = ValidaDatos
+            DivResGD_DirTel_error.Visible = True
+
+        End If
 
     End Sub
 
     Protected Sub Btn_GuardarTel_Click(sender As Object, e As EventArgs) Handles Btn_GuardarTel.Click
-        db.Cn1 = cn1
-        'Guarda los telefonos
-        db.GuardaDireccion(AsignaDatosPacientesTS("TEL"), "TEL")
 
-        Dim resultadoD As String = db.ResultadoG
-        Dim resultadoM As String = db.ResultadoG2
+        Dim ValidaDatos As String = String.Empty
 
-        'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+        ValidaDatos = validadatospac("TEL")
 
-        If resultadoD = "ERROR" Then
-            lblResGD_DirTel.Text = "No fue posible guardar el registro"
-            DivResGD_DirTel_error.Visible = True
+        If String.IsNullOrEmpty(ValidaDatos) Then
+            db.Cn1 = cn1
+            'Guarda los telefonos
+            db.GuardaDireccion(AsignaDatosPacientesTS("TEL"), "TEL")
+
+            Dim resultadoD As String = db.ResultadoG
+            Dim resultadoM As String = db.ResultadoG2
+
+            'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+
+            If resultadoD = "ERROR" Then
+                lblResGD_DirTel_Error.Text = "No fue posible guardar el registro"
+                DivResGD_DirTel_error.Visible = True
+            Else
+                lblResGD_DirTel.Text = resultadoD
+                DivResGD_DirTel_exito.Visible = True
+            End If
+
+            LimpiaDatosPacientesTS("TEL")
+
+            buscaNHC()
+            Obtienediacita()
+            LlenaCircuito()
+
         Else
-            lblResGD_DirTel.Text = resultadoD
-            DivResGD_DirTel_exito.Visible = True
+
+            lblResGD_DirTel_Error.Text = ValidaDatos
+            DivResGD_DirTel_error.Visible = True
+
         End If
 
-        LimpiaDatosPacientesTS("TEL")
     End Sub
     Protected Sub Btn_GuardarTodo_Click(sender As Object, e As EventArgs) Handles Btn_GuardarTodo.Click
-        db.Cn1 = cn1
-        'Guarda los telefonos
-        db.GuardaDireccion(AsignaDatosPacientesTS("TOD"), "TOD")
 
-        Dim resultadoD As String = db.ResultadoG
-        Dim resultadoM As String = db.ResultadoG2
+        Dim ValidaDatos As String = String.Empty
 
-        'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+        ValidaDatos = validadatospac("TOD")
 
-        If resultadoD = "ERROR" Then
-            lblResGD_DirTel.Text = "No fue posible guardar el registro"
-            DivResGD_DirTel_error.Visible = True
+        If String.IsNullOrEmpty(ValidaDatos) Then
+
+            db.Cn1 = cn1
+            'Guarda los telefonos
+            db.GuardaDireccion(AsignaDatosPacientesTS("TOD"), "TOD")
+
+            Dim resultadoD As String = db.ResultadoG
+            Dim resultadoM As String = db.ResultadoG2
+
+            'MsgBox(resultadoD, MsgBoxStyle.MsgBoxHelp, "RESULTADO")
+
+            If resultadoD = "ERROR" Then
+                lblResGD_DirTel_Error.Text = "No fue posible guardar el registro"
+                DivResGD_DirTel_error.Visible = True
+            Else
+                lblResGD_DirTel.Text = resultadoD
+                DivResGD_DirTel_exito.Visible = True
+            End If
+
+            LimpiaDatosPacientesTS("TOD")
+
+            buscaNHC()
+            Obtienediacita()
+            LlenaCircuito()
+
         Else
-            lblResGD_DirTel.Text = resultadoD
-            DivResGD_DirTel_exito.Visible = True
-        End If
 
-        LimpiaDatosPacientesTS("TOD")
+            lblResGD_DirTel_Error.Text = ValidaDatos
+            DivResGD_DirTel_error.Visible = True
+
+        End If
     End Sub
     Protected Sub BtnActDir_Click(sender As Object, e As EventArgs) Handles BtnActDir.Click
         LimpiaDatosPacientesTS("DIR")
@@ -1443,6 +1601,7 @@ Partial Class calendario
         BtnsGuardarTels.Visible = True
         divdir.Visible = False
         BtnsGuardaDir.Visible = False
+        BtnsGuardarTodo.Visible = False
     End Sub
     Protected Sub BtnActTodo_Click(sender As Object, e As EventArgs) Handles BtnActTodo.Click
         LimpiaDatosPacientesTS("TOD")
@@ -1453,5 +1612,100 @@ Partial Class calendario
         BtnsGuardarTels.Visible = False
     End Sub
 
+    Protected Sub Btn_DirCancelar_Click(sender As Object, e As EventArgs) Handles Btn_DirCancelar.Click
+        LimpiaDatosPacientesTS("DIR")
+        divdir.Visible = False
+        BtnsGuardaDir.Visible = False
+        divtels.Visible = False
+        BtnsGuardarTels.Visible = False
+        BtnsGuardarTodo.Visible = False
+        DivResGD_DirTel_error.Visible = False
+        DivResGD_DirTel_exito.Visible = False
+    End Sub
+    Protected Sub Btn_CancelarTel_Click(sender As Object, e As EventArgs) Handles Btn_CancelarTel.Click
+        LimpiaDatosPacientesTS("TEL")
+        divdir.Visible = False
+        BtnsGuardaDir.Visible = False
+        divtels.Visible = False
+        BtnsGuardarTels.Visible = False
+        BtnsGuardarTodo.Visible = False
+        DivResGD_DirTel_error.Visible = False
+        DivResGD_DirTel_exito.Visible = False
+    End Sub
+    Protected Sub Btn_CancelarTodo_Click(sender As Object, e As EventArgs) Handles Btn_CancelarTodo.Click
+        LimpiaDatosPacientesTS("TOD")
+        divdir.Visible = False
+        BtnsGuardaDir.Visible = False
+        divtels.Visible = False
+        BtnsGuardarTels.Visible = False
+        BtnsGuardarTodo.Visible = False
+        DivResGD_DirTel_error.Visible = False
+        DivResGD_DirTel_exito.Visible = False
+    End Sub
+
+    Private Sub RecuperaDatosPaciente(ByVal NHCTS As Integer)
+        Try
+            db.Cn1 = cn1
+
+            Dim datospac As String = db.Carga_Datos_DirTel_Pac(NHCTS, usuario)
+            Dim rp As String() = datospac.Split("|")
+            If rp(0).ToString() = "True" Then
+                ListaPaises.SelectedValue = Convert.ToInt32(rp(1).ToString())
+                llenaDeptos(ListaPaises.SelectedValue)
+                ddl_ListaDepartamentos.SelectedValue = Convert.ToInt32(rp(2).ToString())
+                llenaMunicipios(ddl_ListaDepartamentos.SelectedValue)
+                ddl_ListaMunicipios.SelectedValue = Convert.ToInt32(rp(3).ToString())
+                llenaZonas(ddl_ListaMunicipios.SelectedValue)
+                ddl_ListaZonas.SelectedValue = Convert.ToInt32(rp(4).ToString())
+                txtdireccion.Text = rp(5).ToString()
+                txttelefono1.Text = rp(6).ToString()
+                txttelefono2.Text = rp(7).ToString()
+                txttelefono3.Text = rp(8).ToString()
+                txttelefono4.Text = rp(9).ToString()
+                ddl_pertenecetel1.SelectedValue = rp(10).ToString()
+                ddl_pertenecetel2.SelectedValue = rp(11).ToString()
+                ddl_pertenecetel3.SelectedValue = rp(12).ToString()
+                ddl_pertenecetel4.SelectedValue = rp(13).ToString()
+                chbconocetx1.Checked = If(rp(14).ToString() = "SI", True, False)
+                chbconocetx2.Checked = If(rp(15).ToString() = "SI", True, False)
+                chbconocetx3.Checked = If(rp(16).ToString() = "SI", True, False)
+                chbconocetx4.Checked = If(rp(17).ToString() = "SI", True, False)
+
+            ElseIf rp(0).ToString() = "False" Then
+                lblResGD_DirTel_Error.Text = "No fue posible recuperar la direccion y/o telefonos del Paciente"
+                DivResGD_DirTel_error.Visible = True
+            End If
+        Catch ex As Exception
+            errores = (usuario & "|Carga_Datos_DirTel_Pac()|" & ex.ToString() & "|") + ex.Message
+            db.GrabarErrores(errores)
+
+        End Try
+    End Sub
+
+
+    Protected Sub Btn_CargaDatosAct_Tod_Click(sender As Object, e As EventArgs) Handles Btn_CargaDatosAct_Tod.Click
+        If String.IsNullOrEmpty(txt_asi.Text) Then
+            lblResGD_DirTel_Error.Text = "Debe cargar colocar el Numero de Historia Clinica del paciente antes de cargar datos"
+            DivResGD_DirTel_error.Visible = True
+        Else
+            RecuperaDatosPaciente(txt_asi.Text)
+        End If
+    End Sub
+    Protected Sub Btn_CargaDatosAct_Tel_Click(sender As Object, e As EventArgs) Handles Btn_CargaDatosAct_Tel.Click
+        If String.IsNullOrEmpty(txt_asi.Text) Then
+            lblResGD_DirTel_Error.Text = "Debe cargar colocar el Numero de Historia Clinica del paciente antes de cargar datos"
+            DivResGD_DirTel_error.Visible = True
+        Else
+            RecuperaDatosPaciente(txt_asi.Text)
+        End If
+    End Sub
+    Protected Sub Btn_DirCargaDatosActuales_Dir_Click(sender As Object, e As EventArgs) Handles Btn_DirCargaDatosActuales_Dir.Click
+        If String.IsNullOrEmpty(txt_asi.Text) Then
+            lblResGD_DirTel_Error.Text = "Debe cargar colocar el Numero de Historia Clinica del paciente antes de cargar datos"
+            DivResGD_DirTel_error.Visible = True
+        Else
+            RecuperaDatosPaciente(txt_asi.Text)
+        End If
+    End Sub
 End Class
 
