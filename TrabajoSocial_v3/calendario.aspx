@@ -297,6 +297,20 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td class="columnacodigoasititulo">DPI:
+
+                                            </td>
+                                            <td class="colgenerodatospaciente">
+                                                <asp:Label ID="lbl_cedula" runat="server" ></asp:Label>
+                                            </td>
+                                            <td class="coledaddatospaciente">NHC Hospital:
+
+                                            </td>
+                                            <td colspan="2" class="colgenerodatospaciente">
+                                                <asp:Label ID="lbl_numhopitalia" runat="server" ></asp:Label>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td class="columnacodigoasititulo" >Género:
                                             </td>
                                             <td class="colgenerodatospaciente" >
@@ -354,6 +368,14 @@
                                         <div id="divdir" runat="server" visible="false" class="divdirclass" >
                                         <%-- *********************Inicia Campos de Direcciones************************** --%>
                                             <tr>
+                                               <td>
+                                                   <asp:Label ID="lbldirecciontxt" runat="server" Text="Direccion" ></asp:Label>
+                                               </td>
+                                                <td colspan="4" >
+                                                    <asp:TextBox ID="txtdireccion" runat="server" CssClass="txtdireccionclass"></asp:TextBox>
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <td>
                                                     <asp:Label ID="lblpais" runat="server" Text="Pais" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                 </td>
@@ -382,14 +404,7 @@
                                                     <asp:DropDownList ID="ddl_ListaZonas" runat="server" CssClass="ddl_direccioncascadapaciete"></asp:DropDownList>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                               <td>
-                                                   <asp:Label ID="lbldirecciontxt" runat="server" Text="Direccion" ></asp:Label>
-                                               </td>
-                                                <td colspan="4" >
-                                                    <asp:TextBox ID="txtdireccion" runat="server" CssClass="txtdireccionclass"></asp:TextBox>
-                                                </td>
-                                            </tr>
+                                            </div>
                                             <div id="BtnsGuardaDir" runat="server" visible="false">
                                             <%-- ******************Botones para Guardar solo Direcciones******************** --%>
                                                 <tr>

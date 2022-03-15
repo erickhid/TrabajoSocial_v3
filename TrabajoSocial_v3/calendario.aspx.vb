@@ -552,6 +552,8 @@ Partial Class calendario
         div_no_citas.Visible = False
         lbl_genero.Text = String.Empty
         lbl_nombre.Text = String.Empty
+        lbl_cedula.Text = String.Empty
+        lbl_numhopitalia.Text = String.Empty
         lbl_edad.Text = String.Empty
         lbl_telefono.Text = String.Empty
         lbl_direccion.Text = String.Empty
@@ -595,6 +597,8 @@ Partial Class calendario
                 lbl_direccion.Text = rp(6).ToString()
                 hd_idpaciente.Value = rp(8).ToString()
                 lbl_tyt_pac.Text = rp(9).ToString()
+                lbl_cedula.Text = rp(10).ToString()
+                lbl_numhopitalia.Text = rp(11).ToString()
                 ltl_error.Text = String.Empty
             Else
                 ltl_error.Text = "<span class='error'>" & rp(1) & "</span>"

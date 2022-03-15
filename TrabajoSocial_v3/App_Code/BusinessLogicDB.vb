@@ -2438,9 +2438,9 @@ Public Class BusinessLogicDB
         Dim Q As New StringBuilder()
         Dim Query As String = ""
         Dim Str As String = ""
-        Q.Append("SELECT Z.NomGenero, Z.Paciente, Z.Telefono, Z.FechaNacimiento, Z.Edad, Z.Direccion, Z.IdPaciente, ")
+        Q.Append("SELECT Z.NomGenero, Z.Paciente, Z.Telefono, Z.FechaNacimiento, Z.Edad, Z.Direccion, Z.IdPaciente, Z.Cedula, Z.NumHospitalaria, ")
         Q.Append("(CASE WHEN LTRIM(RTRIM(Z.NomMotivoBaja)) IS NULL THEN 'Activo' ELSE LTRIM(RTRIM(Z.NomMotivoBaja)) END) AS 'MotivoBaja', Z.Clasificación_Pac FROM ")
-        Q.Append("(SELECT A.IdPaciente, C.NomGenero, LTRIM(RTRIM(B.PrimerNombre)) + (CASE WHEN B.SegundoNombre IS NULL ")
+        Q.Append("(SELECT B.Cedula, B.NumHospitalaria, A.IdPaciente, C.NomGenero, LTRIM(RTRIM(B.PrimerNombre)) + (CASE WHEN B.SegundoNombre IS NULL ")
         Q.Append("THEN '' WHEN B.SegundoNombre = 'SSN' THEN '' ELSE ' ' + LTRIM(RTRIM(B.SegundoNombre)) END) + ' ' + LTRIM(RTRIM(B.PrimerApellido)) ")
         Q.Append("+ (CASE WHEN B.SegundoApellido IS NULL THEN '' WHEN B.SegundoApellido = 'SSA' THEN '' ELSE ' ' + LTRIM(RTRIM(B.SegundoApellido)) END) AS 'Paciente', ")
         Q.Append("(CASE WHEN LTRIM(RTRIM(B.TelefonoFijo)) IS NOT NULL THEN LTRIM(RTRIM(B.TelefonoFijo)) ELSE '' END) + ")
@@ -2474,7 +2474,7 @@ Public Class BusinessLogicDB
                 Dim reader As SqlDataReader = command.ExecuteReader()
                 If reader IsNot Nothing Then
                     While reader.Read()
-                        Str = "True|" + reader("NomGenero").ToString() + "|" + reader("Paciente").ToString() + "|" + reader("Telefono").ToString() + "|" + reader("FechaNacimiento").ToString() + "|" + reader("Edad").ToString() + "|" + reader("Direccion").ToString() + "|" + reader("MotivoBaja").ToString() + "|" + reader("IdPaciente").ToString() + "|" + reader("Clasificación_Pac").ToString()
+                        Str = "True|" + reader("NomGenero").ToString() + "|" + reader("Paciente").ToString() + "|" + reader("Telefono").ToString() + "|" + reader("FechaNacimiento").ToString() + "|" + reader("Edad").ToString() + "|" + reader("Direccion").ToString() + "|" + reader("MotivoBaja").ToString() + "|" + reader("IdPaciente").ToString() + "|" + reader("Clasificación_Pac").ToString() + "|" + reader("Cedula").ToString() + "|" + reader("NumHospitalaria").ToString()
                         Exit While
                     End While
                 End If

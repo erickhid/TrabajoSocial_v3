@@ -124,20 +124,20 @@ Partial Class RepDiarioV
         Query += "FROM (SELECT DISTINCT A.IdPaciente, (LTRIM(RTRIM(A.PrimerNombre)) + (CASE WHEN A.SegundoNombre IS NULL THEN '' ELSE ' ' + LTRIM(RTRIM(A.SegundoNombre)) END) + ' ' + LTRIM(RTRIM(A.PrimerApellido)) + (CASE WHEN A.SegundoApellido IS NULL THEN '' ELSE ' ' + LTRIM(RTRIM(A.SegundoApellido)) END)) AS Nombre, "
         Query += "dbo.fn_ObtieneGenero(A.IdGenero) AS 'Genero', A.NumHospitalaria, B.NHC, "
         Query += "dbo.fn_ObtieneEdad2(A.FechaNacimiento, GETDATE()) AS Edad, "
-        Query += String.Format("(SELECT TOP 1 IdSignosVitales FROM SIGNOSVITALES AS D1 WHERE (D1.IdPaciente = A.IdPaciente) AND D1.FechaVisita < CONVERT(DATE, '{0}') ORDER BY D1.FechaVisita DESC) AS 'IdSignosVitales', ", fecha.ToString())
-        Query += String.Format("(SELECT TOP 1 IdSignosVitales FROM SIGNOSVITALES AS D1 WHERE (D1.IdPaciente = A.IdPaciente) AND D1.FechaProximaVisita = CONVERT(DATE, '{0}') ORDER BY D1.FechaVisita DESC) AS 'IdSignosVitales2', ", fecha.ToString())
-        Query += String.Format("(SELECT TOP 1 CONVERT(VARCHAR, D1.FechaVisita, 103) FROM SIGNOSVITALES AS D1 WHERE (D1.IdPaciente = A.IdPaciente) AND D1.FechaVisita < CONVERT(DATE, '{0}') ORDER BY D1.FechaVisita DESC) AS 'Ultima_Visita', ", fecha.ToString())
-        Query += String.Format("(SELECT TOP 1 dbo.fn_ObtieneEdad(D1.FechaVisita, CONVERT(DATE, '{0}')) FROM SIGNOSVITALES AS D1 WHERE (D1.IdPaciente = A.IdPaciente) AND D1.FechaVisita < CONVERT(DATE, '{0}') ORDER BY D1.FechaVisita DESC) AS 'Tiempo_Ultima_Visita', ", fecha.ToString())
-        Query += String.Format("(SELECT TOP 1 dbo.fn_ObtieneFechaDias(D1.FechaVisita, CONVERT(DATE, '{0}')) FROM SIGNOSVITALES AS D1 WHERE (D1.IdPaciente = A.IdPaciente) AND D1.FechaVisita < CONVERT(DATE, '{0}') ORDER BY D1.FechaVisita DESC) AS 'Tiempo_Dias', ", fecha.ToString())
-        Query += String.Format("(SELECT TOP 1 C.IdHorario FROM dbo.PAC_CITAS AS C WHERE C.IdPaciente = A.IdPaciente AND C.FechaProximaVisita = '{0}') AS 'Horario', ", fecha.ToString())
+        Query += String.Format("(SELECT TOP 1 IdSignosVitales FROM SIGNOSVITALES AS D1 WHERE (D1.IdPaciente = A.IdPaciente) AND D1.FechaVisita < CONVERT(DATE, '{0}', 103) ORDER BY D1.FechaVisita DESC) AS 'IdSignosVitales', ", fecha.ToString())
+        Query += String.Format("(SELECT TOP 1 IdSignosVitales FROM SIGNOSVITALES AS D1 WHERE (D1.IdPaciente = A.IdPaciente) AND D1.FechaProximaVisita = CONVERT(DATE, '{0}', 103) ORDER BY D1.FechaVisita DESC) AS 'IdSignosVitales2', ", fecha.ToString())
+        Query += String.Format("(SELECT TOP 1 CONVERT(VARCHAR, D1.FechaVisita, 103) FROM SIGNOSVITALES AS D1 WHERE (D1.IdPaciente = A.IdPaciente) AND D1.FechaVisita < CONVERT(DATE, '{0}', 103) ORDER BY D1.FechaVisita DESC) AS 'Ultima_Visita', ", fecha.ToString())
+        Query += String.Format("(SELECT TOP 1 dbo.fn_ObtieneEdad(D1.FechaVisita, CONVERT(DATE, '{0}', 103)) FROM SIGNOSVITALES AS D1 WHERE (D1.IdPaciente = A.IdPaciente) AND D1.FechaVisita < CONVERT(DATE, '{0}', 103) ORDER BY D1.FechaVisita DESC) AS 'Tiempo_Ultima_Visita', ", fecha.ToString())
+        Query += String.Format("(SELECT TOP 1 dbo.fn_ObtieneFechaDias(D1.FechaVisita, CONVERT(DATE, '{0}', 103)) FROM SIGNOSVITALES AS D1 WHERE (D1.IdPaciente = A.IdPaciente) AND D1.FechaVisita < CONVERT(DATE, '{0}', 103) ORDER BY D1.FechaVisita DESC) AS 'Tiempo_Dias', ", fecha.ToString())
+        Query += String.Format("(SELECT TOP 1 C.IdHorario FROM BDTrabajoSocial.dbo.PAC_CITAS AS C WHERE C.IdPaciente = A.IdPaciente AND C.FechaProximaVisita = CONVERT(date, '{0}', 103)) AS 'Horario', ", fecha.ToString())
         Query += String.Format("(SELECT TOP(1) convert(VARCHAR,A1.FechaAnalitica,103) FROM ANA_ESPECIAL AS A1 WHERE A1.IdPaciente = B.IdPaciente AND A1.CD4 IS NOT NULL ORDER BY A1.FechaAnalitica DESC) AS 'FechaUltimoCD4', ", fecha.ToString())
         Query += String.Format("(SELECT TOP(1) A1.CD4 FROM ANA_ESPECIAL AS A1 WHERE A1.IdPaciente = B.IdPaciente AND A1.CD4 IS NOT NULL ORDER BY A1.FechaAnalitica DESC) AS 'UltimoCD4', ", fecha.ToString())
-        Query += " (SELECT TOP 1 dbo.fn_ObtieneClasificacion_pac(PEP.Id_Clasificacion_Pac) FROM PSOEP AS PEP WHERE PEP.NHC = B.NHC AND PEP.Id_Clasificacion_Pac IS NOT NULL  ORDER BY PEP.FechaFicha DESC) AS 'Clasificación_Pac' "
+        Query += " (SELECT TOP 1 dbo.fn_ObtieneClasificacion_pac(PEP.Id_Clasificacion_Pac) FROM BDEvolucionPX.dbo.PSOEP AS PEP WHERE PEP.NHC = B.NHC AND PEP.Id_Clasificacion_Pac IS NOT NULL  ORDER BY PEP.FechaFicha DESC) AS 'Clasificación_Pac' "
         Query += "FROM PAC_BASALES AS A LEFT OUTER JOIN "
         Query += "PAC_ID AS B ON A.IdPaciente = B.IdPaciente LEFT OUTER JOIN "
         Query += "SIGNOSVITALES AS D ON B.IdPaciente = D.IdPaciente "
-        Query += String.Format("WHERE CONVERT(VARCHAR, D.FechaProximaVisita, 103) = CONVERT(DATE, '{0}')) AS X LEFT OUTER JOIN ", fecha.ToString())
-        Query += "dbo.PAC_CITAS AS Y ON X.IdSignosVitales2 = Y.IdSignosVitales "
+        Query += String.Format("WHERE CONVERT(VARCHAR, D.FechaProximaVisita, 103) = '{0}') AS X LEFT OUTER JOIN ", fecha.ToString())
+        Query += "BDTrabajoSocial.dbo.PAC_CITAS AS Y ON X.IdSignosVitales2 = Y.IdSignosVitales "
         Query += "ORDER BY X.Horario"
 
         Dim Ds As New DataSet()
