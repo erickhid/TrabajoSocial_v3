@@ -604,12 +604,12 @@
                                                     CssClass="button" />
                                             </td>
                                         </tr>
-                                        <!--<tr>
+                                        <tr>
                                             <td colspan="2">
                                                 <asp:Literal runat="server" ID="ltl_error" /></td>
-                                            <td colspan="2">
+                                            <td colspan="3">
                                                 <asp:Literal runat="server" ID="ltl_error2" /></td>
-                                        </tr>-->
+                                        </tr>
                                     </table>
                                     
                                 </ContentTemplate>

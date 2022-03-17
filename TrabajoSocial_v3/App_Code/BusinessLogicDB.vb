@@ -2179,7 +2179,7 @@ Public Class BusinessLogicDB
     Public Function InsertarFechaProximaVisita(ByVal t As String, ByVal idsignosvitales As String, ByVal fechaproximavisita As String, ByVal idpaciente As String, ByVal iusuario As Integer, ByVal usuario As String) As String
         _page = "db.InsertarFechaProximaVisita"
         Dim X As String = Nothing
-        Dim sql As String = String.Format("UPDATE SIGNOSVITALES SET FechaProximaVisita = CONVERT(DATETIME,'{1}') WHERE IdSignosVitales = {0}", idsignosvitales, fechaproximavisita)
+        Dim sql As String = String.Format("UPDATE SIGNOSVITALES SET FechaProximaVisita = Convert(date,'{1}',103) WHERE IdSignosVitales = {0}", idsignosvitales, fechaproximavisita)
         Dim isql As String = String.Format("INSERT INTO X_Log (IdUsuario, IdPaciente, Tabla, Id, Fecha, Accion) VALUES ({0}, {1}, 'Signosvitale', {2}, GETDATE(), 'Update')", iusuario, idpaciente, idsignosvitales)
         Try
             Using connection As New SqlConnection(_cn2)
