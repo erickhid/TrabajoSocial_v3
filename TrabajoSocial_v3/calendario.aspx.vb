@@ -385,7 +385,7 @@ Partial Class calendario
 
         Dim fechab As String = fechan.ToString("yyyyMMdd")
 
-        lblref1.Text = fechab
+        'lblref1.Text = fechab
 
         If btn_agregar.Text = "Agregar" Then
             If txt_fecha.Text.ToString() <> String.Empty And ddl_clinica.SelectedValue.ToString() <> 0 And ddl_jornada.SelectedValue.ToString() <> 0 Then
@@ -568,6 +568,9 @@ Partial Class calendario
         ddl_horario_cita.Items.Clear()
         ltl_error.Text = String.Empty
         ltl_error2.Text = String.Empty
+        lbl_feriado.Text = String.Empty
+        lbl_fechaproximavisitaMangua.Text = String.Empty
+        lbl_tyt_pac.Text = String.Empty
 
         txt_asi.Focus()
         btn_agregar.Text = "Agregar"
@@ -576,6 +579,7 @@ Partial Class calendario
 
     Sub llenadatos(ByVal nhc As String)
         'llenahorarios1()
+        Dim fechamangua As String = ""
         usuario = Session("usuario").ToString()
         db.Cn2 = cn2
         Try
@@ -599,6 +603,8 @@ Partial Class calendario
                 lbl_tyt_pac.Text = rp(9).ToString()
                 lbl_cedula.Text = rp(10).ToString()
                 lbl_numhopitalia.Text = rp(11).ToString()
+                fechamangua = rp(12).ToString()
+                lbl_fechaproximavisitaMangua.Text = fechamangua.Substring(0, 10)
                 ltl_error.Text = String.Empty
             Else
                 ltl_error.Text = "<span class='error'>" & rp(1) & "</span>"
@@ -932,21 +938,86 @@ Partial Class calendario
 
     End Sub
 
+    Sub Verificafechanoferiado()
+        Dim FechaB As DateTime
+        Dim diaa As Integer = 0
+        Dim mesa As Integer = 0
+        Dim respuesta As String = String.Empty
+        Dim feriado As Integer = 0
 
+        db.Cn1 = cn1
+
+        FechaB = Convert.ToDateTime(txt_fecha.Text)
+
+        diaa = FechaB.ToString("dd", New CultureInfo("es-ES"))
+
+        mesa = FechaB.ToString("MM", New CultureInfo("es-ES"))
+
+        respuesta = db.Revisa_Fecha_Feriado(diaa, mesa, usuario)
+
+        feriado = Convert.ToInt32(respuesta)
+
+        If feriado > 0 Then
+            lbl_feriado.text = "SI"
+        Else
+            lbl_feriado.text = "NO"
+        End If
+
+    End Sub
+
+    Sub Verificafechanodisponible()
+        Dim FechaB As DateTime
+        Dim diaa As Integer = 0
+        Dim mesa As Integer = 0
+        Dim respuesta As String = String.Empty
+        Dim feriado As Integer = 0
+        Dim fechastr As String = String.Empty
+
+        db.Cn1 = cn1
+
+        FechaB = Convert.ToDateTime(txt_fecha.Text)
+
+        fechastr = FechaB.ToString("yyyyMMdd")
+
+        respuesta = db.Revisa_Fecha_NoDisponibles(FechaB, usuario)
+
+        feriado = Convert.ToInt32(respuesta)
+
+        If feriado > 0 Then
+            lbl_fechaNoDisponible.Text = "SI"
+        Else
+            lbl_fechaNoDisponible.Text = "NO"
+        End If
+
+    End Sub
 
     Protected Sub txt_fecha_TextChanged(sender As Object, e As EventArgs) Handles txt_fecha.TextChanged
-        Obtienediacita()
-        ObtieneNoCitasHorarios()
 
-        Dim dia_lbl As String
-        dia_lbl = lbl_dia_cita.Text.ToString()
+        Verificafechanoferiado()
+        Verificafechanodisponible()
 
-        If dia_lbl <> "viernes" Then
+        If lbl_feriado.Text = "SI" Or lbl_fechaNoDisponible.Text = "SI" Then
 
-            llenahorarios1()
-        ElseIf dia_lbl = "viernes" Then
+            ltl_error.Text = "<span class='error'>Fecha es feriado o no esta disponible, elija otra fecha.</span>"
 
-            llenahorarios2()
+        Else
+
+            ltl_error.Text = ""
+
+            Obtienediacita()
+            ObtieneNoCitasHorarios()
+
+            Dim dia_lbl As String
+            dia_lbl = lbl_dia_cita.Text.ToString()
+
+            If dia_lbl <> "viernes" Then
+
+                llenahorarios1()
+            ElseIf dia_lbl = "viernes" Then
+
+                llenahorarios2()
+            End If
+
         End If
 
     End Sub
@@ -958,126 +1029,132 @@ Partial Class calendario
         Dim clinica As String
         Dim d As String
 
+        If lbl_feriado.Text = "SI" Or lbl_fechaNoDisponible.Text = "SI" Then
 
-        pox_cita = txt_fecha.Text.ToString()
-        horario = ddl_horario_cita.SelectedValue.ToString()
-        clinica = ddl_clinica.SelectedValue.ToString()
-        db.Cn1 = cn1
-        d = db.Revisa_horarios_disponibles(pox_cita, horario, clinica, usuario)
+            ltl_error.Text = "<span class='error'>Fecha es feriado o no esta disponible, elija otra fecha.</span>"
 
-        ltl_error2.Text = String.Empty
-
-        If clinica = 1 Then
-
-            Select Case horario
-                Case 1
-                    If d > 12 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
-
-                Case 2
-                    If d > 14 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
-                Case 3
-                    If d > 13 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
-                Case 4
-                    If d > 13 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
-                Case 5
-                    If d > 13 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
-
-                Case 7
-                    If d > 15 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
-                Case 8
-                    If d > 10 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
-                Case 9
-                    If d > 20 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
-            End Select
         Else
-            Select Case horario
-                Case 1
-                    If d >= 1 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
 
-                Case 2
-                    If d >= 1 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
+            pox_cita = txt_fecha.Text.ToString()
+            horario = ddl_horario_cita.SelectedValue.ToString()
+            clinica = ddl_clinica.SelectedValue.ToString()
+            db.Cn1 = cn1
+            d = db.Revisa_horarios_disponibles(pox_cita, horario, clinica, usuario)
 
-                Case 3
-                    If d >= 1 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
+            ltl_error2.Text = String.Empty
 
-                Case 4
-                    If d >= 1 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
+            If clinica = 1 Then
 
-                Case 5
-                    If d >= 1 Then
-                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                    Else
-                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                        btn_agregar.Visible = True
-                    End If
-            End Select
+                Select Case horario
+                    Case 1
+                        If d > 12 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 2
+                        If d > 14 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                    Case 3
+                        If d > 13 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                    Case 4
+                        If d > 13 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                    Case 5
+                        If d > 13 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 7
+                        If d > 15 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                    Case 8
+                        If d > 10 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                    Case 9
+                        If d > 20 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                End Select
+            Else
+                Select Case horario
+                    Case 1
+                        If d >= 1 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 2
+                        If d >= 1 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 3
+                        If d >= 1 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 4
+                        If d >= 1 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 5
+                        If d >= 1 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                End Select
+            End If
         End If
     End Sub
 

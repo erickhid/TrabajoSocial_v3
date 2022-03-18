@@ -526,24 +526,29 @@
                                                         <td style="background-color: #e9ecf1; text-align: left;">
                                                             <cc1:CalendarExtender ID="CalendarExtender1" runat="server" PopupButtonID="ibtn_calendario" TargetControlID="txt_fecha" Format="dd/MM/yyyy" CssClass="ajax__calendar"></cc1:CalendarExtender>
                                                             <asp:ImageButton ID="ibtn_calendario" runat="server" ImageUrl="~/images/datePickerPopupHover.gif" CausesValidation="False" BorderWidth="0" />
+                                                            <asp:Label ID="lbl_feriado" runat="server" Visible="false" ></asp:Label>
+                                                            <asp:Label ID="lbl_fechaNoDisponible" runat="server" Visible="false" ></asp:Label>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="lblref1" runat="server" Text=""></asp:Label>
-                                                        </td>
-                                                        <td>
-                                                            <asp:Label ID="lblref2" runat="server" Text="Referencia"></asp:Label>
-                                                        </td>
-                                                    </tr>
-
                                                 </table>
 
                                                 <%--                                                    </ContentTemplate>
                                                                 </asp:UpdatePanel>--%>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td class="coltitulosdatoscitas">
 
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td class="coltitulosdatoscitas"> *&nbsp;Mangua                                                
+                                            </td>
+                                            <td colspan="2" style="border-top: solid 1px #f18103;">                                                
+                                                <asp:Label ID="lbl_fechaproximavisitaMangua" runat="server" Text=""></asp:Label>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td class="coltitulosdatoscitas" >*&nbsp;Día:</td>
                                             <td style="padding-left: 5px;" colspan="1">
@@ -570,20 +575,22 @@
                                                 </asp:DropDownList>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="coltitulosdatoscitas" >&nbsp;Circuito G:</td>
-                                            <td style="padding-left: 5px; font-weight: bold;" colspan="4">
-                                                <asp:Label ID="lbl_circuito_est" runat="server" Text=""></asp:Label></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="coltitulosdatoscitas">&nbsp;Grupo:</td>
-                                            <td style="padding-left: 5px; font-weight: bold;" colspan="1">
-                                                <asp:Label ID="lbl_circ_grupo" runat="server" Text=""></asp:Label></td>
+                                        <div id="divcircuito" runat="server" visible="false" >  
+                                            <tr>
+                                                <td class="coltitulosdatoscitas" >&nbsp;Circuito G:</td>
+                                                <td style="padding-left: 5px; font-weight: bold;" colspan="4">
+                                                    <asp:Label ID="lbl_circuito_est" runat="server" Text=""></asp:Label></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="coltitulosdatoscitas">&nbsp;Grupo:</td>
+                                                <td style="padding-left: 5px; font-weight: bold;" colspan="1">
+                                                    <asp:Label ID="lbl_circ_grupo" runat="server" Text=""></asp:Label></td>
 
-                                            <td class="coltitulosdatoscitas">&nbsp;Periodo:</td>
-                                            <td style="padding-left: 5px; font-weight: bold;" colspan="3">
-                                                <asp:Label ID="lbl_circ_periodo" runat="server" Text=""></asp:Label></td>
-                                        </tr>
+                                                <td class="coltitulosdatoscitas">&nbsp;Periodo:</td>
+                                                <td style="padding-left: 5px; font-weight: bold;" colspan="3">
+                                                    <asp:Label ID="lbl_circ_periodo" runat="server" Text=""></asp:Label></td>
+                                            </tr>
+                                        </div>
                                         <tr>
                                             <td style="padding-left: 5px; font-weight: bold;" colspan="5">
                                                 <asp:Label ID="lbl_horario_asignado" runat="server" Text="" Visible="False"></asp:Label>

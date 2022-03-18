@@ -2439,7 +2439,7 @@ Public Class BusinessLogicDB
         Dim Query As String = ""
         Dim Str As String = ""
         Q.Append("SELECT Z.NomGenero, Z.Paciente, Z.Telefono, Z.FechaNacimiento, Z.Edad, Z.Direccion, Z.IdPaciente, Z.Cedula, Z.NumHospitalaria, ")
-        Q.Append("(CASE WHEN LTRIM(RTRIM(Z.NomMotivoBaja)) IS NULL THEN 'Activo' ELSE LTRIM(RTRIM(Z.NomMotivoBaja)) END) AS 'MotivoBaja', Z.Clasificación_Pac FROM ")
+        Q.Append("(CASE WHEN LTRIM(RTRIM(Z.NomMotivoBaja)) IS NULL THEN 'Activo' ELSE LTRIM(RTRIM(Z.NomMotivoBaja)) END) AS 'MotivoBaja', Z.Clasificación_Pac, z.fechaproximavisita FROM ")
         Q.Append("(SELECT B.Cedula, B.NumHospitalaria, A.IdPaciente, C.NomGenero, LTRIM(RTRIM(B.PrimerNombre)) + (CASE WHEN B.SegundoNombre IS NULL ")
         Q.Append("THEN '' WHEN B.SegundoNombre = 'SSN' THEN '' ELSE ' ' + LTRIM(RTRIM(B.SegundoNombre)) END) + ' ' + LTRIM(RTRIM(B.PrimerApellido)) ")
         Q.Append("+ (CASE WHEN B.SegundoApellido IS NULL THEN '' WHEN B.SegundoApellido = 'SSA' THEN '' ELSE ' ' + LTRIM(RTRIM(B.SegundoApellido)) END) AS 'Paciente', ")
@@ -2452,7 +2452,8 @@ Public Class BusinessLogicDB
         Q.Append("(CASE WHEN LTRIM(RTRIM(F.NomDepartamento)) IS NOT NULL THEN ', ' + LTRIM(RTRIM(F.NomDepartamento)) ELSE '' END) + ")
         Q.Append("(CASE WHEN LTRIM(RTRIM(D.NomPais)) IS NOT NULL THEN ', ' + LTRIM(RTRIM(D.NomPais)) ELSE '' END) AS 'Direccion', ")
         Q.Append("(SELECT TOP 1 N.NomMotivoBaja FROM PAC_BAJA AS M LEFT OUTER JOIN PAC_ID AS O ON M.IdPaciente = O.IdPaciente LEFT OUTER JOIN PAC_M_MOTIVOBAJA AS N ON M.MotivoBaja = N.IdMotivoBaja WHERE M.IdPaciente = A.IdPaciente AND O.Baja = 1 ORDER BY M.FechaBaja DESC) AS 'NomMotivoBaja', ")
-        Q.Append("(SELECT TOP 1 dbo.fn_ObtieneClasificacion_pac(PEP.Id_Clasificacion_Pac) FROM PSOEP AS PEP WHERE PEP.NHC = A.NHC AND PEP.Id_Clasificacion_Pac IS NOT NULL  ORDER BY PEP.FechaFicha DESC) AS 'Clasificación_Pac' ")
+        Q.Append("(SELECT TOP 1 dbo.fn_ObtieneClasificacion_pac(PEP.Id_Clasificacion_Pac) FROM PSOEP AS PEP WHERE PEP.NHC = A.NHC AND PEP.Id_Clasificacion_Pac IS NOT NULL  ORDER BY PEP.FechaFicha DESC) AS 'Clasificación_Pac', ")
+        Q.Append("(select top 1 signos.FechaProximaVisita from SIGNOSVITALES as signos where signos.IdPaciente = b.IdPaciente order by signos.FechaProximaVisita desc) as fechaproximavisita ")
         Q.Append("FROM PAC_ID AS A LEFT OUTER JOIN ")
         'Q.Append("PAC_BAJA AS G ON A.IdPaciente = G.IdPaciente LEFT OUTER JOIN ")
         'Q.Append("PAC_M_MOTIVOBAJA AS H ON G.MotivoBaja = H.IdMotivoBaja LEFT OUTER JOIN ")
@@ -2474,7 +2475,7 @@ Public Class BusinessLogicDB
                 Dim reader As SqlDataReader = command.ExecuteReader()
                 If reader IsNot Nothing Then
                     While reader.Read()
-                        Str = "True|" + reader("NomGenero").ToString() + "|" + reader("Paciente").ToString() + "|" + reader("Telefono").ToString() + "|" + reader("FechaNacimiento").ToString() + "|" + reader("Edad").ToString() + "|" + reader("Direccion").ToString() + "|" + reader("MotivoBaja").ToString() + "|" + reader("IdPaciente").ToString() + "|" + reader("Clasificación_Pac").ToString() + "|" + reader("Cedula").ToString() + "|" + reader("NumHospitalaria").ToString()
+                        Str = "True|" + reader("NomGenero").ToString() + "|" + reader("Paciente").ToString() + "|" + reader("Telefono").ToString() + "|" + reader("FechaNacimiento").ToString() + "|" + reader("Edad").ToString() + "|" + reader("Direccion").ToString() + "|" + reader("MotivoBaja").ToString() + "|" + reader("IdPaciente").ToString() + "|" + reader("Clasificación_Pac").ToString() + "|" + reader("Cedula").ToString() + "|" + reader("NumHospitalaria").ToString() + "|" + reader("fechaproximavisita").ToString()
                         Exit While
                     End While
                 End If
@@ -6018,6 +6019,80 @@ Public Class BusinessLogicDB
             Str = "False|" + ex.Message
         End Try
         Return Str
+    End Function
+
+    Public Function Revisa_Fecha_Feriado(ByVal Diaa As Integer, ByVal Mesa As Integer, ByVal usuario As String) As String
+        _page = "db.Revisa_Fecha_Feriado"
+        Dim Query As String = String.Empty
+        Dim Str As String = ""
+
+
+        'seleccion horario 1 
+        Query = "select count(*) as feriado from CITAS_FERIADOS where DiaFeriado = " & Diaa & " and MesFeriado = " & Mesa
+
+        Dim Ds As New DataSet()
+        Try
+            Using connection As New SqlConnection(_cn1)
+                connection.Open()
+                Dim command As New SqlCommand(Query, connection)
+                command.CommandTimeout = TimeoutDB
+                Dim reader As SqlDataReader = command.ExecuteReader()
+                If reader IsNot Nothing Then
+                    reader.Read()
+                    Str = reader("feriado").ToString()
+                End If
+                reader.Dispose()
+                reader.Close()
+                command.Dispose()
+                connection.Dispose()
+                connection.Close()
+            End Using
+        Catch ex As SqlException
+            _error = ex.Message
+            _pageO = _page & "_"
+            GrabarErrores(usuario & "|" & _pageO & "|" & ex.Number & "|" & ex.Message)
+            Str = "False|" + ex.Message
+        End Try
+        Return Str
+
+
+    End Function
+
+    Public Function Revisa_Fecha_NoDisponibles(ByVal FechaB As Date, ByVal usuario As String) As String
+        _page = "db.Revisa_Fecha_NoDisponibles"
+        Dim Query As String = String.Empty
+        Dim Str As String = ""
+
+
+        'seleccion horario 1 
+        Query = "select count(*) as FechaNoDisponible from CITAS_FECHAS_NODISPONIBLES where FechaNoDisponible =  convert(date,'" & FechaB.ToString() & "', 103)"
+
+        Dim Ds As New DataSet()
+        Try
+            Using connection As New SqlConnection(_cn1)
+                connection.Open()
+                Dim command As New SqlCommand(Query, connection)
+                command.CommandTimeout = TimeoutDB
+                Dim reader As SqlDataReader = command.ExecuteReader()
+                If reader IsNot Nothing Then
+                    reader.Read()
+                    Str = reader("FechaNoDisponible").ToString()
+                End If
+                reader.Dispose()
+                reader.Close()
+                command.Dispose()
+                connection.Dispose()
+                connection.Close()
+            End Using
+        Catch ex As SqlException
+            _error = ex.Message
+            _pageO = _page & "_"
+            GrabarErrores(usuario & "|" & _pageO & "|" & ex.Number & "|" & ex.Message)
+            Str = "False|" + ex.Message
+        End Try
+        Return Str
+
+
     End Function
 
 End Class
