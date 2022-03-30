@@ -35,6 +35,7 @@ Partial Class MasterPage
                         'GPacientes.Visible = True
                         'GReportes.Visible = True
                         'GAdministracion.Visible = True
+                        hl_FechasND.Visible = False
                     Case "2" 'Administrador
                         img_usuario.ToolTip = "Administrador"
                         'hl_Basales_pte.Visible = True
@@ -45,6 +46,7 @@ Partial Class MasterPage
                         'GPacientes.Visible = True
                         'GReportes.Visible = True
                         'GAdministracion.Visible = True
+                        hl_FechasND.Visible = True
                     Case "3" 'Digitador
                         img_usuario.ToolTip = "Digitador"
                         'hl_Basales_pte.Visible = True
@@ -55,6 +57,7 @@ Partial Class MasterPage
                         '  GPacientes.Visible = True
                         'GReportes.Visible = False
                         'GAdministracion.Visible = False
+                        hl_FechasND.Visible = False
                     Case "4" 'Consulta
                         img_usuario.ToolTip = "Consulta"
                         'hl_Basales_pte.Visible = False
@@ -65,6 +68,7 @@ Partial Class MasterPage
                         'GPacientes.Visible = True
                         'GReportes.Visible = False
                         'GAdministracion.Visible = False
+                        hl_FechasND.Visible = False
                     Case "5" 'Reportes
                         img_usuario.ToolTip = "Reportes"
                         'hl_Basales_pte.Visible = False
@@ -75,6 +79,7 @@ Partial Class MasterPage
                         'GPacientes.Visible = False
                         'GReportes.Visible = True
                         'GAdministracion.Visible = False
+                        hl_FechasND.Visible = False
                     Case "6" 'Supervisor
                         img_usuario.ToolTip = "Supervisor"
                         'hl_Basales_pte.Visible = True
@@ -85,6 +90,7 @@ Partial Class MasterPage
                         'GPacientes.Visible = True
                         'GReportes.Visible = True
                         'GAdministracion.Visible = False
+                        hl_FechasND.Visible = True
                 End Select
             End If
         End If
