@@ -306,8 +306,11 @@
                                             <td class="coledaddatospaciente">NHC Hospital:
 
                                             </td>
-                                            <td colspan="2" class="colgenerodatospaciente">
+                                            <td class="colgenerodatospaciente">
                                                 <asp:Label ID="lbl_numhopitalia" runat="server" ></asp:Label>
+                                            </td>
+                                            <td>
+                                                <asp:CheckBox ID="chb_DPI" runat="server" Text="Entrego DPI" />
                                             </td>
                                         </tr>
                                         <tr>

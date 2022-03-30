@@ -571,6 +571,7 @@ Partial Class calendario
         lbl_feriado.Text = String.Empty
         lbl_fechaproximavisitaMangua.Text = String.Empty
         lbl_tyt_pac.Text = String.Empty
+        chb_DPI.Checked = False
 
         txt_asi.Focus()
         btn_agregar.Text = "Agregar"
@@ -605,6 +606,7 @@ Partial Class calendario
                 lbl_numhopitalia.Text = rp(11).ToString()
                 fechamangua = rp(12).ToString()
                 lbl_fechaproximavisitaMangua.Text = fechamangua.Substring(0, 10)
+                chb_DPI.Checked = If(rp(13).ToString() = "S", True, False)
                 ltl_error.Text = String.Empty
             Else
                 ltl_error.Text = "<span class='error'>" & rp(1) & "</span>"
@@ -1346,6 +1348,7 @@ Partial Class calendario
             PacientesTS.ConTx2 = If(chbconocetx2.Checked, "SI", "NO")
             PacientesTS.ConTx3 = If(chbconocetx3.Checked, "SI", "NO")
             PacientesTS.ConTx4 = If(chbconocetx4.Checked, "SI", "NO")
+            PacientesTS.EntregoDPI = If(chb_DPI.Checked, "SI", "NO")
             PacientesTS.Usua = Convert.ToInt32(Session("iusuario").ToString())
         ElseIf DTT = "TEL" Then
             PacientesTS.IdPacTS = hd_idpaciente.Value
@@ -1367,6 +1370,7 @@ Partial Class calendario
             PacientesTS.ConTx2 = If(chbconocetx2.Checked, "SI", "NO")
             PacientesTS.ConTx3 = If(chbconocetx3.Checked, "SI", "NO")
             PacientesTS.ConTx4 = If(chbconocetx4.Checked, "SI", "NO")
+            PacientesTS.EntregoDPI = If(chb_DPI.Checked, "SI", "NO")
             PacientesTS.Usua = Convert.ToInt32(Session("iusuario").ToString())
         ElseIf DTT = "DIR" Then
             PacientesTS.IdPacTS = hd_idpaciente.Value
@@ -1388,6 +1392,7 @@ Partial Class calendario
             PacientesTS.ConTx2 = If(chbconocetx2.Checked, "SI", "NO")
             PacientesTS.ConTx3 = If(chbconocetx3.Checked, "SI", "NO")
             PacientesTS.ConTx4 = If(chbconocetx4.Checked, "SI", "NO")
+            PacientesTS.EntregoDPI = If(chb_DPI.Checked, "S", "N")
             PacientesTS.Usua = Convert.ToInt32(Session("iusuario").ToString())
         End If
 
@@ -1416,6 +1421,7 @@ Partial Class calendario
             chbconocetx2.Checked = False
             chbconocetx3.Checked = False
             chbconocetx4.Checked = False
+            'chb_DPI.Checked = False
 
             devolucionDTT = "Se limpio formulaio de Direcciones y telefonos"
         End If

@@ -51,6 +51,7 @@
                                                 <li><asp:HyperLink ID="hl_ConsultaV" runat="server" NavigateUrl="~/ConsultaV.aspx" >CONSULTAS VISITAS</asp:HyperLink></li>
                                                 <li><asp:HyperLink ID="hl_Basalpac" runat="server" NavigateUrl="~/BasalTS.aspx" >DATOS BASALES</asp:HyperLink></li>
                                                 <li><asp:HyperLink ID="hl_Circuito" runat="server" NavigateUrl="~/Circuito.aspx" >CIRCUITO</asp:HyperLink></li>
+                                                <li><asp:HyperLink ID="hl_FechasND" runat="server" NavigateUrl="~/FechasNoDisponibles.aspx" >FECHAS NO DISPONIBLES</asp:HyperLink></li>
                                             </ul>
                                         </li>
                                         <li><a href="#" class="dir" id="GPacientes" runat="server">CONSULTA PACIENTE&nbsp;<img src="images/arrow.png" alt="" style="border:0px;" /></a>

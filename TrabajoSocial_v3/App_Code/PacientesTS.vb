@@ -22,5 +22,6 @@ Public Class PacientesTS
     Public ConTx3 As String
     Public ConTx4 As String
     Public Usua As Integer
+    Public EntregoDPI As String
 
 End Class
