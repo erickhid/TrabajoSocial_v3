@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ScrollingGrid</name>
+    </assembly>
+    <members>
+        <member name="T:AvgControls.ScrollingGrid">
+            <summary>
+            Cross-browser container control for a DataGrid to freeze it's header and bottom pager while scrolling both horizontally and vertically.
+            </summary>
+        </member>
+        <member name="F:AvgControls.ScrollingGrid.Overflow">
+            <summary>
+            Content DIV overflow style setting. Can be: auto, scroll, hidden
+            </summary>
+        </member>
+        <member name="F:AvgControls.ScrollingGrid.HeaderWidthReduction">
+            <summary>
+            Get/set pixel width to reduce the header by - e.g. 17 = scrollbar width (if you don't want the header to extend accross the top of the scrollbar)
+            </summary>
+        </member>
+        <member name="F:AvgControls.ScrollingGrid.FooterWidthReduction">
+            <summary>
+            Get/set pixel width to reduce the footer by
+            </summary>
+        </member>
+        <member name="F:AvgControls.ScrollingGrid.ScrollingEnabled">
+            <summary>
+            Set to false to display the DataGrid as normal (i.e. without any scrolling or frozen header etc.)
+            </summary>
+        </member>
+        <member name="F:AvgControls.ScrollingGrid.StartScrollPos">
+            <summary>
+            Get/set the start scroll position of the content DIV
+            </summary>
+        </member>
+        <member name="F:AvgControls.ScrollingGrid.ScriptPath">
+            <summary>
+            Get/set the location of ScrollingGrid.js
+            </summary>
+        </member>
+        <member name="F:AvgControls.ScrollingGrid.FirefoxBorderWorkaround">
+            <summary>
+            Set to false if GridLines &amp; BorderWidth properties on DataGrid should not be set for optimal results in Firefox
+            </summary>
+        </member>
+        <member name="M:AvgControls.ScrollingGrid.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:AvgControls.ScrollingGrid.OnInit(System.EventArgs)">
+            <summary>
+            Adds the necessary HTML before and after it's DataGrid child control
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:AvgControls.ScrollingGrid.RenderBeginTag(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            Outputs start of control's container TABLE
+            </summary>
+            <param name="writer"></param>
+        </member>
+        <member name="M:AvgControls.ScrollingGrid.RenderEndTag(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            Outputs end of control's container TABLE
+            </summary>
+            <param name="writer"></param>
+        </member>
+        <member name="M:AvgControls.ScrollingGrid.SetStartScrollPosFromPostack">
+            <summary>
+            Set starting scroll position of content DIV from postback
+            </summary>
+        </member>
+        <member name="M:AvgControls.ScrollingGrid.ScrollingGrid_Load(System.Object,System.EventArgs)">
+            <summary>
+            Control's Load event handler
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1456,103 +1456,109 @@ Partial Class calendario
     End Function
 
     Private Function validadatospac(ByVal Tipo As String) As String
-        Dim devolucionDir As String = String.Empty
+        Dim devolucionDir As String = "Debe agregar: "
         Dim validaerror As Integer = 0
 
         If Tipo = "TOD" Then
-            If String.IsNullOrEmpty(ListaPaises.SelectedValue) Then
-                devolucionDir = "Debe agregar la direccion completa"
+            If String.IsNullOrEmpty(ListaPaises.SelectedValue) Or ListaPaises.SelectedValue = "0" Then
+                devolucionDir = devolucionDir & "el pais, "
                 validaerror = validaerror + 1
             End If
-            If String.IsNullOrEmpty(ddl_ListaDepartamentos.SelectedValue) Then
-                devolucionDir = "Debe agregar la direccion completa"
+            If String.IsNullOrEmpty(ddl_ListaDepartamentos.SelectedValue) Or ddl_ListaDepartamentos.SelectedValue = "0" Then
+                devolucionDir = devolucionDir & "el departamento, "
                 validaerror = validaerror + 1
             End If
-            If String.IsNullOrEmpty(ddl_ListaMunicipios.SelectedValue) Then
-                devolucionDir = "Debe agregar la direccion completa"
+            If String.IsNullOrEmpty(ddl_ListaMunicipios.SelectedValue) Or ddl_ListaMunicipios.SelectedValue = "0" Then
+                devolucionDir = devolucionDir & "el municipio, "
                 validaerror = validaerror + 1
             End If
-            If String.IsNullOrEmpty(ddl_ListaZonas.SelectedValue) Then
-                devolucionDir = "Debe agregar la direccion completa"
+            If String.IsNullOrEmpty(ddl_ListaZonas.SelectedValue) Or ddl_ListaZonas.SelectedValue = "0" Then
+                devolucionDir = devolucionDir & "la zona, "
                 validaerror = validaerror + 1
             End If
             If String.IsNullOrEmpty(txtdireccion.Text) Then
-                devolucionDir = "Debe agregar la direccion completa"
+                devolucionDir = devolucionDir & "la direccion de casa, "
                 validaerror = validaerror + 1
             End If
 
             If String.IsNullOrEmpty(txttelefono1.Text) Then
-                devolucionDir = devolucionDir & ", y por lo menos 2 telefonos"
+                devolucionDir = devolucionDir & "el primer telefono, "
                 validaerror = validaerror + 1
             End If
             If String.IsNullOrEmpty(txttelefono2.Text) Then
-                devolucionDir = devolucionDir & ", y por lo menos 2 telefonos"
+                devolucionDir = devolucionDir & "el segundo telefono, "
                 validaerror = validaerror + 1
             End If
 
             If String.IsNullOrEmpty(ddl_pertenecetel1.SelectedValue) Then
-                devolucionDir = "Debe agregar la direccion completa"
+                devolucionDir = devolucionDir & "debe indicar a quien pertenece el primer telefono, "
                 validaerror = validaerror + 1
             End If
             If String.IsNullOrEmpty(ddl_pertenecetel2.SelectedValue) Then
-                devolucionDir = "Debe agregar la direccion completa"
+                devolucionDir = devolucionDir & "Debe indicar a quien pertenece el segundo telefono, "
                 validaerror = validaerror + 1
             End If
 
             If validaerror > 0 Then
-                devolucionDir = devolucionDir & ", para poder guardar los datos"
+                devolucionDir = devolucionDir & "para poder guardar los datos"
+            Else
+                devolucionDir = String.Empty
             End If
 
         End If
 
         If Tipo = "DIR" Then
-            If String.IsNullOrEmpty(ListaPaises.SelectedValue) Then
-                devolucionDir = "Debe agregar la direccion completa"
+            If String.IsNullOrEmpty(ListaPaises.SelectedValue) Or ListaPaises.SelectedValue = "0" Then
+                devolucionDir = devolucionDir & "el pais, "
                 validaerror = validaerror + 1
             End If
-            If String.IsNullOrEmpty(ddl_ListaDepartamentos.SelectedValue) Then
-                devolucionDir = "Debe agregar la direccion completa"
+            If String.IsNullOrEmpty(ddl_ListaDepartamentos.SelectedValue) Or ddl_ListaDepartamentos.SelectedValue = "0" Then
+                devolucionDir = devolucionDir & "el departamento, "
                 validaerror = validaerror + 1
             End If
-            If String.IsNullOrEmpty(ddl_ListaMunicipios.SelectedValue) Then
-                devolucionDir = "Debe agregar la direccion completa"
+            If String.IsNullOrEmpty(ddl_ListaMunicipios.SelectedValue) Or ddl_ListaMunicipios.SelectedValue = "0" Then
+                devolucionDir = devolucionDir & "el municipio, "
                 validaerror = validaerror + 1
             End If
-            If String.IsNullOrEmpty(ddl_ListaZonas.SelectedValue) Then
-                devolucionDir = "Debe agregar la direccion completa"
+            If String.IsNullOrEmpty(ddl_ListaZonas.SelectedValue) Or ddl_ListaZonas.SelectedValue = "0" Then
+                devolucionDir = devolucionDir & "la zona, "
                 validaerror = validaerror + 1
             End If
             If String.IsNullOrEmpty(txtdireccion.Text) Then
-                devolucionDir = "Debe agregar la direccion completa"
+                devolucionDir = devolucionDir & "la calle o avenida y numeral de casa, "
                 validaerror = validaerror + 1
             End If
 
             If validaerror > 0 Then
-                devolucionDir = devolucionDir & ", para poder guardar los datos"
+                devolucionDir = devolucionDir & "para poder guardar los datos"
+            Else
+                devolucionDir = String.Empty
             End If
 
         End If
             If Tipo = "TEL" Then
             If String.IsNullOrEmpty(txttelefono1.Text) Then
-                devolucionDir = "Debe agregar telefono 1"
+                devolucionDir = devolucionDir & "el primer telefono, "
                 validaerror = validaerror + 1
             End If
             If String.IsNullOrEmpty(txttelefono2.Text) Then
-                devolucionDir = devolucionDir & " Debe agregar telefono 2"
+                devolucionDir = devolucionDir & "el segundo telefono, "
                 validaerror = validaerror + 1
             End If
 
             If String.IsNullOrEmpty(ddl_pertenecetel1.SelectedValue) Then
-                devolucionDir = "Debe seleccionar a quien pertenece Telefono 1"
+                devolucionDir = devolucionDir & "debe indicar a quien pertenece el primer telefono, "
                 validaerror = validaerror + 1
             End If
             If String.IsNullOrEmpty(ddl_pertenecetel2.SelectedValue) Then
-                devolucionDir = "Debe seleccionar a quien pertenece Telefono 2"
+                devolucionDir = devolucionDir & "debe indicar a quien pertenece el segundo telefono, "
                 validaerror = validaerror + 1
             End If
 
             If validaerror > 0 Then
-                devolucionDir = devolucionDir & ", para poder guardar los datos"
+                devolucionDir = devolucionDir & "para poder guardar los datos"
+            Else
+                devolucionDir = String.Empty
             End If
 
         End If
