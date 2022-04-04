@@ -8,6 +8,12 @@
     <link href="CSS/app.css" rel="stylesheet" />
     <link href="CSS/PACTS.css" rel="stylesheet" />
     
+    <style type="text/css">
+        .auto-style1 {
+            height: 34px;
+        }
+    </style>
+    
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Release">
@@ -107,7 +113,7 @@
                                                 <td class="colstatushorariolistacitas">
                                                     <asp:Label ID="lbl_B_2_citas_status" runat="server" Text=""></asp:Label>
                                                 </td>
-                                                <td class="colstatushorarioclinica1alistacitas"
+                                                <td class="colstatushorarioclinica1alistacitas">
                                                     <asp:Label ID="lbl_B_2_citas_hosp" runat="server" Text=""></asp:Label>
                                                 </td>
                                                 <td class="colstatushorariolistacitas">
@@ -349,6 +355,7 @@
                                         <tr>
                                             <td colspan="5" style="padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
                                                 <%-- *****************Botones de actualizacion de datos***************** --%>
+                                                <asp:Button ID="BtnCitas" runat="server" Text="Citas" CssClass="button" />
                                                 <asp:Button ID="BtnActDir" runat="server" Text="Dirección" CssClass="button" /> 
                                                 <asp:Button ID="BtnActTel" runat="server" Text="Teléfonos" CssClass="button" />
                                                 <asp:Button ID="BtnActTodo" runat="server" Text="Ambos" CssClass="button" />
@@ -407,8 +414,8 @@
                                                     <asp:DropDownList ID="ddl_ListaZonas" runat="server" CssClass="ddl_direccioncascadapaciete"></asp:DropDownList>
                                                 </td>
                                             </tr>
-                                            </div>
-                                            <div id="BtnsGuardaDir" runat="server" visible="false">
+                                        </div>
+                                        <div id="BtnsGuardaDir" runat="server" visible="false">
                                             <%-- ******************Botones para Guardar solo Direcciones******************** --%>
                                                 <tr>
                                                     <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
@@ -419,7 +426,7 @@
                                                 </tr>
                                             </div>
                                         <%-- *********************Finaliza Campos de Direcciones************************ --%>
-                                        </div>
+                                            
                                         <div id="divtels" runat="server" visible="false" class="divdirclass">
                                         <%-- *********************Inicia Campos de Telefonos**************************** --%>    
                                                 <tr>
@@ -493,7 +500,7 @@
                                                 <div id="BtnsGuardarTels" runat="server" visible="false">
                                                 <%-- ******************Botones para Guardar solo Telefonos*************** --%>
                                                 <tr>
-                                                    <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
+                                                    <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;" class="auto-style1">
                                                         <asp:Button ID="Btn_CargaDatosAct_Tel" runat="server" Text="Carga Datos" CssClass="button" />
                                                         <asp:Button ID="Btn_GuardarTel" runat="server" Text="Guardar" CssClass="button" />
                                                         <asp:Button ID="Btn_CancelarTel" runat="server" Text="Cancelar" CssClass="button" />
@@ -512,6 +519,7 @@
                                                 </div>
                                         <%-- *********************Finaliza Campos de Telefonos*********************** --%>    
                                         </div>
+                                        <div id="Div_Citas" runat="server" visible="false">
                                         <tr> 
                                             <td class="coltitulosdatoscitas" >Ultima:</td>
                                             <td style="border-top: solid 1px #f18103;">
@@ -620,6 +628,7 @@
                                             <td colspan="3">
                                                 <asp:Literal runat="server" ID="ltl_error2" /></td>
                                         </tr>
+                                        </div>
                                     </table>
                                     
                                 </ContentTemplate>

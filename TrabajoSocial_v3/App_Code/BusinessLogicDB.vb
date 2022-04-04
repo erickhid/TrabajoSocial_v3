@@ -6007,7 +6007,7 @@ Public Class BusinessLogicDB
 
         Select Case param.PerTel1
             Case "PER"
-                TelMangua1 = param.Tel1 & " Personal, " & param.ConTx1 & " Conoce dx"
+                TelMangua1 = param.Tel1 & " Personal, "
             Case "FAM"
                 TelMangua1 = param.Tel1 & " familiar, " & param.ConTx1 & " Conoce dx"
             Case "AMI"
@@ -6024,7 +6024,7 @@ Public Class BusinessLogicDB
         Else
             Select Case param.PerTel2
                 Case "PER"
-                    TelMangua2 = param.Tel2 & " Personal, " & param.ConTx2 & " Conoce dx"
+                    TelMangua2 = param.Tel2 & " Personal, "
                 Case "FAM"
                     TelMangua2 = param.Tel2 & " familiar, " & param.ConTx2 & " Conoce dx"
                 Case "AMI"

@@ -502,6 +502,8 @@ Partial Class calendario
 
     Protected Sub txt_asi_TextChanged(sender As Object, e As EventArgs) Handles txt_asi.TextChanged
 
+        LimpiarDatosTS("TOD")
+
         buscaNHC()
         Obtienediacita()
         LlenaCircuito()
@@ -528,6 +530,7 @@ Partial Class calendario
     End Sub
 
     Sub buscaNHC()
+
         'Dim nhc As String = txt_asi.Text.ToString()
 
         If txt_asi.Text.ToUpper().Trim <> String.Empty Then
@@ -1586,9 +1589,13 @@ Partial Class calendario
             If resultadoD = "ERROR" Then
                 lblResGD_DirTel_Error.Text = "No fue posible guardar el registro"
                 DivResGD_DirTel_error.Visible = True
+                lblResGD_DirTel.Text = String.Empty
+                DivResGD_DirTel_exito.Visible = False
             Else
                 lblResGD_DirTel.Text = resultadoD
                 DivResGD_DirTel_exito.Visible = True
+                lblResGD_DirTel_Error.Text = String.Empty
+                DivResGD_DirTel_error.Visible = False
             End If
 
             LimpiaDatosPacientesTS("DIR")
@@ -1597,7 +1604,8 @@ Partial Class calendario
             Obtienediacita()
             LlenaCircuito()
         Else
-
+            lblResGD_DirTel.Text = String.Empty
+            DivResGD_DirTel_exito.Visible = False
             lblResGD_DirTel_Error.Text = ValidaDatos
             DivResGD_DirTel_error.Visible = True
 
@@ -1624,7 +1632,11 @@ Partial Class calendario
             If resultadoD = "ERROR" Then
                 lblResGD_DirTel_Error.Text = "No fue posible guardar el registro"
                 DivResGD_DirTel_error.Visible = True
+                lblResGD_DirTel.Text = String.Empty
+                DivResGD_DirTel_exito.Visible = False
             Else
+                lblResGD_DirTel_Error.Text = String.Empty
+                DivResGD_DirTel_error.Visible = False
                 lblResGD_DirTel.Text = resultadoD
                 DivResGD_DirTel_exito.Visible = True
             End If
@@ -1637,6 +1649,8 @@ Partial Class calendario
 
         Else
 
+            lblResGD_DirTel.Text = String.Empty
+            DivResGD_DirTel_exito.Visible = False
             lblResGD_DirTel_Error.Text = ValidaDatos
             DivResGD_DirTel_error.Visible = True
 
@@ -1663,9 +1677,13 @@ Partial Class calendario
             If resultadoD = "ERROR" Then
                 lblResGD_DirTel_Error.Text = "No fue posible guardar el registro"
                 DivResGD_DirTel_error.Visible = True
+                lblResGD_DirTel.Text = String.Empty
+                DivResGD_DirTel_exito.Visible = False
             Else
                 lblResGD_DirTel.Text = resultadoD
                 DivResGD_DirTel_exito.Visible = True
+                lblResGD_DirTel_Error.Text = String.Empty
+                DivResGD_DirTel_error.Visible = False
             End If
 
             LimpiaDatosPacientesTS("TOD")
@@ -1675,7 +1693,8 @@ Partial Class calendario
             LlenaCircuito()
 
         Else
-
+            lblResGD_DirTel.Text = String.Empty
+            DivResGD_DirTel_exito.Visible = False
             lblResGD_DirTel_Error.Text = ValidaDatos
             DivResGD_DirTel_error.Visible = True
 
@@ -1683,57 +1702,35 @@ Partial Class calendario
     End Sub
     Protected Sub BtnActDir_Click(sender As Object, e As EventArgs) Handles BtnActDir.Click
         LimpiaDatosPacientesTS("DIR")
+        LimpiarDatosTS("DIR")
         divdir.Visible = True
         BtnsGuardaDir.Visible = True
-        divtels.Visible = False
-        BtnsGuardarTels.Visible = False
+        RecuperaDatosPaciente(txt_asi.Text)
     End Sub
     Protected Sub BtnActTel_Click(sender As Object, e As EventArgs) Handles BtnActTel.Click
         LimpiaDatosPacientesTS("TEL")
+        LimpiarDatosTS("TEL")
         divtels.Visible = True
         BtnsGuardarTels.Visible = True
-        divdir.Visible = False
-        BtnsGuardaDir.Visible = False
-        BtnsGuardarTodo.Visible = False
+        RecuperaDatosPaciente(txt_asi.Text)
     End Sub
     Protected Sub BtnActTodo_Click(sender As Object, e As EventArgs) Handles BtnActTodo.Click
         LimpiaDatosPacientesTS("TOD")
+        LimpiarDatosTS("TOD")
         divdir.Visible = True
         divtels.Visible = True
         BtnsGuardarTodo.Visible = True
-        BtnsGuardaDir.Visible = False
-        BtnsGuardarTels.Visible = False
+        RecuperaDatosPaciente(txt_asi.Text)
     End Sub
 
     Protected Sub Btn_DirCancelar_Click(sender As Object, e As EventArgs) Handles Btn_DirCancelar.Click
-        LimpiaDatosPacientesTS("DIR")
-        divdir.Visible = False
-        BtnsGuardaDir.Visible = False
-        divtels.Visible = False
-        BtnsGuardarTels.Visible = False
-        BtnsGuardarTodo.Visible = False
-        DivResGD_DirTel_error.Visible = False
-        DivResGD_DirTel_exito.Visible = False
+        LimpiarDatosTS("DIR")
     End Sub
     Protected Sub Btn_CancelarTel_Click(sender As Object, e As EventArgs) Handles Btn_CancelarTel.Click
-        LimpiaDatosPacientesTS("TEL")
-        divdir.Visible = False
-        BtnsGuardaDir.Visible = False
-        divtels.Visible = False
-        BtnsGuardarTels.Visible = False
-        BtnsGuardarTodo.Visible = False
-        DivResGD_DirTel_error.Visible = False
-        DivResGD_DirTel_exito.Visible = False
+        LimpiarDatosTS("TEL")
     End Sub
     Protected Sub Btn_CancelarTodo_Click(sender As Object, e As EventArgs) Handles Btn_CancelarTodo.Click
-        LimpiaDatosPacientesTS("TOD")
-        divdir.Visible = False
-        BtnsGuardaDir.Visible = False
-        divtels.Visible = False
-        BtnsGuardarTels.Visible = False
-        BtnsGuardarTodo.Visible = False
-        DivResGD_DirTel_error.Visible = False
-        DivResGD_DirTel_exito.Visible = False
+        LimpiarDatosTS("TOD")
     End Sub
 
     Private Sub RecuperaDatosPaciente(ByVal NHCTS As Integer)
@@ -1799,6 +1796,24 @@ Partial Class calendario
         Else
             RecuperaDatosPaciente(txt_asi.Text)
         End If
+    End Sub
+    Protected Sub BtnCitas_Click(sender As Object, e As EventArgs) Handles BtnCitas.Click
+        LimpiarDatosTS("TOD")
+        Div_Citas.Visible = True
+    End Sub
+
+    Private Sub LimpiarDatosTS(ByVal que As String)
+        LimpiaDatosPacientesTS(que)
+        divdir.Visible = False
+        BtnsGuardaDir.Visible = False
+        divtels.Visible = False
+        BtnsGuardarTels.Visible = False
+        BtnsGuardarTodo.Visible = False
+        lblResGD_DirTel.Text = String.Empty
+        lblResGD_DirTel_Error.Text = String.Empty
+        DivResGD_DirTel_error.Visible = False
+        DivResGD_DirTel_exito.Visible = False
+        Div_Citas.Visible = False
     End Sub
 End Class
 
