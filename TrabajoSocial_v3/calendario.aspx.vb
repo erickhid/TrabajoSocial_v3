@@ -1165,6 +1165,139 @@ Partial Class calendario
 
     Protected Sub ddl_horario_cita_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddl_horario_cita.SelectedIndexChanged
         btn_agregar.Visible = False
+
+        Dim pox_cita As String
+        Dim horario As String
+        Dim clinica As String
+        Dim d As String
+
+        If lbl_feriado.Text = "SI" Or lbl_fechaNoDisponible.Text = "SI" Then
+
+            ltl_error.Text = "<span class='error'>Fecha es feriado o no esta disponible, elija otra fecha.</span>"
+
+        Else
+
+            pox_cita = txt_fecha.Text.ToString()
+            horario = ddl_horario_cita.SelectedValue.ToString()
+            clinica = ddl_clinica.SelectedValue.ToString()
+            db.Cn1 = cn1
+            d = db.Revisa_horarios_disponibles(pox_cita, horario, clinica, usuario)
+
+            ltl_error2.Text = String.Empty
+
+            If clinica = 1 Then
+
+                Select Case horario
+                    Case 1
+                        If d > 12 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 2
+                        If d > 14 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                    Case 3
+                        If d > 13 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                    Case 4
+                        If d > 13 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                    Case 5
+                        If d > 13 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 7
+                        If d > 15 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                    Case 8
+                        If d > 10 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                    Case 9
+                        If d > 20 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                End Select
+            Else
+                Select Case horario
+                    Case 1
+                        If d >= 1 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 2
+                        If d >= 1 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 3
+                        If d >= 1 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 4
+                        If d >= 1 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+
+                    Case 5
+                        If d >= 1 Then
+                            ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                        Else
+                            ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                            btn_agregar.Visible = True
+                        End If
+                End Select
+            End If
+        End If
     End Sub
 
     Protected Sub ib_ad_Click(sender As Object, e As ImageClickEventArgs) Handles ib_ad.Click
