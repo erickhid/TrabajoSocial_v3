@@ -2208,7 +2208,7 @@ Public Class BusinessLogicDB
 
     Public Function EliminaFechaNoDisponible(ByVal idFechaND As Integer, ByVal usuario As String) As String
         _page = "db.ObtieneFechasNoDisponibles"
-
+        Dim msjres As String = String.Empty
         Dim Q As New StringBuilder()
         Dim Query As String = ""
         Q.Append("delete from CITAS_FECHAS_NODISPONIBLES where IdCitaNoDisponible = " & idFechaND.ToString())
@@ -2225,17 +2225,19 @@ Public Class BusinessLogicDB
                 connection.Dispose()
                 connection.Close()
             End Using
-            Return "Eliminado Correctamente"
+            msjres = "La fecha seleccionada fue eliminada correctamente"
         Catch ex As SqlException
             _error = ex.Message
             _pageO = _page & "_" & usuario
             GrabarErrores(usuario & "|" & _page & "|" & ex.Number & "|" & ex.Message & "|" & Query)
-            Return Nothing
+            msjres = "Ocurrio un error al eliminar la fecha seleccionada"
         End Try
+        Return msjres
     End Function
 
-    Public Sub GrabaFechaND(ByVal fecha As String, ByVal Descripcion As String, ByVal iusuario As Integer, ByVal usuario As String)
+    Public Function GrabaFechaND(ByVal fecha As String, ByVal Descripcion As String, ByVal iusuario As Integer, ByVal usuario As String) As String
         _page = "db.GrabaFechaND"
+        Dim strmsg As String = String.Empty
         Dim sql As String = String.Format("insert into CITAS_FECHAS_NODISPONIBLES (Descripcion, FechaNoDisponible, UsuarioCrea) values ('{0}',convert(date,'{1}',103),{2})", Descripcion, fecha, iusuario)
         Try
             Using connection As New SqlConnection(_cn1)
@@ -2246,12 +2248,16 @@ Public Class BusinessLogicDB
                 connection.Dispose()
                 connection.Close()
             End Using
+            strmsg = "Registro agregado correctamente"
+
         Catch ex As SqlException
             _error = ex.Message
             _pageO = _page & "_" & usuario
             GrabarErrores(usuario & "|" & _page & "|" & ex.Number & "|" & ex.Message)
+            strmsg = "Ocurrio un error, no fue posible guardar el registro"
         End Try
-    End Sub
+        Return strmsg
+    End Function
 
     Public Function ValidaExisteFecha(ByVal fecha As String, ByVal usuario As String) As String
         _page = "db.ValidaExisteFecha"
@@ -2547,7 +2553,7 @@ Public Class BusinessLogicDB
         Dim Query As String = ""
         Dim Str As String = ""
         Q.Append("SELECT Z.NomGenero, Z.Paciente, Z.Telefono, Z.FechaNacimiento, Z.Edad, Z.Direccion, Z.IdPaciente, Z.Cedula, Z.NumHospitalaria, ")
-        Q.Append("(CASE WHEN LTRIM(RTRIM(Z.NomMotivoBaja)) IS NULL THEN 'Activo' ELSE LTRIM(RTRIM(Z.NomMotivoBaja)) END) AS 'MotivoBaja', Z.Clasificación_Pac, z.fechaproximavisita, z.entregodpi FROM ")
+        Q.Append("(CASE WHEN LTRIM(RTRIM(Z.NomMotivoBaja)) IS NULL THEN 'Activo' ELSE LTRIM(RTRIM(Z.NomMotivoBaja)) END) AS 'MotivoBaja', Z.Clasificación_Pac, z.fechaproximavisita, z.entregodpi, z.observaciones FROM ")
         Q.Append("(SELECT B.Cedula, B.NumHospitalaria, A.IdPaciente, C.NomGenero, LTRIM(RTRIM(B.PrimerNombre)) + (CASE WHEN B.SegundoNombre IS NULL ")
         Q.Append("THEN '' WHEN B.SegundoNombre = 'SSN' THEN '' ELSE ' ' + LTRIM(RTRIM(B.SegundoNombre)) END) + ' ' + LTRIM(RTRIM(B.PrimerApellido)) ")
         Q.Append("+ (CASE WHEN B.SegundoApellido IS NULL THEN '' WHEN B.SegundoApellido = 'SSA' THEN '' ELSE ' ' + LTRIM(RTRIM(B.SegundoApellido)) END) AS 'Paciente', ")
@@ -2562,10 +2568,9 @@ Public Class BusinessLogicDB
         Q.Append("(SELECT TOP 1 N.NomMotivoBaja FROM PAC_BAJA AS M LEFT OUTER JOIN PAC_ID AS O ON M.IdPaciente = O.IdPaciente LEFT OUTER JOIN PAC_M_MOTIVOBAJA AS N ON M.MotivoBaja = N.IdMotivoBaja WHERE M.IdPaciente = A.IdPaciente AND O.Baja = 1 ORDER BY M.FechaBaja DESC) AS 'NomMotivoBaja', ")
         Q.Append("(SELECT TOP 1 dbo.fn_ObtieneClasificacion_pac(PEP.Id_Clasificacion_Pac) FROM PSOEP AS PEP WHERE PEP.NHC = A.NHC AND PEP.Id_Clasificacion_Pac IS NOT NULL  ORDER BY PEP.FechaFicha DESC) AS 'Clasificación_Pac', ")
         Q.Append("(select top 1 signos.FechaProximaVisita from SIGNOSVITALES as signos where signos.IdPaciente = b.IdPaciente order by signos.FechaProximaVisita desc) as fechaproximavisita, ")
-        Q.Append("(select top 1 pacts.EntregoDPI from BDTrabajoSocial.dbo.PAC_PacientesTS as pacts where pacts.NHC = A.NHC) as entregodpi ")
+        Q.Append("(select top 1 pacts.EntregoDPI from BDTrabajoSocial.dbo.PAC_PacientesTS as pacts where pacts.NHC = A.NHC) as entregodpi, ")
+        Q.Append("(select pts.observaciones from BDTrabajoSocial.dbo.PAC_PacientesTS pts where pts.NHC = A.NHC) as observaciones ")
         Q.Append("FROM PAC_ID AS A LEFT OUTER JOIN ")
-        'Q.Append("PAC_BAJA AS G ON A.IdPaciente = G.IdPaciente LEFT OUTER JOIN ")
-        'Q.Append("PAC_M_MOTIVOBAJA AS H ON G.MotivoBaja = H.IdMotivoBaja LEFT OUTER JOIN ")
         Q.Append("PAC_BASALES AS B ON A.IdPaciente = B.IdPaciente LEFT OUTER JOIN ")
         Q.Append("PAC_M_GENERO AS C ON B.IdGenero = C.IdGenero LEFT OUTER JOIN ")
         Q.Append("PAC_M_PAIS AS D ON B.PaisNacimiento = D.IdPais AND B.PaisResidencia = D.IdPais LEFT OUTER JOIN ")
@@ -2584,7 +2589,7 @@ Public Class BusinessLogicDB
                 Dim reader As SqlDataReader = command.ExecuteReader()
                 If reader IsNot Nothing Then
                     While reader.Read()
-                        Str = "True|" + reader("NomGenero").ToString() + "|" + reader("Paciente").ToString() + "|" + reader("Telefono").ToString() + "|" + reader("FechaNacimiento").ToString() + "|" + reader("Edad").ToString() + "|" + reader("Direccion").ToString() + "|" + reader("MotivoBaja").ToString() + "|" + reader("IdPaciente").ToString() + "|" + reader("Clasificación_Pac").ToString() + "|" + reader("Cedula").ToString() + "|" + reader("NumHospitalaria").ToString() + "|" + reader("fechaproximavisita").ToString() + "|" + reader("entregodpi").ToString()
+                        Str = "True|" + reader("NomGenero").ToString() + "|" + reader("Paciente").ToString() + "|" + reader("Telefono").ToString() + "|" + reader("FechaNacimiento").ToString() + "|" + reader("Edad").ToString() + "|" + reader("Direccion").ToString() + "|" + reader("MotivoBaja").ToString() + "|" + reader("IdPaciente").ToString() + "|" + reader("Clasificación_Pac").ToString() + "|" + reader("Cedula").ToString() + "|" + reader("NumHospitalaria").ToString() + "|" + reader("fechaproximavisita").ToString() + "|" + reader("entregodpi").ToString() + "|" + reader("observaciones").ToString()
                         Exit While
                     End While
                 End If
@@ -6203,6 +6208,56 @@ Public Class BusinessLogicDB
         Return Str
 
 
+    End Function
+
+    Public Function ActualizaEntregaCopiaDPI(ByVal nhc As String, ByVal Entrego As String, ByVal usuario As String) As String
+        _page = "db.ActualizaEntregaCopiaDPI"
+        Dim res As String = String.Empty
+        Dim sql As String = String.Format("Update BDTrabajoSocial.dbo.PAC_PacientesTS set EntregoDPI = '{0}' where NHC = '{1}'", Entrego, nhc)
+        Try
+            Using connection As New SqlConnection(_cn1)
+                connection.Open()
+                Dim command As New SqlCommand(sql, connection)
+                command.ExecuteNonQuery()
+                command.Dispose()
+                connection.Dispose()
+                connection.Close()
+            End Using
+            res = "Exito|Entrega de copia de DPI actualizado exitosamente"
+        Catch ex As SqlException
+            _error = ex.Message
+            _pageO = _page + "_" + nhc
+            GrabarErrores(usuario & "|" & _pageO & "|" & ex.Number & "|" & ex.Message)
+            res = "Error|Ocurrio un error al actualizar el DPI" + ex.Number
+
+        End Try
+
+        Return res
+    End Function
+
+    Public Function ActualizaObservaciones(ByVal nhc As String, ByVal Observaciones As String, ByVal usuario As String) As String
+        _page = "db.ActualizaObservaciones"
+        Dim res As String = String.Empty
+        Dim sql As String = String.Format("Update BDTrabajoSocial.dbo.PAC_PacientesTS set Observaciones = '{0}' where NHC = '{1}'", Observaciones, nhc)
+        Try
+            Using connection As New SqlConnection(_cn1)
+                connection.Open()
+                Dim command As New SqlCommand(sql, connection)
+                command.ExecuteNonQuery()
+                command.Dispose()
+                connection.Dispose()
+                connection.Close()
+            End Using
+            res = "Exito|Las observaciones han sido actualizadas con Exito"
+        Catch ex As SqlException
+            _error = ex.Message
+            _pageO = _page + "_" + nhc
+            GrabarErrores(usuario & "|" & _pageO & "|" & ex.Number & "|" & ex.Message)
+            res = "Error|Ocurrio un error al actualizar las observaciones, " + ex.Number
+
+        End Try
+
+        Return res
     End Function
 
 End Class

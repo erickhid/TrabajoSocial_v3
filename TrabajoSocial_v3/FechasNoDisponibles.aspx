@@ -10,7 +10,7 @@
     
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="true"> 
     </asp:ScriptManager>
     <div style="text-align:center; width:700px; margin-left:auto; margin-right:auto;">
         <table id="Table1" runat="server" width="700px" style="text-align:left" border="0" cellpadding="2" cellspacing="1">
@@ -151,6 +151,7 @@
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger ControlID="btn_generar" EventName="Click" />
+                                <asp:AsyncPostBackTrigger ControlID="btn_Eliminar" EventName="Click" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>

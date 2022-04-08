@@ -25,7 +25,6 @@
 	
     <div class="contenedorprincipalcalendario" >
 
-
         <center>
             <table id="tblbasal" border="0" cellpadding="2" cellspacing="1" class="tablaprincipalcalendario" >
                 <tr>
@@ -253,6 +252,8 @@
                                 <asp:AsyncPostBackTrigger ControlID="txt_asi" EventName="TextChanged" />
                                 <asp:AsyncPostBackTrigger ControlID="btn_buscar" EventName="Click" />
                                 <asp:AsyncPostBackTrigger ControlID="btn_limpiar" EventName="Click" />
+                                <asp:AsyncPostBackTrigger ControlID="chb_DPI" EventName="CheckedChanged" />
+                                <asp:AsyncPostBackTrigger ControlID="txt_Observaciones" EventName="TextChanged" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </td>
@@ -316,7 +317,7 @@
                                                 <asp:Label ID="lbl_numhopitalia" runat="server" ></asp:Label>
                                             </td>
                                             <td>
-                                                <asp:CheckBox ID="chb_DPI" runat="server" Text="Entrego DPI" />
+                                                <asp:CheckBox ID="chb_DPI" runat="server" Text=" Entrego DPI" AutoPostBack="true" />
                                             </td>
                                         </tr>
                                         <tr>
@@ -344,6 +345,18 @@
                                             <td colspan="4" style="background-color: #e9ecf1;">
                                                 <asp:Label ID="lbl_direccion" runat="server"></asp:Label>
                                             </td>
+                                        </tr>
+                                        <tr style="height: 46px;">
+                                            <td class="columnacodigoasititulo">Observaciones:
+                                            </td>
+                                            <td colspan="4" style="background-color: #e9ecf1; width: 100%;">
+                                                <asp:TextBox ID="txt_Observaciones" runat="server" Width="100%" TextMode="MultiLine" AutoPostBack="true"></asp:TextBox>
+                                            </td>
+                                            <%-- 
+                                            <td>
+                                                <asp:Button ID="Btn_ActualizaObservaciones" runat="server" Text="Actualizar" />
+                                            </td>
+                                            --%>
                                         </tr>
                                         <tr style="height: 25px;">
                                             <td class="columnacodigoasititulo">TyT:
@@ -411,7 +424,7 @@
                                                     <asp:Label ID="lblzona" runat="server" Text="Zonas"></asp:Label>
                                                 </td>
                                                 <td  colspan="2">
-                                                    <asp:DropDownList ID="ddl_ListaZonas" runat="server" CssClass="ddl_direccioncascadapaciete"></asp:DropDownList>
+                                                    <asp:DropDownList ID="ddl_ListaZonas" runat="server" CssClass="ddl_direccioncascadapaciete" ToolTip="Si no existen zonas, elige: Zona 0"></asp:DropDownList>
                                                 </td>
                                             </tr>
                                         </div>
@@ -419,7 +432,8 @@
                                             <%-- ******************Botones para Guardar solo Direcciones******************** --%>
                                                 <tr>
                                                     <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
-                                                        <asp:Button ID="Btn_DirCargaDatosActuales_Dir" runat="server" Text="Cargar Datos" CssClass="button" />
+                                                        <asp:Button ID="Btn_DirCargaDatosActuales_Dir" runat="server" Text="Cargar Datos" CssClass="button" Visible="false" />
+                                                        <asp:Button ID="Btn_limpiarDir" runat="server" Text="Limpiar" CssClass="button" />
                                                         <asp:Button ID="Btn_DirGuardar" runat="server" Text="Guardar" CssClass="button" />
                                                         <asp:Button ID="Btn_DirCancelar" runat="server" Text="Cancelar" CssClass="button" />
                                                     </td>
@@ -501,7 +515,8 @@
                                                 <%-- ******************Botones para Guardar solo Telefonos*************** --%>
                                                 <tr>
                                                     <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;" class="auto-style1">
-                                                        <asp:Button ID="Btn_CargaDatosAct_Tel" runat="server" Text="Carga Datos" CssClass="button" />
+                                                        <asp:Button ID="Btn_CargaDatosAct_Tel" runat="server" Text="Carga Datos" CssClass="button" Visible="false" />
+                                                        <asp:Button ID="Btn_limpiarTel" runat="server" Text="Limpiar" CssClass="button" />
                                                         <asp:Button ID="Btn_GuardarTel" runat="server" Text="Guardar" CssClass="button" />
                                                         <asp:Button ID="Btn_CancelarTel" runat="server" Text="Cancelar" CssClass="button" />
                                                     </td>
@@ -511,7 +526,8 @@
                                                 <%-- ******************Botones para Guardar Direcciones y Telefonos*************** --%>
                                                 <tr>
                                                     <td colspan="5" style="background-color: #544e41; padding-top: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;">
-                                                        <asp:Button ID="Btn_CargaDatosAct_Tod" runat="server" Text="Carga Datos" CssClass="button" />
+                                                        <asp:Button ID="Btn_CargaDatosAct_Tod" runat="server" Text="Carga Datos" CssClass="button" Visible="false" />
+                                                        <asp:Button ID="Btn_limpiarTod" runat="server" Text="Limpiar" CssClass="button" />
                                                         <asp:Button ID="Btn_GuardarTodo" runat="server" Text="Guardar" CssClass="button" />
                                                         <asp:Button ID="Btn_CancelarTodo" runat="server" Text="Cancelar" CssClass="button" />
                                                     </td>
@@ -535,7 +551,7 @@
                                                             <asp:TextBox ID="txt_fecha" runat="server" Style="width: 7.5em" AutoPostBack="True"></asp:TextBox>
                                                         </td>
                                                         <td style="background-color: #e9ecf1; text-align: left;">
-                                                            <cc1:CalendarExtender ID="CalendarExtender1" runat="server" PopupButtonID="ibtn_calendario" TargetControlID="txt_fecha" Format="dd/MM/yyyy" CssClass="ajax__calendar"></cc1:CalendarExtender>
+                                                            <cc1:CalendarExtender ID="CalendarExtender1" runat="server" PopupButtonID="ibtn_calendario" TargetControlID="txt_fecha" Format="dd/MM/yyyy" CssClass="ajax__calendar" ></cc1:CalendarExtender>
                                                             <asp:ImageButton ID="ibtn_calendario" runat="server" ImageUrl="~/images/datePickerPopupHover.gif" CausesValidation="False" BorderWidth="0" />
                                                             <asp:Label ID="lbl_feriado" runat="server" Visible="false" ></asp:Label>
                                                             <asp:Label ID="lbl_fechaNoDisponible" runat="server" Visible="false" ></asp:Label>
@@ -647,7 +663,7 @@
 
             <div id="div_Pediatria" runat="server" visible="false">
             </div>
-
+            
             <asp:UpdatePanel ID="prueba" runat="server">
                 <ContentTemplate>
                     <asp:Button ID="BtnShowPopup" runat="server" Style="display: none;" />
@@ -682,7 +698,7 @@
                     </asp:Panel>
                 </ContentTemplate>
             </asp:UpdatePanel>
-
+            
 
         </center>
     </div>

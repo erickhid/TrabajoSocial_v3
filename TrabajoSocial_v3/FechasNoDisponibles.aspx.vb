@@ -1,7 +1,4 @@
 ﻿Imports System.Data
-Imports System.Text
-Imports System.Drawing
-Imports System.IO
 
 Partial Class ConsultaV
     Inherits System.Web.UI.Page
@@ -36,6 +33,7 @@ Partial Class ConsultaV
     End Sub
 
     Private Sub LlenaGv()
+        Dim errmsg As String = String.Empty
         GV_fechasnd.DataSource = Nothing
         GV_fechasnd.DataBind()
         lbl_tlistado.Text = String.Empty
@@ -50,15 +48,21 @@ Partial Class ConsultaV
                     lbl_tlistado.Text = "FECHAS NO DISPONIBLES PARA CITAS"
 
                 Catch ex As Exception
-                    lbl_error.Text = "Hubo un error al mostrar listado de fechas no disponibles."
+                    'lbl_error.Text = "Hubo un error al mostrar listado de fechas no disponibles."
+                    errmsg = "Hubo un error al mostrar listado de fechas no disponibles."
                     errores = (usuario & "|FechasNoDisponibles.LLenaGv()|" & ex.ToString() & "|") + ex.Message
                     db.GrabarErrores(errores)
+                    ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + errmsg + "');", True)
                 End Try
             Else
-                lbl_error.Text = "No es una fecha válida!"
+                'lbl_error.Text = "No es una fecha válida!"
+                errmsg = "No es una fecha válida!"
+                ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + errmsg + "');", True)
             End If
         Else
-            lbl_error.Text = "Ingrese fecha!"
+            'lbl_error.Text = "Ingrese fecha!"
+            errmsg = "Ingrese fecha!"
+            ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + errmsg + "');", True)
         End If
     End Sub
 
@@ -89,6 +93,7 @@ Partial Class ConsultaV
         Dim iusuario As Integer = Convert.ToInt32(Session("iusuario").ToString())
         Dim res As String = String.Empty
         Dim resb As String()
+        Dim resg As String = String.Empty
 
         Try
             res = db.ValidaExisteFecha(txt_fecha.Text, usuario)
@@ -96,19 +101,25 @@ Partial Class ConsultaV
 
             If resb(1) = "0" Then
 
-                db.GrabaFechaND(txt_fecha.Text, txt_descri.Text, iusuario, usuario)
+                resg = db.GrabaFechaND(txt_fecha.Text, txt_descri.Text, iusuario, usuario)
 
-                Response.Redirect("FechasNoDisponibles.aspx")
+                ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + resg + "');", True)
+                'Response.Redirect("FechasNoDisponibles.aspx")
             Else
 
                 lbl_error.Text = "Fecha ya existe, elija otra fecha"
+                resg = "Fecha ya existe, elija otra fecha"
+                ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + resg + "');", True)
 
             End If
 
         Catch ex As Exception
-            lbl_error.Text = "Hubo un error al mostrar listado de fechas no disponibles."
+            'lbl_error.Text = "Hubo un error al mostrar listado de fechas no disponibles."
+            resg = "Hubo un error al mostrar listado de fechas no disponibles."
             errores = (usuario & "|ConsultaV.LLenaGv()|" & ex.ToString() & "|") + ex.Message
             db.GrabarErrores(errores)
+
+            ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + resg + "');", True)
         End Try
 
     End Sub
@@ -121,6 +132,7 @@ Partial Class ConsultaV
     Protected Sub btn_Eliminar_Click(sender As Object, e As EventArgs) Handles btn_Eliminar.Click
         db.Cn1 = cn1
         usuario = Session("usuario").ToString()
+        Dim msjresult As String = String.Empty
         Dim i As Integer
 
         For i = 0 To GV_fechasnd.Rows.Count - 1
@@ -128,7 +140,9 @@ Partial Class ConsultaV
             If CheckBoxEliminar.Checked Then
                 Dim IdFechaND As String = CType(GV_fechasnd.Rows(i).FindControl("lbl_IdFechaND"), Label).Text
 
-                db.EliminaFechaNoDisponible(IdFechaND, usuario)
+                msjresult = db.EliminaFechaNoDisponible(IdFechaND, usuario)
+
+                ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + msjresult + "');", True)
             End If
         Next
 
