@@ -300,6 +300,7 @@
                                                 <input id="hd_idpaciente" type="hidden" runat="server" />
                                                 <input id="hd_idsignosvitales" type="hidden" runat="server" />
                                                 <input id="hd_idcitas" type="hidden" runat="server" />
+                                                <input id="hd_tipovisita" type="hidden" runat="server" />
                                                 <asp:Label ID="lbl_nombre" runat="server" CssClass="paciente1"></asp:Label>
                                             </td>
                                         </tr>

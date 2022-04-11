@@ -15,6 +15,8 @@ Public Class BusinessLogicDB
     Private Const TimeoutDB As Integer = 600
     Public ResultadoG As String
     Public ResultadoG2 As String
+    Public CntReconsulta As Integer
+    Public CntNuevosyRetorno As Integer
 
     Public Property PageName() As String
         Get
@@ -2322,10 +2324,10 @@ Public Class BusinessLogicDB
         Return X
     End Function
 
-    Public Function InsertarFechaProximaVisitaTS(ByVal idpaciente As String, ByVal idsignosvitales As String, ByVal fecha As String, ByVal jornada As String, ByVal clinica As String, ByVal usuario As String, ByVal horario As String) As String
+    Public Function InsertarFechaProximaVisitaTS(ByVal idpaciente As String, ByVal idsignosvitales As String, ByVal fecha As String, ByVal jornada As String, ByVal clinica As String, ByVal usuario As String, ByVal horario As String, ByVal tipovisita As String) As String
         _page = "db.InsertarFechaProximaVisitaTS"
         Dim X As String = Nothing
-        Dim sql As String = String.Format("INSERT INTO PAC_CITAS (IdSignosVitales, IdPaciente, FechaProximaVisita, Jornada, Clinica, Usuario, IdHorario) VALUES ({0}, {1}, Convert(date,'{2}',103), {3}, {4}, '{5}', {6})", idsignosvitales, idpaciente, fecha, jornada, clinica, usuario, horario)
+        Dim sql As String = String.Format("INSERT INTO PAC_CITAS (IdSignosVitales, IdPaciente, FechaProximaVisita, Jornada, Clinica, Usuario, IdHorario, tipovisita) VALUES ({0}, {1}, Convert(date,'{2}',103), {3}, {4}, '{5}', {6}, {7})", idsignosvitales, idpaciente, fecha, jornada, clinica, usuario, horario, tipovisita)
         Try
             Using connection As New SqlConnection(_cn1)
                 connection.Open()
@@ -2345,11 +2347,11 @@ Public Class BusinessLogicDB
         Return X
     End Function
 
-    Public Function ActualizarFechaProximaVisitaTS(ByVal idsignosvitales As String, ByVal fecha As String, ByVal jornada As String, ByVal clinica As String, ByVal usuario As String, ByVal horario As String) As String
+    Public Function ActualizarFechaProximaVisitaTS(ByVal idsignosvitales As String, ByVal fecha As String, ByVal jornada As String, ByVal clinica As String, ByVal usuario As String, ByVal horario As String, ByVal tipovisita As String) As String
         _page = "db.ActualizarFechaProximaVisitaTS"
         Dim X As String = Nothing
 
-        Dim sql As String = String.Format("UPDATE PAC_CITAS SET FechaProximaVisita = Convert(DateTime,'{1}') , Jornada = {2}, Clinica = {3}, Usuario = '{4}', FechaModificacion = '{5}', IdHorario = {6}  WHERE IdSignosVitales = {0}", idsignosvitales, fecha, jornada, clinica, usuario, DateTime.Now.ToString("yyyyMMdd HH:mm:ss"), horario)
+        Dim sql As String = String.Format("UPDATE PAC_CITAS SET FechaProximaVisita = Convert(DateTime,'{1}') , Jornada = {2}, Clinica = {3}, Usuario = '{4}', FechaModificacion = '{5}', IdHorario = {6}, tipovisita = {7}  WHERE IdSignosVitales = {0}", idsignosvitales, fecha, jornada, clinica, usuario, DateTime.Now.ToString("yyyyMMdd HH:mm:ss"), horario, tipovisita)
         Try
             Using connection As New SqlConnection(_cn1)
                 connection.Open()
@@ -2410,8 +2412,8 @@ Public Class BusinessLogicDB
         Dim Query As String = ""
         Dim Str As String = ""
         Q.Append("SELECT X.IdSignosVitales, X.IdPaciente, CONVERT(VARCHAR,X.FechaVisita,103) AS 'FechaVisita', ")
-        Q.Append("CONVERT(VARCHAR,X.FechaProximaVisita,103) AS 'FechaProximaVisita' FROM ")
-        Q.Append("(SELECT TOP 1 IdSignosVitales, IdPaciente, FechaVisita, FechaProximaVisita ")
+        Q.Append("CONVERT(VARCHAR,X.FechaProximaVisita,103) AS 'FechaProximaVisita', TipoVisita FROM ")
+        Q.Append("(SELECT TOP 1 IdSignosVitales, IdPaciente, FechaVisita, FechaProximaVisita, TipoVisita ")
         Q.Append("FROM SIGNOSVITALES ")
         Q.Append("WHERE idpaciente = " & idpaciente & " ")
         Q.Append("ORDER BY FechaVisita DESC) AS X ")
@@ -2425,7 +2427,7 @@ Public Class BusinessLogicDB
                 Dim reader As SqlDataReader = command.ExecuteReader()
                 If reader IsNot Nothing Then
                     While reader.Read()
-                        Str = "True|" + reader("IdSignosVitales").ToString() + "|" + reader("FechaVisita").ToString() + "|" + reader("FechaProximaVisita").ToString()
+                        Str = "True|" + reader("IdSignosVitales").ToString() + "|" + reader("FechaVisita").ToString() + "|" + reader("FechaProximaVisita").ToString() + "|" + reader("TipoVisita").ToString()
                         Exit While
                     End While
                 End If
@@ -5400,28 +5402,32 @@ Public Class BusinessLogicDB
     Public Function Revisa_horarios_disponibles(ByVal prox_cita As String, ByVal horario As String, ByVal clinica As String, ByVal usuario As String) As String
         _page = "db.Revisa_horarios_disponibles"
         Dim Query As String = String.Empty
+        Dim Query2 As String = String.Empty
         Dim Str As String = ""
 
-
-        'Seleccion horarios asignados lunes -jueves
-        Query = "SELECT Count(C.IdCitas) AS 'No_Citas' FROM  PAC_CITAS AS C  WHERE convert(VARCHAR, C.FechaProximaVisita, 103) = '" & prox_cita & "' AND C.IdHorario = '" & horario & "' AND C.Clinica = '" & clinica & "' "
 
         Dim Ds As New DataSet()
         Try
             Using connection As New SqlConnection(_cn1)
+
+                Dim cmd As SqlCommand = connection.CreateCommand()
+                cmd.CommandText = "SP_RevisaHorarioCitas"
+                cmd.CommandType = CommandType.StoredProcedure
+
+                cmd.Parameters.AddWithValue("@FechaProximaCita", SqlDbType.VarChar).Value = prox_cita
+                cmd.Parameters.AddWithValue("@IdHorario", SqlDbType.VarChar).Value = horario
+                cmd.Parameters.AddWithValue("@Clinica", SqlDbType.VarChar).Value = clinica
+                cmd.Parameters.Add("@CntPacReconsulta", SqlDbType.Int).Direction = ParameterDirection.Output
+                cmd.Parameters.Add("@CntPacNuevosYRetornos", SqlDbType.Int).Direction = ParameterDirection.Output
+
                 connection.Open()
-                Dim command As New SqlCommand(Query, connection)
-                command.CommandTimeout = TimeoutDB
-                Dim reader As SqlDataReader = command.ExecuteReader()
-                If reader IsNot Nothing Then
-                    reader.Read()
-                    Str = reader("No_Citas").ToString()
-                End If
-                reader.Dispose()
-                reader.Close()
-                command.Dispose()
-                connection.Dispose()
-                connection.Close()
+                cmd.ExecuteScalar()
+
+                CntReconsulta = cmd.Parameters("@CntPacReconsulta").Value
+                CntNuevosyRetorno = cmd.Parameters("@CntPacNuevosYRetornos").Value
+
+                Str = "True|" & CntReconsulta.ToString() & "|" & CntNuevosyRetorno.ToString()
+
             End Using
         Catch ex As SqlException
             _error = ex.Message
@@ -5432,24 +5438,6 @@ Public Class BusinessLogicDB
         Return Str
 
 
-
-        '    Using connection As New SqlConnection(_cn1)
-        '        connection.Open()
-        '        Dim adapter As New SqlDataAdapter()
-        '        adapter.SelectCommand = New SqlCommand(Query, connection)
-        '        adapter.SelectCommand.CommandTimeout = TimeoutDB
-        '        adapter.Fill(Ds, _page)
-        '        adapter.Dispose()
-        '        connection.Dispose()
-        '        connection.Close()
-        '    End Using
-        '    Return Ds.Tables(0)
-        'Catch ex As SqlException
-        '    _error = ex.Message
-        '    _pageO = _page
-        '    GrabarErrores(usuario & "|" & _pageO & "|" & ex.Number & "|" & ex.Message)
-        '    Return Nothing
-        'End Try
     End Function
     Public Function Ultimo_Horario_Asignado(ByVal idpac As String, ByVal usuario As String) As String
         _page = "db.Ultimo_Horario_Asignado"

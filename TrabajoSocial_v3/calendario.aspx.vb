@@ -395,7 +395,7 @@ Partial Class calendario
                 x = db.InsertarFechaProximaVisita("1", hd_idsignosvitales.Value, fechab, hd_idpaciente.Value, iusuario, usuario)
                 rp = x.Split("|")
                 'TS
-                y = db.InsertarFechaProximaVisitaTS(hd_idpaciente.Value, hd_idsignosvitales.Value, fechab, ddl_jornada.SelectedValue.ToString(), ddl_clinica.SelectedValue.ToString(), usuario, ddl_horario_cita.SelectedValue.ToString())
+                y = db.InsertarFechaProximaVisitaTS(hd_idpaciente.Value, hd_idsignosvitales.Value, fechab, ddl_jornada.SelectedValue.ToString(), ddl_clinica.SelectedValue.ToString(), usuario, ddl_horario_cita.SelectedValue.ToString(), hd_tipovisita.Value.ToString())
                 rpy = y.Split("|")
                 'msj = "<span class='error'>" & rp(1).ToString() & "<br />" & rpy(1).ToString() & "</span>"
                 msj = rp(1).ToString() & "\n" & rpy(1).ToString()
@@ -410,7 +410,7 @@ Partial Class calendario
                 x = db.InsertarFechaProximaVisita("2", hd_idsignosvitales.Value, fechab, hd_idpaciente.Value, iusuario, usuario)
                 rp = x.Split("|")
                 'TS
-                y = db.ActualizarFechaProximaVisitaTS(hd_idsignosvitales.Value, fechab, ddl_jornada.SelectedValue.ToString(), ddl_clinica.SelectedValue.ToString(), usuario, ddl_horario_cita.SelectedValue.ToString())
+                y = db.ActualizarFechaProximaVisitaTS(hd_idsignosvitales.Value, fechab, ddl_jornada.SelectedValue.ToString(), ddl_clinica.SelectedValue.ToString(), usuario, ddl_horario_cita.SelectedValue.ToString(), hd_tipovisita.Value.ToString())
                 rpy = y.Split("|")
                 'msj = "<span class='error'>" & rp(1).ToString() & "<br />" & rpy(1).ToString() & "</span>"
                 msj = rp(1).ToString() & "\n" & rpy(1).ToString()
@@ -520,18 +520,32 @@ Partial Class calendario
         buscaNHC()
 
 
-        'Obtienediacita()
-        'LlenaCircuito()
+        Obtienediacita()
+        LlenaCircuito()
 
-        'ObtieneNoCitasHorarios()
-        'If txt_fecha.Text <> String.Empty Then
-        'ObtieneNoCitasHorarios()
-        'Else
-        'ltl_error2.Text = "<span class='error'>" & "Ingrese Fecha Próxima Cita" & "</span>"
+        ObtieneNoCitasHorarios()
+        If txt_fecha.Text <> String.Empty Then
+            ObtieneNoCitasHorarios()
+        Else
+            ltl_error2.Text = "<span class='error'>" & "Ingrese Fecha Próxima Cita" & "</span>"
+        End If
+
+
+        'iniciallenarhorario()
+
+        'Dim dia_lbl As String
+        'dia_lbl = lbl_dia_cita.Text.ToString()
+
+        'If dia_lbl <> "viernes" Then
+
+        '    llenahorarios1()
+        'ElseIf dia_lbl = "viernes" Then
+
+        '    llenahorarios2()
         'End If
+    End Sub
 
-
-
+    Private Sub iniciallenarhorario()
         Dim dia_lbl As String
         dia_lbl = lbl_dia_cita.Text.ToString()
 
@@ -644,23 +658,25 @@ Partial Class calendario
                 hd_idsignosvitales.Value = rpy(1).ToString()
                 lbl_visita.Text = rpy(2).ToString()
                 txt_fecha.Text = rpy(3).ToString()
+                hd_tipovisita.Value = rpy(4).ToString()
                 ltl_error.Text = String.Empty
             Else
                 ltl_error.Text = "<span class='error'>" & rpy(1) & "</span>"
             End If
             'visitaTS
+            iniciallenarhorario()
             Dim z As String = db.ObtieneFechaVisitaTS(hd_idsignosvitales.Value, usuario)
             Dim rpz As String() = z.Split("|")
             If rpz(0).ToString() = "True" Then
                 'llenahorarios1()
                 ddl_jornada.SelectedIndex = 0
                 ddl_clinica.SelectedIndex = 0
-                'ddl_horario_cita.SelectedIndex = 0
+                ddl_horario_cita.SelectedIndex = 0
                 'asignacion
                 hd_idcitas.Value = rpz(1).ToString()
                 ddl_jornada.SelectedValue = rpz(3).ToString()
                 ddl_clinica.SelectedValue = rpz(4).ToString()
-                'ddl_horario_cita.SelectedValue = rpz(5).ToString()
+                ddl_horario_cita.SelectedValue = If(String.IsNullOrEmpty(rpz(5).ToString()), "0", rpz(5).ToString())
                 ltl_error.Text = String.Empty
             Else
                 ltl_error.Text = "<span class='error'>" & rpz(1) & "</span>"
@@ -1204,6 +1220,7 @@ Partial Class calendario
         Dim pox_cita As String
         Dim horario As String
         Dim clinica As String
+        Dim tipovisita As String = hd_tipovisita.Value
         Dim d As String
 
         Dim fechahoy As DateTime = Date.Now()
@@ -1225,29 +1242,62 @@ Partial Class calendario
                 db.Cn1 = cn1
                 d = db.Revisa_horarios_disponibles(pox_cita, horario, clinica, usuario)
 
+                Dim rescnt As String() = d.Split("|")
+
+                Dim cntreconsulta As String = rescnt(1).ToString()
+                Dim cntnuevosyreconsulta As String = rescnt(2).ToString()
+                Dim cnttotal As Integer = 0
+
+                cnttotal = Convert.ToInt32(cntreconsulta) + Convert.ToInt32(cntnuevosyreconsulta)
+
                 ltl_error2.Text = String.Empty
 
                 If clinica = 1 Then
 
                     Select Case horario
                         Case 1
-                            If d > 12 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+                            If cnttotal <= 15 Then
+                                If tipovisita = 5 Or tipovisita = 15 Then
+                                    If cntnuevosyreconsulta >= 3 Then
+                                        ltl_error.Text = "<span class='error_hc'> Horario para pacientes Nuevos y Reconsulta lleno, Reasigne </span>"
+                                    Else
+                                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                                        btn_agregar.Visible = True
+                                    End If
+                                Else
+                                    If cntreconsulta >= 12 Then
+                                        ltl_error.Text = "<span class='error_hc'> Horario para pacientes de Reconsulta lleno, Reasigne </span>"
+                                    Else
+                                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                                        btn_agregar.Visible = True
+                                    End If
+                                End If
                             Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
+                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
                             End If
 
                         Case 2
-                            If d > 14 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-
+                            If cnttotal <= 15 Then
+                                If tipovisita = 5 Or tipovisita = 15 Then
+                                    If cntnuevosyreconsulta >= 2 Then
+                                        ltl_error.Text = "<span class='error_hc'> Horario para pacientes Nuevos y Reconsulta lleno, Reasigne </span>"
+                                    Else
+                                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                                        btn_agregar.Visible = True
+                                    End If
+                                Else
+                                    If cntreconsulta >= 13 Then
+                                        ltl_error.Text = "<span class='error_hc'> Horario para pacientes de Reconsulta lleno, Reasigne </span>"
+                                    Else
+                                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+                                        btn_agregar.Visible = True
+                                    End If
+                                End If
                             Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
+                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
                             End If
                         Case 3
-                            If d > 13 Then
+                            If cntreconsulta >= 15 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
                             Else
@@ -1255,7 +1305,7 @@ Partial Class calendario
                                 btn_agregar.Visible = True
                             End If
                         Case 4
-                            If d > 13 Then
+                            If cntreconsulta >= 10 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
                             Else
@@ -1263,7 +1313,7 @@ Partial Class calendario
                                 btn_agregar.Visible = True
                             End If
                         Case 5
-                            If d > 13 Then
+                            If cntreconsulta >= 10 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
                             Else
@@ -1272,7 +1322,7 @@ Partial Class calendario
                             End If
 
                         Case 7
-                            If d > 15 Then
+                            If cntreconsulta > 15 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
                             Else
@@ -1280,7 +1330,7 @@ Partial Class calendario
                                 btn_agregar.Visible = True
                             End If
                         Case 8
-                            If d > 10 Then
+                            If cntreconsulta > 10 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
                             Else
@@ -1288,7 +1338,7 @@ Partial Class calendario
                                 btn_agregar.Visible = True
                             End If
                         Case 9
-                            If d > 20 Then
+                            If cntreconsulta > 20 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
                             Else
@@ -1299,7 +1349,7 @@ Partial Class calendario
                 Else
                     Select Case horario
                         Case 1
-                            If d >= 1 Then
+                            If cntreconsulta >= 1 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
                             Else
                                 ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
@@ -1307,7 +1357,7 @@ Partial Class calendario
                             End If
 
                         Case 2
-                            If d >= 1 Then
+                            If cntreconsulta >= 1 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
                             Else
                                 ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
@@ -1315,7 +1365,7 @@ Partial Class calendario
                             End If
 
                         Case 3
-                            If d >= 1 Then
+                            If cntreconsulta >= 1 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
                             Else
                                 ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
@@ -1323,7 +1373,7 @@ Partial Class calendario
                             End If
 
                         Case 4
-                            If d >= 1 Then
+                            If cntreconsulta >= 1 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
                             Else
                                 ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
@@ -1331,7 +1381,7 @@ Partial Class calendario
                             End If
 
                         Case 5
-                            If d >= 1 Then
+                            If cntreconsulta >= 1 Then
                                 ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
                             Else
                                 ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
