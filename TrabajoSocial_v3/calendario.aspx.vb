@@ -18,6 +18,9 @@ Partial Class calendario
     Public sdepto As Integer
     Public smupio As Integer
     Public existeID As Boolean
+    Dim cntreconsulta As String
+    Dim cntnuevosyreconsulta As String
+    Dim cnttotal As Integer
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
@@ -376,7 +379,7 @@ Partial Class calendario
 
         db.Cn1 = cn1
         db.Cn2 = cn2
-        Dim x As String
+        Dim x As String = String.Empty
         Dim y As String
         Dim msj As String = String.Empty
         Dim rp As String()
@@ -443,7 +446,7 @@ Partial Class calendario
     End Sub
 
     Function msjerror(ByVal mj As String) As String
-        Dim x As String
+        Dim x As String = String.Empty
         Select Case mj
             Case "1"
                 x = ""
@@ -853,34 +856,36 @@ Partial Class calendario
         Dim dia As String = txt_fecha.Text.ToString()
         lbl_dia_horario.Text = dia
 
-        Dim h1 As String = db.R_no_citas_horario1(dia, clinica, usuario)
-        lbl_B_1_citas.Text = h1.ToString()
+        Rellenahorario(dia, 1, clinica, usuario)
+        'Dim h1 As String = db.R_no_citas_horario1(dia, clinica, usuario)
+        lbl_B_1_citas.Text = cntnuevosyreconsulta & " - " & cntreconsulta
 
-        If h1 >= 12 Then
+        If cnttotal >= 12 Then
             lbl_B_1_citas_status.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_1_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
-        Dim h2 As String = db.R_no_citas_horario2(dia, clinica, usuario)
-        lbl_B_2_citas.Text = h2.ToString()
-        If h2 >= 14 Then
+        Rellenahorario(dia, 2, clinica, usuario)
+        'Dim h2 As String = db.R_no_citas_horario2(dia, clinica, usuario)
+        lbl_B_2_citas.Text = cntnuevosyreconsulta & " - " & cntreconsulta
+        If cnttotal >= 14 Then
             lbl_B_2_citas_status.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_2_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
-        Dim h3 As String = db.R_no_citas_horario3(dia, clinica, usuario)
-        lbl_B_3_citas.Text = h3.ToString()
-        If h3 >= 13 Then
+        Rellenahorario(dia, 3, clinica, usuario)
+        lbl_B_3_citas.Text = cntreconsulta
+        If cnttotal >= 13 Then
             lbl_B_3_citas_status.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_3_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
-        Dim h4 As String = db.R_no_citas_horario4(dia, clinica, usuario)
-        lbl_B_4_citas.Text = h4.ToString()
-        If h4 >= 13 Then
+        Rellenahorario(dia, 4, clinica, usuario)
+        lbl_B_4_citas.Text = cntreconsulta
+        If cnttotal >= 13 Then
             lbl_B_4_citas_status.Text = "<span class='error_hc'> Completo </span>"
         ElseIf lbl_dia_cita.Text = "viernes" Then
             'lbl_B_4_citas_status.Text = "<span class='error_hc'>No Disponible </span>"
@@ -891,9 +896,9 @@ Partial Class calendario
             lbl_B_4_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
-        Dim h5 As String = db.R_no_citas_horario5(dia, clinica, usuario)
-        lbl_B_5_citas.Text = h5.ToString()
-        If h5 >= 13 Then
+        Rellenahorario(dia, 5, clinica, usuario)
+        lbl_B_5_citas.Text = cntreconsulta
+        If cnttotal >= 13 Then
             lbl_B_5_citas_status.Text = "<span class='error_hc'> Completo </span>"
         ElseIf lbl_dia_cita.Text = "viernes" Then
             'lbl_B_5_citas_status.Text = "<span class='error_hc'>No Disponible </span>"
@@ -904,29 +909,30 @@ Partial Class calendario
             lbl_B_5_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
+        '****** Horario 6 es medio dia 12 - 13 horas ************
         lbl_B_6.Visible = False
         lbl_B_6_citas.Visible = False
         lbl_B_6_citas_status.Visible = False
 
-        Dim h7 As String = db.R_no_citas_horario7(dia, clinica, usuario)
-        lbl_B_7_citas.Text = h7.ToString()
-        If h7 >= 15 Then
+        Rellenahorario(dia, 7, clinica, usuario)
+        lbl_B_7_citas.Text = cntreconsulta
+        If cnttotal >= 15 Then
             lbl_B_7_citas_status.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_7_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
-        Dim h8 As String = db.R_no_citas_horario8(dia, clinica, usuario)
-        lbl_B_8_citas.Text = h8.ToString()
-        If h8 >= 10 Then
+        Rellenahorario(dia, 8, clinica, usuario)
+        lbl_B_8_citas.Text = cntreconsulta
+        If cnttotal >= 10 Then
             lbl_B_8_citas_status.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_8_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
-        Dim h9 As String = db.R_no_citas_horario9(dia, clinica, usuario)
-        lbl_B_9_citas.Text = h9.ToString()
-        If h9 >= 30 Then
+        Rellenahorario(dia, 9, clinica, usuario)
+        lbl_B_9_citas.Text = cntreconsulta
+        If cnttotal >= 30 Then
             lbl_B_9_citas_status.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_9_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
@@ -935,47 +941,50 @@ Partial Class calendario
         'CITAS  1AVE HOSPITAL
 
 
-        Dim h1_hosp As String = db.R_no_citas_horario_hosp(1, dia, hospital, usuario)
-        lbl_B_1_citas_hosp.Text = h1_hosp.ToString()
-        If h1_hosp >= 1 Then
+        'Dim h1_hosp As String = db.R_no_citas_horario_hosp(1, dia, hospital, usuario)
+        Rellenahorario(dia, 1, hospital, usuario)
+        lbl_B_1_citas_hosp.Text = cntreconsulta
+        If cnttotal >= 1 Then
             lbl_B_1_citas_status_hosp.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_1_citas_status_hosp.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
-        Dim h2_hosp As String = db.R_no_citas_horario_hosp(2, dia, hospital, usuario)
-        lbl_B_2_citas_hosp.Text = h2_hosp.ToString()
-        If h2_hosp >= 1 Then
+        'Dim h2_hosp As String = db.R_no_citas_horario_hosp(2, dia, hospital, usuario)
+        Rellenahorario(dia, 2, hospital, usuario)
+        lbl_B_2_citas_hosp.Text = cntreconsulta 'h2_hosp.ToString()
+        If cnttotal >= 1 Then
             lbl_B_2_citas_status_hosp.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_2_citas_status_hosp.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
-        Dim h3_hosp As String = db.R_no_citas_horario_hosp(3, dia, hospital, usuario)
-        lbl_B_3_citas_hosp.Text = h3_hosp.ToString()
-        If h3_hosp >= 1 Then
+        'Dim h3_hosp As String = db.R_no_citas_horario_hosp(3, dia, hospital, usuario)
+        Rellenahorario(dia, 3, hospital, usuario)
+        lbl_B_3_citas_hosp.Text = cntreconsulta
+        If cnttotal >= 1 Then
             lbl_B_3_citas_status_hosp.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_3_citas_status_hosp.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
-        Dim h4_hosp As String = db.R_no_citas_horario_hosp(4, dia, hospital, usuario)
-        lbl_B_4_citas_hosp.Text = h4_hosp.ToString()
-        If h4_hosp >= 1 Then
+        'Dim h4_hosp As String = db.R_no_citas_horario_hosp(4, dia, hospital, usuario)
+        Rellenahorario(dia, 4, hospital, usuario)
+        lbl_B_4_citas_hosp.Text = cntreconsulta
+        If cnttotal >= 1 Then
             lbl_B_4_citas_status_hosp.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_4_citas_status_hosp.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
 
-        Dim h5_hosp As String = db.R_no_citas_horario_hosp(5, dia, hospital, usuario)
-        lbl_B_5_citas_hosp.Text = h5_hosp.ToString()
-        If h5_hosp >= 1 Then
+        'Dim h5_hosp As String = db.R_no_citas_horario_hosp(5, dia, hospital, usuario)
+        Rellenahorario(dia, 5, hospital, usuario)
+        lbl_B_5_citas_hosp.Text = cntreconsulta
+        If cnttotal >= 1 Then
             lbl_B_5_citas_status_hosp.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_5_citas_status_hosp.Text = "<span class='status_BH_disponible'> Disponible </span>"
         End If
-
-
 
     End Sub
 
@@ -1038,14 +1047,15 @@ Partial Class calendario
         Dim fechaelige As DateTime = Convert.ToDateTime(txt_fecha.Text)
 
         If (fechaelige < fechahoy) Then
-            ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('Fecha incorrecta, debe elejir una fecha mayor a la de hoy para poder actualizar la cita');", True)
+            ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('Fecha incorrecta, debe elejir una fecha mayor a la de hoy para poder agregar o actualizar la cita');", True)
         Else
             Verificafechanoferiado()
             Verificafechanodisponible()
 
             If lbl_feriado.Text = "SI" Or lbl_fechaNoDisponible.Text = "SI" Then
 
-                ltl_error.Text = "<span class='error'>Fecha es feriado o no esta disponible, elija otra fecha.</span>"
+                'ltl_error.Text = "<span class='error'>Fecha es feriado o no esta disponible, elija otra fecha.</span>"
+                ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('Fecha es feriado o no esta disponible, elija otra fecha.');", True)
 
             Else
 
@@ -1072,156 +1082,179 @@ Partial Class calendario
 
 
     Protected Sub ib_check_horario_Click(sender As Object, e As ImageClickEventArgs) Handles ib_check_horario.Click
-        Dim pox_cita As String
-        Dim horario As String
-        Dim clinica As String
-        Dim d As String
 
-        Dim fechahoy As DateTime = Date.Now()
-        Dim fechaelige As DateTime = Convert.ToDateTime(txt_fecha.Text)
+        RevisionhorariosVarios()
+        'Dim pox_cita As String
+        'Dim horario As String
+        'Dim clinica As String
+        'Dim d As String
 
-        If (fechaelige < fechahoy) Then
-            ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('Fecha incorrecta, debe elejir una fecha mayor a la de hoy para poder actualizar la cita');", True)
-        Else
+        'Dim fechahoy As DateTime = Date.Now()
+        'Dim fechaelige As DateTime = Convert.ToDateTime(txt_fecha.Text)
 
-            If lbl_feriado.Text = "SI" Or lbl_fechaNoDisponible.Text = "SI" Then
+        'If (fechaelige < fechahoy) Then
+        '    ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('Fecha incorrecta, debe elejir una fecha mayor a la de hoy para poder actualizar la cita');", True)
+        'Else
 
-                ltl_error.Text = "<span class='error'>Fecha es feriado o no esta disponible, elija otra fecha.</span>"
+        '    If lbl_feriado.Text = "SI" Or lbl_fechaNoDisponible.Text = "SI" Then
 
-            Else
+        '        ltl_error.Text = "<span class='error'>Fecha es feriado o no esta disponible, elija otra fecha.</span>"
 
-                pox_cita = txt_fecha.Text.ToString()
-                horario = ddl_horario_cita.SelectedValue.ToString()
-                clinica = ddl_clinica.SelectedValue.ToString()
-                db.Cn1 = cn1
-                d = db.Revisa_horarios_disponibles(pox_cita, horario, clinica, usuario)
+        '    Else
 
-                ltl_error2.Text = String.Empty
+        '        pox_cita = txt_fecha.Text.ToString()
+        '        horario = ddl_horario_cita.SelectedValue.ToString()
+        '        clinica = ddl_clinica.SelectedValue.ToString()
+        '        db.Cn1 = cn1
+        '        d = db.Revisa_horarios_disponibles(pox_cita, horario, clinica, usuario)
 
-                If clinica = 1 Then
+        '        ltl_error2.Text = String.Empty
 
-                    Select Case horario
-                        Case 1
-                            If d > 12 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
+        '        If clinica = 1 Then
 
-                        Case 2
-                            If d > 14 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '            Select Case horario
+        '                Case 1
+        '                    If d > 12 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
 
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
-                        Case 3
-                            If d > 13 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                Case 2
+        '                    If d > 14 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
-                        Case 4
-                            If d > 13 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
+        '                Case 3
+        '                    If d > 13 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
-                        Case 5
-                            If d > 13 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
+        '                Case 4
+        '                    If d > 13 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
+        '                Case 5
+        '                    If d > 13 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
-                        Case 7
-                            If d > 15 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
 
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
-                        Case 8
-                            If d > 10 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                Case 7
+        '                    If d > 15 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
-                        Case 9
-                            If d > 20 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
+        '                Case 8
+        '                    If d > 10 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
-                    End Select
-                Else
-                    Select Case horario
-                        Case 1
-                            If d >= 1 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
+        '                Case 9
+        '                    If d > 20 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
 
-                        Case 2
-                            If d >= 1 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
+        '            End Select
+        '        Else
+        '            Select Case horario
+        '                Case 1
+        '                    If d >= 1 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
 
-                        Case 3
-                            If d >= 1 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
+        '                Case 2
+        '                    If d >= 1 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
 
-                        Case 4
-                            If d >= 1 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
+        '                Case 3
+        '                    If d >= 1 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
 
-                        Case 5
-                            If d >= 1 Then
-                                ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
-                            Else
-                                ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
-                                btn_agregar.Visible = True
-                            End If
-                    End Select
-                End If
-            End If
-        End If
+        '                Case 4
+        '                    If d >= 1 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
+
+        '                Case 5
+        '                    If d >= 1 Then
+        '                        ltl_error.Text = "<span class='error_hc'> Horario lleno, Reasigne </span>"
+        '                    Else
+        '                        ltl_error.Text = "<span class='error_hc1'> Horario Disponible </span>"
+        '                        btn_agregar.Visible = True
+        '                    End If
+        '            End Select
+        '        End If
+        '    End If
+        'End If
     End Sub
 
     Protected Sub ddl_horario_cita_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddl_horario_cita.SelectedIndexChanged
         btn_agregar.Visible = False
 
-        Dim pox_cita As String
-        Dim horario As String
-        Dim clinica As String
-        Dim tipovisita As String = hd_tipovisita.Value
+        RevisionhorariosVarios()
+
+    End Sub
+
+    Public Sub Rellenahorario(ByVal prox_cita As String, ByVal ihorario As String, ByVal iclinica As String, ByVal usuario As String)
         Dim d As String
+        cnttotal = 0
+        cntreconsulta = String.Empty
+        cntnuevosyreconsulta = String.Empty
+        db.Cn1 = cn1
+        d = db.Revisa_horarios_disponibles(prox_cita, ihorario, iclinica, usuario)
+
+        Dim rescnt As String() = d.Split("|")
+
+        cntreconsulta = rescnt(1).ToString()
+        cntnuevosyreconsulta = rescnt(2).ToString()
+
+        cnttotal = Convert.ToInt32(cntreconsulta) + Convert.ToInt32(cntnuevosyreconsulta)
+
+    End Sub
+
+    Private Sub RevisionhorariosVarios()
+        Dim pox_cita As String = txt_fecha.Text.ToString()
+        Dim horario As String = ddl_horario_cita.SelectedValue.ToString()
+        Dim clinica As String = ddl_clinica.SelectedValue.ToString()
+        Dim tipovisita As String = hd_tipovisita.Value
 
         Dim fechahoy As DateTime = Date.Now()
         Dim fechaelige As DateTime = Convert.ToDateTime(txt_fecha.Text)
@@ -1236,19 +1269,7 @@ Partial Class calendario
 
             Else
 
-                pox_cita = txt_fecha.Text.ToString()
-                horario = ddl_horario_cita.SelectedValue.ToString()
-                clinica = ddl_clinica.SelectedValue.ToString()
-                db.Cn1 = cn1
-                d = db.Revisa_horarios_disponibles(pox_cita, horario, clinica, usuario)
-
-                Dim rescnt As String() = d.Split("|")
-
-                Dim cntreconsulta As String = rescnt(1).ToString()
-                Dim cntnuevosyreconsulta As String = rescnt(2).ToString()
-                Dim cnttotal As Integer = 0
-
-                cnttotal = Convert.ToInt32(cntreconsulta) + Convert.ToInt32(cntnuevosyreconsulta)
+                Rellenahorario(pox_cita, horario, clinica, usuario)
 
                 ltl_error2.Text = String.Empty
 
@@ -2044,19 +2065,19 @@ Partial Class calendario
             Dim rp As String() = datospac.Split("|")
             If rp(0).ToString() = "True" Then
                 ListaPaises.SelectedValue = If(String.IsNullOrEmpty(rp(1).ToString()), "0", rp(1).ToString())
-                If ListaPaises.SelectedValue = 0 Then
+                If ListaPaises.SelectedValue = "0" Then
 
                 Else
                     llenaDeptos(ListaPaises.SelectedValue)
                 End If
                 ddl_ListaDepartamentos.SelectedValue = If(String.IsNullOrEmpty(rp(2).ToString()), "0", rp(2).ToString())
-                If ListaPaises.SelectedValue = 0 Then
+                If ddl_ListaDepartamentos.SelectedValue = "" Then
 
                 Else
                     llenaMunicipios(ddl_ListaDepartamentos.SelectedValue)
                 End If
                 ddl_ListaMunicipios.SelectedValue = If(String.IsNullOrEmpty(rp(3).ToString()), "0", rp(3).ToString())
-                If ListaPaises.SelectedValue = 0 Then
+                If ddl_ListaMunicipios.SelectedValue = "" Then
 
                 Else
                     llenaZonas(ddl_ListaMunicipios.SelectedValue)

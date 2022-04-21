@@ -24,7 +24,7 @@
                 <td style="width:100px; background-color: #e9ecf1; text-align:Left;">
                     <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                         <ContentTemplate>
-                            <table border="0" cellpadding="0" cellspacing="0" width="100px">
+                            <table border="0" cellpadding="0" cellspacing="0" width="450px">
                                 <tr>
                                     <td style="width:80px; background-color: #e9ecf1; text-align:center;">
                                         <asp:TextBox ID="txt_fecha" runat="server" style="width:60px"></asp:TextBox>
@@ -33,16 +33,16 @@
                                         <cc1:CalendarExtender ID="CalendarExtender1" runat="server" PopupButtonID="ibtn_calendario" TargetControlID="txt_fecha" Format="dd/MM/yyyy" CssClass="ajax__calendar"></cc1:CalendarExtender>
                                         <asp:ImageButton ID="ibtn_calendario" runat="server" ImageUrl="~/images/datePickerPopupHover.gif" CausesValidation="False"/>
                                     </td>
+                                    <td style="width:75px; padding-left:10px; background-color: #5d7b9d; color: #ffffff;">
+                                        Descripción:
+                                    </td>
+                                    <td style="width:250px; background-color: #e9ecf1; text-align:Left;">
+                                        <asp:TextBox ID="txt_descri" runat="server" Width="100%" ></asp:TextBox>
+                                    </td>
                                 </tr>
                             </table>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-                </td>
-                <td style="width:75px; padding-left:10px; background-color: #5d7b9d; color: #ffffff;">
-                    Descripción:
-                </td>
-                <td style="width:195px; background-color: #e9ecf1; text-align:Left;">
-                    <asp:TextBox ID="txt_descri" runat="server" Width="100%"></asp:TextBox>
                 </td>
                 <td style="width:110px; text-align:center;">
                     <asp:Button runat="server" ID="btn_generar" Text="AGREGAR" CssClass="button" TabIndex="2" />

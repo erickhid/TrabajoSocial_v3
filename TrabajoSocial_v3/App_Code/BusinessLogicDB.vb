@@ -4257,7 +4257,7 @@ Public Class BusinessLogicDB
         Dim Q As New StringBuilder()
         Dim Query As String = ""
         Dim Str As String = ""
-        Dim id As String
+        Dim id As String = String.Empty
         Dim X As String = String.Empty
 
         Try

@@ -20,16 +20,10 @@ Partial Class ConsultaV
                 Response.Redirect("~/inicio.aspx", False)
             Else
                 usuario = Session("usuario").ToString()
-                'Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("es-ES")
-                'Thread.CurrentThread.CurrentUICulture = New CultureInfo("es-ES")
                 txt_fecha.Text = Date.Today()
                 LlenaGv()
             End If
         End If
-        '*****
-        'usuario = "GUEST"
-        'lbl_tlistado.Text = "PACIENTES VISITA MEDICA - " & fecha
-        'LlenaGv(fecha)
     End Sub
 
     Private Sub LlenaGv()
@@ -48,19 +42,16 @@ Partial Class ConsultaV
                     lbl_tlistado.Text = "FECHAS NO DISPONIBLES PARA CITAS"
 
                 Catch ex As Exception
-                    'lbl_error.Text = "Hubo un error al mostrar listado de fechas no disponibles."
                     errmsg = "Hubo un error al mostrar listado de fechas no disponibles."
                     errores = (usuario & "|FechasNoDisponibles.LLenaGv()|" & ex.ToString() & "|") + ex.Message
                     db.GrabarErrores(errores)
                     ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + errmsg + "');", True)
                 End Try
             Else
-                'lbl_error.Text = "No es una fecha válida!"
                 errmsg = "No es una fecha válida!"
                 ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + errmsg + "');", True)
             End If
         Else
-            'lbl_error.Text = "Ingrese fecha!"
             errmsg = "Ingrese fecha!"
             ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + errmsg + "');", True)
         End If
@@ -77,7 +68,7 @@ Partial Class ConsultaV
     End Function
 
     Function imgVisita1(ByVal iv As String) As String
-        Dim x As String
+        Dim x As String = String.Empty
         If iv = String.Empty Then
             x = "tbl_estatusN"
             'x = "images/n.png"
@@ -103,24 +94,29 @@ Partial Class ConsultaV
 
                 resg = db.GrabaFechaND(txt_fecha.Text, txt_descri.Text, iusuario, usuario)
 
+                txt_descri.Text = String.Empty
+
                 ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + resg + "');", True)
-                'Response.Redirect("FechasNoDisponibles.aspx")
+
             Else
 
-                lbl_error.Text = "Fecha ya existe, elija otra fecha"
+                'lbl_error.Text = "Fecha ya existe, elija otra fecha"
                 resg = "Fecha ya existe, elija otra fecha"
                 ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + resg + "');", True)
 
             End If
 
         Catch ex As Exception
-            'lbl_error.Text = "Hubo un error al mostrar listado de fechas no disponibles."
             resg = "Hubo un error al mostrar listado de fechas no disponibles."
             errores = (usuario & "|ConsultaV.LLenaGv()|" & ex.ToString() & "|") + ex.Message
             db.GrabarErrores(errores)
 
             ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('" + resg + "');", True)
         End Try
+
+
+        LlenaGv()
+        limpiacampos()
 
     End Sub
 
