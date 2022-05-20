@@ -2449,6 +2449,51 @@ Public Class BusinessLogicDB
         Return Str
     End Function
 
+    Public Function ObtieneFechaVisitaTop2(ByVal idpaciente As String, ByVal usuario As String) As String
+        'Para obtener la proxima cita anterior, bajo el concepto de que el paciente se presenta a una cita no programada por lo tanto no genera proxima cita
+        _page = "db.ObtieneFechaVisitaTop2"
+        Dim Q As New StringBuilder()
+        Dim Query As String = ""
+        Dim Str As String = ""
+        Q.Append("SELECT X.IdSignosVitales, X.IdPaciente, CONVERT(VARCHAR,X.FechaVisita,103) AS 'FechaVisita', ")
+        Q.Append("CONVERT(VARCHAR,X.FechaProximaVisita,103) AS 'FechaProximaVisita', TipoVisita FROM ")
+        Q.Append("(SELECT TOP 1 IdSignosVitales, IdPaciente, FechaVisita, FechaProximaVisita, TipoVisita from ")
+        Q.Append("(SELECT TOP 2 IdSignosVitales, IdPaciente, FechaVisita, FechaProximaVisita, TipoVisita ")
+        Q.Append("FROM SIGNOSVITALES ")
+        Q.Append("WHERE idpaciente = " & idpaciente & " ")
+        Q.Append("ORDER BY FechaVisita DESC) as j order by FechaVisita asc ) AS X ")
+        Query = Q.ToString()
+        Dim Ds As New DataSet()
+        Try
+            Using connection As New SqlConnection(_cn2)
+                connection.Open()
+                Dim command As New SqlCommand(Query, connection)
+                command.CommandTimeout = TimeoutDB
+                Dim reader As SqlDataReader = command.ExecuteReader()
+                If reader IsNot Nothing Then
+                    While reader.Read()
+                        Str = "True|" + reader("IdSignosVitales").ToString() + "|" + reader("FechaVisita").ToString() + "|" + reader("FechaProximaVisita").ToString() + "|" + reader("TipoVisita").ToString()
+                        Exit While
+                    End While
+                End If
+                If Str = String.Empty Then
+                    Str = "False|MANGUA: No se Encontró Información."
+                End If
+                reader.Dispose()
+                reader.Close()
+                command.Dispose()
+                connection.Dispose()
+                connection.Close()
+            End Using
+        Catch ex As SqlException
+            _error = ex.Message
+            _pageO = _page & "_" & idpaciente
+            GrabarErrores(usuario & "|" & _pageO & "|" & ex.Number & "|" & ex.Message)
+            Str = "False|" + ex.Message
+        End Try
+        Return Str
+    End Function
+
     Public Function ObtieneFechaVisitaTS(ByVal idsignosvitales As String, ByVal usuario As String) As String
         _page = "db.ObtieneFechaVisita"
         Dim Q As New StringBuilder()
@@ -6246,6 +6291,41 @@ Public Class BusinessLogicDB
         End Try
 
         Return res
+    End Function
+
+    Public Function RevisaUbicacionAPP(ByVal Aplicacion As String, ByVal Usuario As String) As String
+        _page = "db.RevisaUbicacionAPP"
+        Dim Query As String = String.Empty
+        Dim Str As String = ""
+
+        Query = "select NombreUbicacion from BDAdminUsuarios.dbo.UbicacionAplicacion where CodigoAplicacion = " & Aplicacion
+
+        Dim Ds As New DataSet()
+        Try
+            Using connection As New SqlConnection(_cn3)
+                connection.Open()
+                Dim command As New SqlCommand(Query, connection)
+                command.CommandTimeout = TimeoutDB
+                Dim reader As SqlDataReader = command.ExecuteReader()
+                If reader IsNot Nothing Then
+                    reader.Read()
+                    Str = reader("NombreUbicacion").ToString()
+                End If
+                reader.Dispose()
+                reader.Close()
+                command.Dispose()
+                connection.Dispose()
+                connection.Close()
+            End Using
+        Catch ex As SqlException
+            _error = ex.Message
+            _pageO = _page & "_"
+            GrabarErrores(Usuario & "|" & _pageO & "|" & ex.Number & "|" & ex.Message)
+            Str = "False|" + ex.Message
+        End Try
+
+        Return Str
+
     End Function
 
 End Class

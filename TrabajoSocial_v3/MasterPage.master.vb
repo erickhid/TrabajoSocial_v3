@@ -4,6 +4,8 @@ Partial Class MasterPage
     Private db As New BusinessLogicDB()
     Public cn1 As String = ConfigurationManager.ConnectionStrings("conStringTS").ConnectionString
     Public cn2 As String = ConfigurationManager.ConnectionStrings("conString").ConnectionString
+    Public cn3 As String = ConfigurationManager.ConnectionStrings("conStringAdminUsr").ConnectionString
+    Public app As String = ConfigurationManager.AppSettings("app").ToString
     Public errores As String = ""
     Private revisar As New Rsesion()
 
@@ -24,6 +26,9 @@ Partial Class MasterPage
             If Not revisar.RevisaSesion(Session("conexion").ToString(), Session("usuario").ToString()) Then
                 Response.Redirect("~/inicio.aspx", False)
             Else
+                db.Cn3 = cn3
+                lbl_Ubicacion.Text = db.RevisaUbicacionAPP(app, Session("usuario").ToString())
+
                 Select Case rol
                     Case "1" 'Master
                         img_usuario.ToolTip = "Master"

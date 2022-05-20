@@ -103,8 +103,11 @@
                                 </div>
                             </td>
                             <td style="text-align:right; padding-right:4px; width:120px; background-color:#544e41;">
-                                <table border="0" cellpadding="0" cellspacing="0" style="height:20px; width:120px;" >
+                                <table border="0" cellpadding="0" cellspacing="0" style="height:20px; width:200px;" >
                                     <tr>
+                                        <td style="padding:0px 4px 0px 2px; color:white;" >
+                                            <asp:Label ID="lbl_Ubicacion" runat="server" Text=""></asp:Label>
+                                        </td>
                                         <td style="text-align:right; width:16px; padding-right:2px;">
                                             <asp:Image ID="img_usuario" runat="server" ImageUrl="~/images/user_blanco.png" BorderWidth="0px" AlternateText="" ToolTip="" />
                                         </td>

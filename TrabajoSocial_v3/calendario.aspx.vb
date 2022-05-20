@@ -641,7 +641,12 @@ Partial Class calendario
                 lbl_cedula.Text = rp(10).ToString()
                 lbl_numhopitalia.Text = rp(11).ToString()
                 fechamangua = rp(12).ToString()
-                lbl_fechaproximavisitaMangua.Text = fechamangua.Substring(0, 10)
+                'los pacientes nuevos no tendran fecha de proxima visita
+                If String.IsNullOrEmpty(fechamangua) Then
+                    lbl_fechaproximavisitaMangua.Text = String.Empty
+                Else
+                    lbl_fechaproximavisitaMangua.Text = fechamangua.Substring(0, 10)
+                End If
                 chb_DPI.Checked = If(rp(13).ToString() = "S", True, False)
                 txt_Observaciones.Text = rp(14).ToString()
                 ltl_error.Text = String.Empty
@@ -655,17 +660,69 @@ Partial Class calendario
             Dim y As String = db.ObtieneFechaVisita(hd_idpaciente.Value, usuario)
             Dim rpy As String() = y.Split("|")
             If rpy(0).ToString() = "True" Then
-                lbl_visita.Text = String.Empty
                 txt_fecha.Text = String.Empty
-                'asignacion
-                hd_idsignosvitales.Value = rpy(1).ToString()
-                lbl_visita.Text = rpy(2).ToString()
                 txt_fecha.Text = rpy(3).ToString()
-                hd_tipovisita.Value = rpy(4).ToString()
-                ltl_error.Text = String.Empty
+
+                If String.IsNullOrEmpty(txt_fecha.Text) Then
+                    'Si la fecha esta vacia busca la cita en el registro anterior de signos vitales para modificarla
+                    Dim y2 As String = db.ObtieneFechaVisitaTop2(hd_idpaciente.Value, usuario)
+                    Dim rpy2 As String() = y2.Split("|")
+                    If rpy2(0).ToString() = "True" Then
+                        lbl_visita.Text = String.Empty
+                        txt_fecha.Text = String.Empty
+                        'asignacion
+                        hd_idsignosvitales.Value = rpy2(1).ToString()
+                        lbl_visita.Text = rpy2(2).ToString()
+                        txt_fecha.Text = rpy2(3).ToString()
+                        hd_tipovisita.Value = rpy2(4).ToString()
+                        ltl_error.Text = String.Empty
+                        Dim fechaencontrada As Date
+                        Dim fechahoy As Date = Date.Now()
+                        Dim Resultadof As Integer
+                        If String.IsNullOrEmpty(rpy2(3).ToString()) Then
+                            Resultadof = 0
+                        Else
+                            fechaencontrada = Convert.ToDateTime(rpy2(3).ToString())
+                            Resultadof = Date.Compare(fechahoy, fechaencontrada)
+                        End If
+
+                        If Resultadof > 0 Then
+                            hd_idsignosvitales.Value = String.Empty
+                            lbl_visita.Text = String.Empty
+                            txt_fecha.Text = String.Empty
+                            hd_tipovisita.Value = String.Empty
+
+                            'se llena con signos vitales sin cita para evitar errores
+                            hd_idsignosvitales.Value = rpy(1).ToString()
+                            lbl_visita.Text = rpy(2).ToString()
+                            'txt_fecha.Text = rpy(3).ToString()
+                            hd_tipovisita.Value = rpy(4).ToString()
+                        Else
+
+                            'se llena con signos vitales sin cita para evitar errores
+                            hd_idsignosvitales.Value = rpy(1).ToString()
+                            lbl_visita.Text = rpy(2).ToString()
+                            'txt_fecha.Text = rpy(3).ToString()
+                            hd_tipovisita.Value = rpy(4).ToString()
+
+                        End If
+
+                    End If
+                Else
+                    lbl_visita.Text = String.Empty
+
+                    'asignacion
+                    hd_idsignosvitales.Value = rpy(1).ToString()
+                    lbl_visita.Text = rpy(2).ToString()
+                    'txt_fecha.Text = rpy(3).ToString()
+                    hd_tipovisita.Value = rpy(4).ToString()
+                    ltl_error.Text = String.Empty
+                End If
+
             Else
                 ltl_error.Text = "<span class='error'>" & rpy(1) & "</span>"
             End If
+
             'visitaTS
             iniciallenarhorario()
             Dim z As String = db.ObtieneFechaVisitaTS(hd_idsignosvitales.Value, usuario)
@@ -685,7 +742,7 @@ Partial Class calendario
                 ltl_error.Text = "<span class='error'>" & rpz(1) & "</span>"
             End If
             Dim existe As Integer
-            existe = Existe_ID(rpy(1).ToString())
+            existe = Existe_ID(hd_idsignosvitales.Value)
             If existe <> 0 Then
                 existeID = True
                 btn_agregar.Text = "Modificar"
@@ -860,7 +917,7 @@ Partial Class calendario
         'Dim h1 As String = db.R_no_citas_horario1(dia, clinica, usuario)
         lbl_B_1_citas.Text = cntnuevosyreconsulta & " - " & cntreconsulta
 
-        If cnttotal >= 12 Then
+        If cnttotal >= 15 Then
             lbl_B_1_citas_status.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_1_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
@@ -869,7 +926,7 @@ Partial Class calendario
         Rellenahorario(dia, 2, clinica, usuario)
         'Dim h2 As String = db.R_no_citas_horario2(dia, clinica, usuario)
         lbl_B_2_citas.Text = cntnuevosyreconsulta & " - " & cntreconsulta
-        If cnttotal >= 14 Then
+        If cnttotal >= 15 Then
             lbl_B_2_citas_status.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_2_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
@@ -877,7 +934,7 @@ Partial Class calendario
 
         Rellenahorario(dia, 3, clinica, usuario)
         lbl_B_3_citas.Text = cntreconsulta
-        If cnttotal >= 13 Then
+        If cnttotal >= 15 Then
             lbl_B_3_citas_status.Text = "<span class='error_hc'> Completo </span>"
         Else
             lbl_B_3_citas_status.Text = "<span class='status_BH_disponible'> Disponible </span>"
@@ -885,7 +942,7 @@ Partial Class calendario
 
         Rellenahorario(dia, 4, clinica, usuario)
         lbl_B_4_citas.Text = cntreconsulta
-        If cnttotal >= 13 Then
+        If cnttotal >= 10 Then
             lbl_B_4_citas_status.Text = "<span class='error_hc'> Completo </span>"
         ElseIf lbl_dia_cita.Text = "viernes" Then
             'lbl_B_4_citas_status.Text = "<span class='error_hc'>No Disponible </span>"
@@ -898,7 +955,7 @@ Partial Class calendario
 
         Rellenahorario(dia, 5, clinica, usuario)
         lbl_B_5_citas.Text = cntreconsulta
-        If cnttotal >= 13 Then
+        If cnttotal >= 10 Then
             lbl_B_5_citas_status.Text = "<span class='error_hc'> Completo </span>"
         ElseIf lbl_dia_cita.Text = "viernes" Then
             'lbl_B_5_citas_status.Text = "<span class='error_hc'>No Disponible </span>"
@@ -1744,19 +1801,19 @@ Partial Class calendario
                 devolucionDir = devolucionDir & "el primer telefono, "
                 validaerror = validaerror + 1
             End If
-            If String.IsNullOrEmpty(txttelefono2.Text) Then
-                devolucionDir = devolucionDir & "el segundo telefono, "
-                validaerror = validaerror + 1
-            End If
+            'If String.IsNullOrEmpty(txttelefono2.Text) Then
+            '    devolucionDir = devolucionDir & "el segundo telefono, "
+            '    validaerror = validaerror + 1
+            'End If
 
             If String.IsNullOrEmpty(ddl_pertenecetel1.SelectedValue) Then
                 devolucionDir = devolucionDir & "debe indicar a quien pertenece el primer telefono, "
                 validaerror = validaerror + 1
             End If
-            If String.IsNullOrEmpty(ddl_pertenecetel2.SelectedValue) Then
-                devolucionDir = devolucionDir & "Debe indicar a quien pertenece el segundo telefono, "
-                validaerror = validaerror + 1
-            End If
+            'If String.IsNullOrEmpty(ddl_pertenecetel2.SelectedValue) Then
+            '    devolucionDir = devolucionDir & "Debe indicar a quien pertenece el segundo telefono, "
+            '    validaerror = validaerror + 1
+            'End If
 
             If validaerror > 0 Then
                 devolucionDir = devolucionDir & "para poder guardar los datos"
@@ -1800,19 +1857,19 @@ Partial Class calendario
                 devolucionDir = devolucionDir & "el primer telefono, "
                 validaerror = validaerror + 1
             End If
-            If String.IsNullOrEmpty(txttelefono2.Text) Then
-                devolucionDir = devolucionDir & "el segundo telefono, "
-                validaerror = validaerror + 1
-            End If
+            'If String.IsNullOrEmpty(txttelefono2.Text) Then
+            '    devolucionDir = devolucionDir & "el segundo telefono, "
+            '    validaerror = validaerror + 1
+            'End If
 
             If String.IsNullOrEmpty(ddl_pertenecetel1.SelectedValue) Then
                 devolucionDir = devolucionDir & "debe indicar a quien pertenece el primer telefono, "
                 validaerror = validaerror + 1
             End If
-            If String.IsNullOrEmpty(ddl_pertenecetel2.SelectedValue) Then
-                devolucionDir = devolucionDir & "debe indicar a quien pertenece el segundo telefono, "
-                validaerror = validaerror + 1
-            End If
+            'If String.IsNullOrEmpty(ddl_pertenecetel2.SelectedValue) Then
+            '    devolucionDir = devolucionDir & "debe indicar a quien pertenece el segundo telefono, "
+            '    validaerror = validaerror + 1
+            'End If
 
             If validaerror > 0 Then
                 devolucionDir = devolucionDir & "para poder guardar los datos"
@@ -1893,6 +1950,7 @@ Partial Class calendario
 
         Else
 
+            'Se comento la validacion del segundo telefono a solicitud de trabajo social, para que solo sea requerido 1 telefono.
             Dim ValidaDatos As String = String.Empty
 
             ValidaDatos = validadatospac("TEL")
@@ -2144,7 +2202,7 @@ Partial Class calendario
 
         If String.IsNullOrEmpty(txt_asi.Text) Then
 
-            ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('Debe cargar colocar el Numero de Historia Clinica del paciente antes de cargar datos');", True)
+            ScriptManager.RegisterStartupScript(Me, Page.GetType(), "alert", "alert('Debe escribir el Numero de Historial Clinica del paciente antes de cargar datos');", True)
             txt_asi.Focus()
         Else
 

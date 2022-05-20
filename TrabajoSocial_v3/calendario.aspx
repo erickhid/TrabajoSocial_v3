@@ -12,6 +12,9 @@
         .auto-style1 {
             height: 34px;
         }
+        .auto-style2 {
+            height: 27px;
+        }
     </style>
     
 </asp:Content>
@@ -445,19 +448,19 @@
                                         <div id="divtels" runat="server" visible="false" class="divdirclass">
                                         <%-- *********************Inicia Campos de Telefonos**************************** --%>    
                                                 <tr>
-                                                    <td>
+                                                    <td class="auto-style2">
                                                         <asp:Label ID="lbltelefono1" runat="server" Text="Telefono 1" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                     </td>
-                                                    <td>
+                                                    <td class="auto-style2">
                                                         <asp:TextBox ID="txttelefono1" runat="server" CssClass="coltelefonosdatospaciente" MaxLength="8"></asp:TextBox>
                                                     </td>
-                                                    <td>
+                                                    <td class="auto-style2">
                                                         <asp:Label ID="lblpertenecetel1" runat="server" Text="Pertenece" CssClass="lbl_etiquetatelefonospaciente"></asp:Label>
                                                     </td>
-                                                    <td>
+                                                    <td class="auto-style2">
                                                         <asp:DropDownList ID="ddl_pertenecetel1" runat="server" CssClass="ddl_pertenecedir" ></asp:DropDownList>
                                                     </td>
-                                                    <td>
+                                                    <td class="auto-style2">
                                                         <asp:CheckBox ID="chbconocetx1" runat="server" Text="Conoce DX:" TextAlign="Left" CssClass="chkb_conocedx" />
                                                     </td>
                                                 </tr>
